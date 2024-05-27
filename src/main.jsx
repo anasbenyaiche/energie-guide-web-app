@@ -8,11 +8,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <DndProvider backend={HTML5Backend}>
-      <Router>
-        <App />
-      </Router>
-    </DndProvider>
-  </React.StrictMode>
+
+  <DndProvider backend={HTML5Backend}>
+    <Router>
+      <App />
+    </Router>
+  </DndProvider>
+
 );
