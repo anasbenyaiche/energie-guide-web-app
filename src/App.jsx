@@ -1,14 +1,24 @@
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Login from "./containers/Login";
+import Dashboard from "./containers/Dashboard";
+import { AuthContextProvider } from "./context/AuthContext";
+import ProtectedRoute from "./routes/ProtectedRoutes";
+import Home from "./containers/Home";
 
-function App() {
+const App = () => {
+  const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
+
   return (
-    <>
-      <div className="text-3xl font-bold underline">
-        <h1>Let's do it guys</h1>
-        Vercel Testing new changes
-      </div>
-    </>
+    <AuthContextProvider value={{ isAuthenticated: isInitiallyAuthenticated }}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Login />} />
+        <Route exact path="/" element={<ProtectedRoute />}>
+          <Route path="/admin/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </AuthContextProvider>
   );
-}
+};
 
 export default App;

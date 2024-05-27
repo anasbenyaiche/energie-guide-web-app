@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // eslint-disable-next-line no-undef
-const baseURL = process.env.REACT_APP_API_URL || "http://localhost:5000/api"; // Default fallback URL
+const baseURL =
+  import.meta.env.VITE_REACT_APP_API_URL || "http://localhost:5000/api"; // Default fallback URL
 
 const api = axios.create({
   baseURL,
