@@ -4,6 +4,7 @@ import Dashboard from "./containers/Dashboard";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Home from "./containers/Home";
+import Edit from "./Pages/Edit";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Login />} />
+        <Route path="/edit" element={<Edit />} />
         <Route exact path="/" element={<ProtectedRoute />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
         </Route>
