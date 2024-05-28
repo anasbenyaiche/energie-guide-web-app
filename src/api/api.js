@@ -12,7 +12,7 @@ const api = axios.create({
 });
 const refreshToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
-  const response = await api.post("/refresh-token", {
+  const response = await api.post("/auth/refresh-token", {
     refreshToken,
   });
   const { accessToken } = response.data;

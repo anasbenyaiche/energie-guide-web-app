@@ -1,43 +1,44 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { useNavigate } from "react-router-dom";
 
-const PageForm = () => {
-  const { user } = useContext(AuthContext);
+const EditPage = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) {
-      setError("User is not authenticated");
-      return;
-    }
-    const pageData = {
-      title,
-      slug,
-      created_by: user._id,
+  useEffect(() => {
+    const fetchPage = async () => {
+      try {
+        const response = await api.get(`/pages/${id}`);
+        console.log(response);
+        setTitle(response.data.page.title);
+        setSlug(response.data.page.slug);
+      } catch (err) {
+        console.error("Failed to fetch page", err);
+      }
     };
 
+    fetchPage();
+  }, [id]);
+  console.log(title, slug);
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
-      const response = await api.post("/pages", pageData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setSuccess("Page created successfully");
+      const response = await api.put(`/pages/${id}`, { title, slug });
+      setSuccess("Page updated successfully");
       setError(null);
-      console.log("Page created:", response.data);
+      console.log("Page updated:", response.data);
     } catch (err) {
       setSuccess(null);
       if (err.response && err.response.data) {
         setError(err.response.data.message);
       } else {
-        setError("Failed to create page");
+        setError("Failed to update page");
       }
       console.error(err);
     }
@@ -45,8 +46,8 @@ const PageForm = () => {
 
   return (
     <div className="max-w-md mx-auto bg-white p-8 mt-10 rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-6">Create a New Page</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="text-2xl font-bold mb-6">Edit Page</h2>
+      <form onSubmit={handleUpdate}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">
             Title
@@ -77,7 +78,7 @@ const PageForm = () => {
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Create Page
+          Update Page
         </button>
         {error && <p className="text-red-500 mt-4">{error}</p>}
         {success && <p className="text-green-500 mt-4">{success}</p>}
@@ -92,4 +93,4 @@ const PageForm = () => {
   );
 };
 
-export default PageForm;
+export default EditPage;
