@@ -34,7 +34,7 @@ const TextEditor = ({ editorState, onEditorStateChange, convertedContent }) => {
 TextEditor.propTypes = {
     editorState: PropTypes.object.isRequired,
     onEditorStateChange: PropTypes.func.isRequired,
-    convertedContent: PropTypes.string
+    convertedContent: PropTypes.string.isRequired
 };
 
 export default TextEditor
