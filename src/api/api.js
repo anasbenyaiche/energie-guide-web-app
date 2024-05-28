@@ -10,5 +10,40 @@ const api = axios.create({
     // Add any default headers here (optional)
   },
 });
+const refreshToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
+  const response = await api.post("/refresh-token", {
+    refreshToken,
+  });
+  const { accessToken } = response.data;
+  localStorage.setItem("token", accessToken);
+  return accessToken;
+};
+
+// Axios request interceptor
+api.interceptors.request.use(async (config) => {
+  let token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// Axios response interceptor
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config;
+    if (error.response.status === 403 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      const newAccessToken = await refreshToken();
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${newAccessToken}`;
+      return api(originalRequest);
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default api;
