@@ -7,7 +7,7 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthContext); // Access setIsAuthenticated
+  const { setIsAuthenticated, login } = useContext(AuthContext); // Access setIsAuthenticated
 
   const handleLogin = async () => {
     try {
@@ -15,9 +15,10 @@ const Login = () => {
         username,
         password,
       });
-      const { token } = response.data;
+      const { token, user } = response.data;
+      login(token, user);
       localStorage.setItem("token", token); // Store token in local storage
-
+      localStorage.setItem("user", JSON.stringify(user));
       setIsAuthenticated(true); // Update authentication state in AuthContext
 
       navigate("/admin/dashboard"); // Redirect on successful login
