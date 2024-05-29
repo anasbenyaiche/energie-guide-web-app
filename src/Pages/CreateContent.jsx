@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
-import TextEditor from '../components/TextEditor'
+import TextEditor from '../components/ContentBlocks/TextEditor'
 import axios from 'axios';
 
-const Edit = () => {
+const CreateContent = () => {
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState('');
     const [selected, setSelcted] = useState('Text')
@@ -42,6 +42,8 @@ const Edit = () => {
                 }
             });
             setPosition(prevpostion => prevpostion + 1)
+            setConvertedContent('')
+            setEditorState(EditorState.createEmpty());
 
             console.log('Content Block Created:', response.data);
         } catch (error) {
@@ -50,6 +52,8 @@ const Edit = () => {
 
         }
     }
+
+
 
     useEffect(() => {
         const contentState = editorState.getCurrentContent();
@@ -98,4 +102,4 @@ const Edit = () => {
     )
 }
 
-export default Edit
+export default CreateContent
