@@ -46,7 +46,7 @@ const MenuItemsList = () => {
     <div>
       <div className="max-w-2xl mx-auto mt-10">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">MenuItems List</h2>
+          <h2 className="text-2xl font-bold">Menu Items List</h2>
           <button
             className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
             onClick={handleAddMenuItem}

@@ -31,7 +31,7 @@ const MenuItemForm = () => {
 
     const fetchPages = async () => {
       try {
-        const response = await api.get("/pages");
+        const response = await api.get("/pages/related");
         setPages(
           response.data.map((page) => ({ value: page._id, label: page.title }))
         );
