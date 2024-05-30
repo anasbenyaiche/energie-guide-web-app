@@ -4,6 +4,9 @@ import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import TextEditor from '../components/ContentBlocks/TextEditor'
 import axios from 'axios';
+import TableEditor from '../components/ContentBlocks/TableEditor';
+import convertTable from '../utils/convertTable';
+
 
 const CreateContent = () => {
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
@@ -13,7 +16,11 @@ const CreateContent = () => {
         const savedPostion = localStorage.getItem('position');
         return savedPostion ? parseInt(savedPostion, 10) : 1;
     })
-
+    const [tableData, setTableData] = useState([
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', ''],
+    ]);
     useEffect(() => {
         localStorage.setItem('position', position);
     }, [position])
@@ -25,7 +32,7 @@ const CreateContent = () => {
     const handelSubmit = async () => {
         const contentblock = {
             type: selected.toLocaleLowerCase(),
-            content: convertedContent,
+            content: selected === 'Table' ? convertTable(tableData) : convertedContent,
             position: position
         };
         const token = localStorage.getItem('token');
@@ -62,17 +69,20 @@ const CreateContent = () => {
         setConvertedContent(sanitizedHtml);
     }, [editorState]);
 
+
+    console.log(tableData)
+
     return (
         <div className=' max-w-7xl my-8 mx-auto'>
             <div className=' flex items-center justify-between'>
-                <h1 className='text-2xl font-semibold'>Content settings</h1>
-                <button onClick={handelSubmit}> Save</button>
+                <h1 className='text-2xl font-semibold text-black'>Content settings</h1>
+                <button className='bg-white px-4 py-1  text-black' onClick={handelSubmit}> Save</button>
             </div>
             <div className=' bg-white shadow-md p-4 mt-5 rounded-md'>
                 <div className=' flex items-start mt-5  gap-5'>
                     <div className=' p-2 w-1/3'>
-                        <h2 className=' text-xl font-semibold'>General Settings</h2>
-                        <p>Customize the general settings of your Content section.
+                        <h2 className=' text-xl font-semibold text-black'>General Settings</h2>
+                        <p className='text-black'>Customize the general settings of your Content section.
                             You can create and save specific Content.</p>
                         <h3 className=' mb-4 text-lg mt-4  font-medium'>Type of Content </h3>
                         <select className='w-full block mb-2 p-2 rounded-md
@@ -92,7 +102,11 @@ const CreateContent = () => {
                         /> : ""}
                         {selected == "Image" ? <h2>Image</h2> : ""}
                         {selected == "Charts" ? <h2>Charts</h2> : ""}
-                        {selected == "Table" ? <h2>Table</h2> : ""}
+                        {selected == "Table" ? <TableEditor
+                            tableData={tableData}
+                            setTableData={setTableData}
+
+                        /> : ""}
                         {selected == "Link" ? <h2>Link</h2> : ""}
 
                     </div>

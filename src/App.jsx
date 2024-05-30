@@ -7,6 +7,8 @@ import Home from "./containers/Home";
 import CreateContent from "./Pages/CreateContent";
 import PageForm from "./containers/PageForm";
 import PreviewContent from "./Pages/PreviewContent";
+import PagesList from "./containers/PageList";
+import EditPage from "./containers/EditPage";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -16,13 +18,13 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<Login />} />
-        <Route path="/create" element={<CreateContent />} />
-        <Route path="/blocks" element={<PreviewContent />} />
         <Route exact path="/" element={<ProtectedRoute />}>
           <Route path="/admin/dashboard" element={<Dashboard />} />
-        </Route>
-        <Route exact path="/" element={<ProtectedRoute />}>
-          <Route path="/admin/pages" element={<PageForm />} />
+          <Route path="/admin/pages" element={<PagesList />} />
+          <Route path="/admin/pages/create" element={<PageForm />} />
+          <Route path="/admin/edit-page/:id" element={<EditPage />} />
+          <Route path="admin/block/create" element={<CreateContent />} />
+          <Route path="admin/blocks" element={<PreviewContent />} />
         </Route>
       </Routes>
     </AuthContextProvider>

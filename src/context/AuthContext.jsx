@@ -15,7 +15,6 @@ const AuthContextProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  console.log(user);
   useEffect(() => {
     // Optional: Implement logic to check token validity on app load (e.g., API call)
     // Update setIsAuthenticated based on the validity check

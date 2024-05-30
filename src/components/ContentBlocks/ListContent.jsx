@@ -2,7 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
     return (
-        <div className='mb-3 p-3 border rounded'
+        <div className='mb-3 p-3 border rounded text-black'
             {...props} >
             <div className='gap-4 flex items-center justify-start mb-2'>
                 <div className='text-sm text-gray-500'>

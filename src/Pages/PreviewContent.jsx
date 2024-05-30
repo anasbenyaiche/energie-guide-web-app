@@ -1,13 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import ListContent from '../components/ContentBlocks/ListContent'
-import EditModal from '../components/ContentBlocks/EditModal'
+import EditTextEditor from '../components/ContentBlocks/EditTextEditor'
+import Modal from '../components/Modal/Modal'
+import EditTable from '../components/ContentBlocks/EditTable'
 
 const PreviewContent = () => {
     const [content, setContent] = useState([])
     const token = localStorage.getItem('token');
     const [selectedBlock, setSelectedBlock] = useState(null);
-    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [openModal, setopenModal] = useState(false)
     useEffect(() => {
         const displaycontent = async () => {
 
@@ -48,7 +50,7 @@ const PreviewContent = () => {
     }
     const handleEdit = (block) => {
         setSelectedBlock(block);
-        setIsEditModalOpen(true);
+        setopenModal(true);
     };
 
     const handleSave = async (updatedBlock) => {
@@ -64,7 +66,7 @@ const PreviewContent = () => {
                 }
             });
             setContent(content.map((block) => (block._id === updatedBlock._id ? updatedBlock : block)));
-            setIsEditModalOpen(false);
+            setopenModal(false);
         } catch (error) {
             console.error('Error updating content:', error);
 
@@ -119,13 +121,27 @@ const PreviewContent = () => {
                     <h2>No content fo the moment</h2>
                 }
             </div>
-            {isEditModalOpen && (
-                <EditModal
-                    block={selectedBlock}
-                    onClose={() => setIsEditModalOpen(false)}
-                    onSave={handleSave}
-                />
-            )}
+            <Modal
+                open={openModal}
+                onClose={() => setopenModal(false)}
+            >
+                {selectedBlock?.type === 'text' && (
+                    <EditTextEditor
+                        block={selectedBlock}
+                        onClose={() => setopenModal(false)}
+                        onSave={handleSave}
+                    />
+                )}
+                {selectedBlock?.type === 'table' && (
+                    <EditTable
+                        block={selectedBlock}
+                        onClose={() => setopenModal(false)}
+                        onSave={handleSave}
+                    />
+                )}
+
+            </Modal>
+
         </div>
     )
 }

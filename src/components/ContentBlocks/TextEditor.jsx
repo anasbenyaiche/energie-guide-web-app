@@ -24,7 +24,7 @@ const TextEditor = ({ editorState, onEditorStateChange, convertedContent }) => {
                 toolbarClassName="border border-gray-300"
             />
             <div
-                className=" p-4 mt-4"
+                className=" p-4 mt-4 text-black"
                 dangerouslySetInnerHTML={createMarkup(convertedContent)}>
             </div>
         </div>
