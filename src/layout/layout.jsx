@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 const Layout = ({ children }) => {
   return (
-    <div className="body-container">
+    <div className="body-container ">
       <Breadcrumb />
       <div className="container  ">
         <div className="grid grid-cols-4 ">

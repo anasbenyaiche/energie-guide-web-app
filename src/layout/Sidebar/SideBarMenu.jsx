@@ -1,15 +1,7 @@
+import { NAV_MENU_ITEMS } from "../../constants/MainPageLinks";
 import "./SideBarMenu.css";
 import SideBarMenuItem from "./SideBarMenuItem";
 import SideBarMenuTitle from "./SideBarMenuTitle";
-
-const navMenuItems = [
-  "Context énergétique",
-  "Cadre règlementaire",
-  "Acteur des énergies renouvelables Tunisie",
-  "Processus de développement des projets d'énergies renouvelables",
-  "Environnement d'investissement et cadre incitatif en faveur des énergies renouvelables",
-  "Resources documentaires",
-];
 
 const SideBarMenu = () => {
   return (
@@ -19,7 +11,7 @@ const SideBarMenu = () => {
         subtitle={"Guide Détaillé"}
       />
       <ul className="side-bar-menu-list">
-        {navMenuItems.map((menuItem) => (
+        {NAV_MENU_ITEMS.map((menuItem) => (
           <SideBarMenuItem key={menuItem} item={menuItem} />
         ))}
       </ul>

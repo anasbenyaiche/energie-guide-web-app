@@ -31,6 +31,8 @@ const PageForm = () => {
       });
       setSuccess("Page created successfully");
       setError(null);
+      setTitle("");
+      setSlug("");
       console.log("Page created:", response.data);
     } catch (err) {
       setSuccess(null);
@@ -44,7 +46,7 @@ const PageForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 mt-10 rounded shadow-md">
+    <div className="max-w-md mx-auto bg-white p-8 mt-10 rounded shadow-md mb-4">
       <h2 className="text-2xl font-bold mb-6">Create a New Page</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
