@@ -4,8 +4,13 @@ import ListContent from '../components/ContentBlocks/ListContent'
 import EditTextEditor from '../components/ContentBlocks/EditTextEditor'
 import Modal from '../components/Modal/Modal'
 import EditTable from '../components/ContentBlocks/EditTable'
+import { useParams } from 'react-router-dom'
+import CreateLink from '../components/ContentBlocks/CreateLink'
+import EditLink from '../components/ContentBlocks/EditLink'
 
 const PreviewContent = () => {
+    const { id } = useParams(); // Get the page ID from the URL
+    console.log(id)
     const [content, setContent] = useState([])
     const token = localStorage.getItem('token');
     const [selectedBlock, setSelectedBlock] = useState(null);
@@ -19,7 +24,7 @@ const PreviewContent = () => {
                         ? "http://localhost:5000/api/"
                         : "https://energie-guide-web-app.vercel.app/api";
 
-                const response = await axios.get(`${endPoint}pages/6655ac8de8c07edccd0b2cb1`)
+                const response = await axios.get(`${endPoint}pages/${id}`)
                 setContent(response.data.contentBlocks)
                 recalculatePositions(response.data.contentBlocks);
 
@@ -134,6 +139,13 @@ const PreviewContent = () => {
                 )}
                 {selectedBlock?.type === 'table' && (
                     <EditTable
+                        block={selectedBlock}
+                        onClose={() => setopenModal(false)}
+                        onSave={handleSave}
+                    />
+                )}
+                {selectedBlock?.type === 'link' && (
+                    <EditLink
                         block={selectedBlock}
                         onClose={() => setopenModal(false)}
                         onSave={handleSave}
