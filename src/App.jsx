@@ -7,7 +7,6 @@ import Home from "./containers/Home";
 import CreateContent from "./Pages/CreateContent";
 import PageForm from "./containers/PageForm";
 import PreviewContent from "./Pages/PreviewContent";
-import PagesList from "./containers/PageList";
 import EditPage from "./containers/EditPage";
 import Pages from "./Pages/Pages";
 import MenuItemForm from "./containers/MenuForm";
