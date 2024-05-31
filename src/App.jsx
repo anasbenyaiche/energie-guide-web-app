@@ -17,7 +17,7 @@ const App = () => {
   return (
     <AuthContextProvider value={{ isAuthenticated: isInitiallyAuthenticated }}>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/*" element={<Home />} />
         <Route path="/admin" element={<Login />} />
         <Route path="/edit" element={<Edit />} />
 
