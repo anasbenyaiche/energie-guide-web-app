@@ -17,7 +17,7 @@ const LinkList = ({ data, title }) => {
 
 LinkList.propTypes = {
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
 };
 
 export default LinkList;

@@ -52,8 +52,7 @@ const MenuItemForm = () => {
     }
 
     const menuItemData = {
-      menu_id: menuId,
-      page_id: pageId,
+      page_id: pageId.value,
       order,
       title,
       link,
@@ -61,7 +60,10 @@ const MenuItemForm = () => {
     };
 
     try {
-      const response = await api.post("/menu-items", menuItemData);
+      const response = await api.post(
+        `/menu/${menuId.value}/items`,
+        menuItemData
+      );
       setSuccess("Menu item created successfully");
       setError(null);
       setTitle("");

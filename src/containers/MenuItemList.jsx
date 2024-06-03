@@ -1,31 +1,46 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 import api from "../api/api";
 import { FaPlus } from "react-icons/fa";
 
 const MenuItemsList = () => {
-  const menuId = "664f50690d83ea62ca5e4f58";
-
+  const [menus, setMenus] = useState([]);
+  const [selectedMenuId, setSelectedMenuId] = useState("");
   const [menuItems, setMenuItems] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMenuItems = async () => {
+    // Fetch list of menus for the select dropdown
+    const fetchMenus = async () => {
       try {
-        const response = await api.get(`/menu/${menuId}/items`);
-        setMenuItems(response.data);
+        const response = await api.get("/menus");
+        setMenus(response.data);
       } catch (err) {
-        console.error("Failed to fetch menu items", err);
+        console.error("Failed to fetch menus", err);
       }
     };
 
-    if (menuId) {
+    fetchMenus();
+  }, []);
+
+  useEffect(() => {
+    if (selectedMenuId) {
+      const fetchMenuItems = async () => {
+        try {
+          const response = await api.get(`/menu/${selectedMenuId}/items`);
+          setMenuItems(response.data);
+        } catch (err) {
+          console.error("Failed to fetch menu items", err);
+        }
+      };
+
       fetchMenuItems();
     }
-  }, [menuId]);
+  }, [selectedMenuId]);
 
   const handleMenuItemClick = (menuItemId) => {
-    navigate(`/admin/edit-menu-item/${menuItemId}`); //navigation to menu item
+    navigate(`/admin/edit-menu-item/${menuItemId}`); // Navigation to menu item
   };
 
   const handleDeleteMenuItem = async (id) => {
@@ -42,9 +57,33 @@ const MenuItemsList = () => {
     navigate("/admin/menu-item/create");
   };
 
+  const handleSelectChange = (selectedOption) => {
+    setSelectedMenuId(selectedOption.value);
+  };
+
+  const menuOptions = menus.map((menu) => ({
+    value: menu._id,
+    label: menu.title,
+  }));
+
   return (
     <div>
       <div className="max-w-2xl mx-auto mt-10">
+        <div className="mb-4">
+          <label
+            htmlFor="menu-select"
+            className="block text-gray-700 font-bold mb-2"
+          >
+            Select the Menu
+          </label>
+          <Select
+            id="menu-select"
+            options={menuOptions}
+            onChange={handleSelectChange}
+            placeholder="Select a menu"
+            className="mb-4"
+          />
+        </div>
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold">Menu Items List</h2>
           <button
@@ -59,10 +98,9 @@ const MenuItemsList = () => {
             <li
               key={menuItem._id}
               className="flex items-center justify-between bg-gray-100 p-2 rounded shadow hover:bg-gray-200"
-              onClick={() => handleMenuItemClick(menuItem._id)}
             >
               <span
-                className="cursor-pointer text-blue-600 hover:underline "
+                className="cursor-pointer text-blue-600 hover:underline"
                 onClick={() => handleMenuItemClick(menuItem._id)}
               >
                 {menuItem.title}
