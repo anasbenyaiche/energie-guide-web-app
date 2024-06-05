@@ -11,8 +11,8 @@ const SideBarMenuTitle = ({ title, subtitle }) => {
 };
 
 SideBarMenuTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
 };
 
 export default SideBarMenuTitle;

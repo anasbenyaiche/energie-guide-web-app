@@ -1,12 +1,12 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import Layout from "../layout/layout";
 import Footer from "../layout/Footer/Footer";
 import LinkList from "./LinkList/LinkList";
 import { MAIN_PAGE_LINKS } from "../constants/MainPageLinks";
+
 const Home = () => {
   return (
-    <>
+    <div>
       <Layout>
         <div className="nav-home-container">
           <div className="nav-home-image">
@@ -21,7 +21,7 @@ const Home = () => {
         </div>
       </Layout>
       <Footer />
-    </>
+    </div>
   );
 };
 

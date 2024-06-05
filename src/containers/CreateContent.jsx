@@ -10,6 +10,7 @@ import { Link, useParams } from 'react-router-dom';
 import CreateLink from '../components/ContentBlocks/CreateLink';
 import createLinkHTML from '../components/ContentBlocks/createLinkHTML';
 import UploadImage from '../components/ContentBlocks/UploadImage';
+import HorizontalFlow from '../components/ContentBlocks/HorizontalFlow';
 
 
 const CreateContent = () => {
@@ -61,6 +62,13 @@ const CreateContent = () => {
                 content: convertTable(tableData),
                 position: position
             }
+        }
+        else if (selected === 'Charts') {
+            contentblock = {
+                type: selected.toLowerCase(),
+                content: createLinkHTML(formLink.link, formLink.title),
+                position: position
+            };
         }
         else if (selected === 'Link') {
             contentblock = {
@@ -114,7 +122,7 @@ const CreateContent = () => {
         }
         return true;
     };
-
+    console.log(convertedContent)
 
     return (
         <div className=' max-w-7xl my-8 mx-auto'>
@@ -152,13 +160,15 @@ const CreateContent = () => {
                             convertedContent={convertedContent}
                         /> : ""}
                         {selected == "Image" ? <UploadImage /> : ""}
-                        {selected == "Charts" ? <h2>Charts</h2> : ""}
                         {selected == "Table" ? <TableEditor
                             tableData={tableData}
                             setTableData={setTableData}
 
                         /> : ""}
                         {selected == "Link" ? <CreateLink formLink={formLink} handelChange={handleLinkChange} /> : ""}
+
+                        {selected === 'Charts' ? <HorizontalFlow />
+                            : ""}
 
                     </div>
                 </div>

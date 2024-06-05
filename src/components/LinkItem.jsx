@@ -17,8 +17,8 @@ const LinkItem = ({ item }) => {
 
 LinkItem.propTypes = {
   item: PropTypes.shape({
-    link: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired,
+    link: PropTypes.string,
+    text: PropTypes.string,
   }).isRequired,
 };
 

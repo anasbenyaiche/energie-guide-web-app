@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import propTypes from 'prop-types'
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { IoMdMove } from "react-icons/io";
+import PreviewFlow from './PreviewFlow';
+
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
+
+
     return (
         <div className='mb-3 p-3 border rounded text-black'
             {...props} >
@@ -27,11 +31,17 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 </div>
 
             </div>
-            <div
-                dangerouslySetInnerHTML={{
-                    __html: blocks.content,
-                }}
-            />
+            {blocks.type !== 'charts' && (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: blocks.content,
+                    }}
+                />
+            )}
+
+            {blocks.type === 'charts' && (
+                <PreviewFlow content={blocks.content} />
+            )}
         </div>
     )
 }
