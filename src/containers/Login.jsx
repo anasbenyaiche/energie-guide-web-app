@@ -1,27 +1,22 @@
-import { useContext, useState } from "react";
-import api from "../api/api";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { login as authLogin } from "../services/authService";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated, login } = useContext(AuthContext); // Access setIsAuthenticated
+  const { setIsAuthenticated, login } = useContext(AuthContext);
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/auth/login", {
-        username,
-        password,
-      });
-      const { token, user } = response.data;
-      login(token, user);
-      localStorage.setItem("token", token); // Store token in local storage
-      localStorage.setItem("user", JSON.stringify(user));
-      setIsAuthenticated(true); // Update authentication state in AuthContext
+      // Use authService to handle login
+      await authLogin(username, password, login);
+      setIsAuthenticated(true);
 
-      navigate("/admin/dashboard"); // Redirect on successful login
+      // Redirect on successful login
+      navigate("/admin/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
     }

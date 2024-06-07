@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
 import { FaPlus } from "react-icons/fa";
+import { deletePage, getPages } from "../services/pageService";
 
 const PagesList = () => {
   const [pages, setPages] = useState([]);
@@ -10,8 +11,8 @@ const PagesList = () => {
   useEffect(() => {
     const fetchPages = async () => {
       try {
-        const response = await api.get("/pages");
-        setPages(response.data);
+        const pagesData = await getPages();
+        setPages(pagesData);
       } catch (err) {
         console.error("Failed to fetch pages", err);
       }
@@ -20,14 +21,18 @@ const PagesList = () => {
     fetchPages();
   }, []);
 
+  // navigating to edit page
   const handlePageClick = (id) => {
     navigate(`/admin/edit-page/${id}`);
   };
-
+  // Navigation to content blocks
+  const handlePageContent = (id) => {
+    navigate(`/admin/${id}/blocks`);
+  };
+  // Delete page from the delete button
   const handleDeletePage = async (id) => {
     try {
-      await api.delete(`/pages/${id}`);
-
+      await deletePage(id);
       setPages(pages.filter((page) => page._id !== id));
     } catch (err) {
       console.error("Failed to delete page", err);
@@ -57,7 +62,7 @@ const PagesList = () => {
           >
             <span
               className="cursor-pointer text-blue-600 hover:underline "
-              onClick={() => handlePageClick(page._id)}
+              onClick={() => handlePageContent(page._id)}
             >
               {page.title}
             </span>

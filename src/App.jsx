@@ -31,8 +31,11 @@ const App = () => {
             <Route path="/admin/pages" element={<Pages />} />
             <Route path="/admin/pages/create" element={<PageForm />} />
             <Route path="/admin/edit-page/:id" element={<EditPage />} />
-            <Route path="admin/block/create" element={<CreateContent />} />
-            <Route path="admin/blocks" element={<PreviewContent />} />
+            <Route
+              path="/admin/:pageId/block/create"
+              element={<CreateContent />}
+            />
+            <Route path="/admin/:pageId/blocks" element={<PreviewContent />} />
             <Route path="/admin/menu-item" element={<MenuItems />} />
             <Route path="/admin/menu-item/create" element={<MenuItemForm />} />
             {/* TODO : still working on */}

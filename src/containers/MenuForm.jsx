@@ -1,8 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import api from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { fetchMenus } from "../services/menuService";
+import { createMenuItem } from "../services/menuItemService";
+import { fetchRelatedPages } from "../services/pageService";
 
 const MenuItemForm = () => {
   const { user } = useContext(AuthContext);
@@ -18,30 +20,30 @@ const MenuItemForm = () => {
   const [success, setSuccess] = useState(null);
 
   useEffect(() => {
-    const fetchMenus = async () => {
+    const loadMenus = async () => {
       try {
-        const response = await api.get("/menus");
+        const menusData = await fetchMenus();
         setMenus(
-          response.data.map((menu) => ({ value: menu._id, label: menu.title }))
+          menusData.map((menu) => ({ value: menu._id, label: menu.title }))
         );
       } catch (err) {
         console.error("Failed to fetch menus", err);
       }
     };
 
-    const fetchPages = async () => {
+    const loadPages = async () => {
       try {
-        const response = await api.get("/pages/related");
+        const pagesData = await fetchRelatedPages();
         setPages(
-          response.data.map((page) => ({ value: page._id, label: page.title }))
+          pagesData.map((page) => ({ value: page._id, label: page.title }))
         );
       } catch (err) {
         console.error("Failed to fetch pages", err);
       }
     };
 
-    fetchMenus();
-    fetchPages();
+    loadMenus();
+    loadPages();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -52,7 +54,7 @@ const MenuItemForm = () => {
     }
 
     const menuItemData = {
-      page_id: pageId.value,
+      page_id: pageId ? pageId.value : null,
       order,
       title,
       link,
@@ -60,18 +62,14 @@ const MenuItemForm = () => {
     };
 
     try {
-      const response = await api.post(
-        `/menu/${menuId.value}/items`,
-        menuItemData
-      );
+      await createMenuItem(menuId.value, menuItemData);
       setSuccess("Menu item created successfully");
       setError(null);
       setTitle("");
       setLink("");
       setOrder(0);
-      setMenuId("");
-      setPageId("");
-      console.log("Menu item created:", response.data);
+      setMenuId(null);
+      setPageId(null);
     } catch (err) {
       setSuccess(null);
       if (err.response && err.response.data) {
@@ -122,7 +120,7 @@ const MenuItemForm = () => {
             id="order"
             className="mt-1 block w-full p-2 border border-gray-300 rounded"
             value={order}
-            onChange={(e) => setOrder(e.target.value)}
+            onChange={(e) => setOrder(parseInt(e.target.value, 10))}
             required
           />
         </div>
@@ -149,7 +147,6 @@ const MenuItemForm = () => {
             onChange={setPageId}
             options={pages}
             className="mt-1"
-            required
           />
         </div>
         <button
