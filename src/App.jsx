@@ -3,16 +3,16 @@ import Login from "./containers/Login";
 import Dashboard from "./containers/Dashboard";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoutes";
-import CreateContent from "./Pages/CreateContent";
+import Home from "./containers/Home";
 import PageForm from "./containers/PageForm";
-import PreviewContent from "./Pages/PreviewContent";
 import EditPage from "./containers/EditPage";
 import Pages from "./Pages/Pages";
 import MenuItemForm from "./containers/MenuForm";
 import MenuItems from "./Pages/MenuItem";
+import BlocksPage from "./Pages/BlocksPage";
+import CreateBlock from "./Pages/CreateBlock";
 import AppContainer from "./containers/AppContainer";
 import { PagesProvider } from "./context/PageContext";
-import Home from "./containers/Home";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -33,9 +33,9 @@ const App = () => {
             <Route path="/admin/edit-page/:id" element={<EditPage />} />
             <Route
               path="/admin/:pageId/block/create"
-              element={<CreateContent />}
+              element={<CreateBlock />}
             />
-            <Route path="/admin/:pageId/blocks" element={<PreviewContent />} />
+            <Route path="/admin/:pageId/blocks" element={<BlocksPage />} />
             <Route path="/admin/menu-item" element={<MenuItems />} />
             <Route path="/admin/menu-item/create" element={<MenuItemForm />} />
             {/* TODO : still working on */}

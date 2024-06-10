@@ -14,6 +14,17 @@ const EditTable = ({ block, onClose, onSave }) => {
             return block.content;
         }
     });
+    const addColumn = () => {
+        setTableData(prevData => {
+            return prevData.map(row => [...row, '']);
+        });
+    };
+
+    const removeColumn = () => {
+        setTableData(prevData => {
+            return prevData.map(row => row.slice(0, -1));
+        });
+    };
 
     useEffect(() => {
         if (typeof block.content === 'string') {
@@ -29,6 +40,10 @@ const EditTable = ({ block, onClose, onSave }) => {
     return (
         <div>
             <h1>Edit Table</h1>
+            <div className="flex justify-start mb-6">
+                <button onClick={addColumn} className="bg-blue-500 text-white px-2 py-1 rounded">Add Column</button>
+                <button onClick={removeColumn} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Remove Column</button>
+            </div>
             <HotTable
                 data={tableData}
                 colHeaders={true}
