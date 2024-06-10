@@ -3,6 +3,7 @@ import api from "../../api/api";
 import "./SideBarMenu.css";
 import SideBarMenuItem from "./SideBarMenuItem";
 import SideBarMenuTitle from "./SideBarMenuTitle";
+import { getQueryMenu } from "../../services/menuService";
 
 const SideBarMenu = () => {
   const [sideBarMenu, setSideBarMenu] = useState([]);
@@ -10,8 +11,8 @@ const SideBarMenu = () => {
   useEffect(() => {
     const fetchSideBarMenu = async () => {
       try {
-        const response = await api.get("/menus/extract?placement=sidebar");
-        setSideBarMenu(response.data);
+        const response = await getQueryMenu("placement=sidebar");
+        setSideBarMenu(response);
       } catch (err) {
         console.error("Failed to fetch nav menu items", err);
       }

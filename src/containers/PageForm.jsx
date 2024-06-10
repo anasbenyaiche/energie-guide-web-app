@@ -1,7 +1,7 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import api from "../api/api";
 import { useNavigate } from "react-router-dom";
+import { createPage } from "../services/pageService"; // Import the createPage function
 
 const PageForm = () => {
   const { user } = useContext(AuthContext);
@@ -13,10 +13,12 @@ const PageForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!user) {
       setError("User is not authenticated");
       return;
     }
+
     const pageData = {
       title,
       slug,
@@ -24,16 +26,11 @@ const PageForm = () => {
     };
 
     try {
-      const response = await api.post("/pages", pageData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      await createPage(pageData); // Use createPage from pageService
       setSuccess("Page created successfully");
       setError(null);
       setTitle("");
       setSlug("");
-      console.log("Page created:", response.data);
     } catch (err) {
       setSuccess(null);
       if (err.response && err.response.data) {
@@ -41,7 +38,6 @@ const PageForm = () => {
       } else {
         setError("Failed to create page");
       }
-      console.error(err);
     }
   };
 
