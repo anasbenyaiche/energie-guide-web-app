@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
@@ -11,6 +11,7 @@ import CreateLink from '../components/ContentBlocks/CreateLink';
 import createLinkHTML from '../components/ContentBlocks/createLinkHTML';
 import UploadImage from '../components/ContentBlocks/UploadImage';
 import HorizontalFlow from '../components/ContentBlocks/HorizontalFlow';
+import HorizontalFlowWrapper from '../components/ContentBlocks/HorizontalFlow';
 
 
 const CreateContent = () => {
@@ -18,6 +19,7 @@ const CreateContent = () => {
     const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [convertedContent, setConvertedContent] = useState('');
     const [selected, setSelcted] = useState('Text')
+    const [rfInstance, setRfInstance] = useState(null);
     const [position, setPosition] = useState(() => {
         const savedPostion = localStorage.getItem('position');
         return savedPostion ? parseInt(savedPostion, 10) : 1;
@@ -46,7 +48,7 @@ const CreateContent = () => {
         setFormLink({ ...formLink, [name]: value })
     }
 
-    const handelSubmit = async () => {
+    const handelSubmit = useCallback(async () => {
         let contentblock = {};
 
         if (selected === 'Text') {
@@ -63,11 +65,12 @@ const CreateContent = () => {
                 position: position
             }
         }
-        else if (selected === 'Charts') {
+        else if (selected === 'Charts' && rfInstance) {
+            const flow = rfInstance.toObject();
             contentblock = {
                 type: selected.toLowerCase(),
-                content: createLinkHTML(formLink.link, formLink.title),
-                position: position
+                content: flow,
+                position: position,
             };
         }
         else if (selected === 'Link') {
@@ -78,6 +81,7 @@ const CreateContent = () => {
             };
         }
         const token = localStorage.getItem('token');
+        console.log("Content Block to be saved:", contentblock);
         try {
             const endPoint =
                 process.env.NODE_ENV === "development"
@@ -100,7 +104,7 @@ const CreateContent = () => {
             console.log('Error catched Block:', error)
 
         }
-    }
+    }, [selected, convertedContent, tableData, formLink, rfInstance, position, id])
 
 
 
@@ -132,7 +136,6 @@ const CreateContent = () => {
                     <Link className='bg-[#00a2d6] border rounded-md border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]'
                         to={`/admin/blocks/${id}`} target='_blank' >Preview</Link>
                     <button className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
-
                         onClick={handelSubmit}> Save</button>
                 </div>
 
@@ -167,8 +170,7 @@ const CreateContent = () => {
                         /> : ""}
                         {selected == "Link" ? <CreateLink formLink={formLink} handelChange={handleLinkChange} /> : ""}
 
-                        {selected === 'Charts' ? <HorizontalFlow />
-                            : ""}
+                        {selected == 'Charts' ? <HorizontalFlowWrapper setRfInstance={setRfInstance} /> : ""}
 
                     </div>
                 </div>

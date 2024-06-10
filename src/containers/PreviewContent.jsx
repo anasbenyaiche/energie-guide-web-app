@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import ListContent from '../components/ContentBlocks/ListContent'
 import EditTextEditor from '../components/ContentBlocks/EditTextEditor'
 import Modal from '../components/Modal/Modal'
@@ -22,9 +22,11 @@ import createLinkHTML from '../components/ContentBlocks/createLinkHTML';
 import DOMPurify from 'dompurify';
 import convertTable from '../utils/convertTable'
 import PreviewFlow from '../components/ContentBlocks/PreviewFlow'
+import { BsDiagram3 } from "react-icons/bs";
+import HorizontalFlowWrapper from '../components/ContentBlocks/HorizontalFlow'
 
 const PreviewContent = () => {
-    const { id } = useParams(); // Get the page ID from the URL
+    const { id } = useParams();
     console.log(id)
     const [content, setContent] = useState([])
     const token = localStorage.getItem('token');
@@ -38,6 +40,7 @@ const PreviewContent = () => {
         const savedPostion = localStorage.getItem('position');
         return savedPostion ? parseInt(savedPostion, 10) : 1;
     })
+    const [rfInstance, setRfInstance] = useState(null);
     const [flowData, setFlowData] = useState(null);
     const [openBlock, setOpenBlock] = useState(null)
     const [tableData, setTableData] = useState([
@@ -95,7 +98,7 @@ const PreviewContent = () => {
     }, [editorState]);
 
 
-    const handelSubmit = async () => {
+    const handelSubmit = useCallback(async () => {
         let contentblock = {};
 
         if (selected === 'text') {
@@ -117,6 +120,14 @@ const PreviewContent = () => {
                 type: selected.toLowerCase(),
                 content: createLinkHTML(formLink.link, formLink.title),
                 position: position
+            };
+        }
+        else if (selected === 'charts' && rfInstance) {
+            const flow = rfInstance.toObject();
+            contentblock = {
+                type: selected.toLowerCase(),
+                content: flow,
+                position: position,
             };
         }
         const token = localStorage.getItem('token');
@@ -143,7 +154,7 @@ const PreviewContent = () => {
             console.log('Error catched Block:', error)
 
         }
-    }
+    }, [selected, convertedContent, tableData, formLink, rfInstance, position, id])
 
     const handelDelete = async (id) => {
         try {
@@ -242,17 +253,25 @@ const PreviewContent = () => {
                             <h2 className=' text-black text-xl'>Link</h2>
 
                         </div>
+                        <div className=' text-center cursor-pointer' onClick={() => handelBlockClick('charts')}>
+                            <BsDiagram3 className=' text-3xl mb-2 text-center' />
+                            <h2 className=' text-black text-xl'>Diagramme</h2>
+
+                        </div>
                     </div>
 
                 </div>}
 
             <div className=' p-4'>
-                {(openMenu && openBlock === 'text' || openMenu && openBlock === 'table' || openMenu && openBlock === 'link' || openMenu && openBlock === 'image') && (
-                    <div className=' mb-5 flex justify-end gap-4'>
-                        <button className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
-                            onClick={handelSubmit}> Save</button>
-                    </div>
-                )}
+                {(openMenu && openBlock === 'text' || openMenu && openBlock === 'table'
+                    || openMenu && openBlock === 'link'
+                    || openMenu && openBlock === 'image'
+                    || openMenu && openBlock === 'charts') && (
+                        <div className=' mb-5 flex justify-end gap-4'>
+                            <button className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
+                                onClick={handelSubmit}> Save</button>
+                        </div>
+                    )}
 
                 {openMenu && openBlock === 'text' && (
                     <TextEditor
@@ -273,6 +292,9 @@ const PreviewContent = () => {
                 )}
                 {openMenu && openBlock === 'link' && (
                     <CreateLink formLink={formLink} handelChange={handleLinkChange} />
+                )}
+                {openMenu && openBlock === 'charts' && (
+                    <HorizontalFlowWrapper setRfInstance={setRfInstance} />
                 )}
 
             </div>
