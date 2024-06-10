@@ -1,23 +1,31 @@
 import { useEffect, useState } from "react";
 import ContentBlock from "./ContentBlock";
 import PropTypes from "prop-types";
-import api from "../api/api";
+import { fetchContentBlocks } from "../services/contentBlockService";
 
 const Page = ({ pageId }) => {
   const [blocks, setBlocks] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
-    const fetchContentBlocks = async () => {
+    const getContentBlocks = async () => {
       try {
-        const response = await api.get(`/api/pages/${pageId}/blocks`);
-        setBlocks(response.data);
+        setLoading(true);
+        const blocksData = await fetchContentBlocks(pageId);
+        setBlocks(blocksData);
       } catch (error) {
         console.error("Error fetching content blocks:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchContentBlocks();
+    getContentBlocks();
   }, [pageId]);
+
+  if (loading) {
+    return <div>Loading content...</div>; // Show loading indicator
+  }
 
   return (
     <div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api from "../api/api";
+import { fetchPageById, updatePageById } from "../services/pageService";
 
 const EditPage = () => {
   const { id } = useParams();
@@ -13,10 +13,9 @@ const EditPage = () => {
   useEffect(() => {
     const fetchPage = async () => {
       try {
-        const response = await api.get(`/pages/${id}`);
-        console.log(response);
-        setTitle(response.data.page.title);
-        setSlug(response.data.page.slug);
+        const page = await fetchPageById(id);
+        setTitle(page.title);
+        setSlug(page.slug);
       } catch (err) {
         console.error("Failed to fetch page", err);
       }
@@ -24,23 +23,17 @@ const EditPage = () => {
 
     fetchPage();
   }, [id]);
-  console.log(title, slug);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.put(`/pages/${id}`, { title, slug });
+      await updatePageById(id, { title, slug });
       setSuccess("Page updated successfully");
       setError(null);
-      console.log("Page updated:", response.data);
     } catch (err) {
       setSuccess(null);
-      if (err.response && err.response.data) {
-        setError(err.response.data.message);
-      } else {
-        setError("Failed to update page");
-      }
-      console.error(err);
+      setError(err.response?.data?.message || "Failed to update page");
+      console.error("Failed to update page", err);
     }
   };
 

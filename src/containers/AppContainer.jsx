@@ -1,10 +1,8 @@
 import React, { useContext, useEffect, useState, useMemo } from "react";
 import Layout from "../layout/layout";
 import Footer from "../layout/Footer/Footer";
-import LinkList from "./LinkList/LinkList";
-import { MAIN_PAGE_LINKS } from "../constants/MainPageLinks";
 import api from "../api/api";
-import { Route, Routes, useMatch, useParams } from "react-router-dom";
+import { useMatch } from "react-router-dom";
 import { ContentBlockContainer } from "./ContentBlockContainer";
 import PagesContext from "../context/PageContext";
 
@@ -32,7 +30,6 @@ const AppContainer = () => {
     fetchPageData();
   }, [pageId]);
 
-  console.log(pageData);
   return (
     <>
       <Layout>
