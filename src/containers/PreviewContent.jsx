@@ -25,7 +25,7 @@ import { BsDiagram3 } from "react-icons/bs";
 import HorizontalFlowWrapper from "../components/ContentBlocks/HorizontalFlow";
 import api from "../api/api";
 import EditUploadImage from "../components/ContentBlocks/EditUploadImage";
-import useFetchContent from "../hooks/useFetchContent";
+
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -224,7 +224,6 @@ const PreviewContent = () => {
     };
 
 
-    // const { content, loading, error } = useFetchContent(id)
     useEffect(() => {
         const displaycontent = async () => {
             try {
