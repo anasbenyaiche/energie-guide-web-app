@@ -1,17 +1,15 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import propTypes from 'prop-types'
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { IoMdMove } from "react-icons/io";
 import PreviewFlow from './PreviewFlow';
+import PreviewImage from './PreviewImage';
 
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
-
-
     return (
-        <div className='mb-3 p-3 border rounded text-black'
-            {...props} >
+        <div className='mb-3 p-3 border rounded text-black' {...props} >
             <div className='gap-4 flex items-center justify-between mb-2'>
                 <div className='text-sm text-gray-500'>
                     Block Position: {blocks.position}
@@ -31,7 +29,7 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 </div>
 
             </div>
-            {blocks.type !== 'charts' && (
+            {blocks.type !== 'charts' && blocks.type !== 'image' && (
                 <div
                     dangerouslySetInnerHTML={{
                         __html: blocks.content,
@@ -41,6 +39,9 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
 
             {blocks.type === 'charts' && (
                 <PreviewFlow content={blocks.content} />
+            )}
+            {blocks.type === 'image' && (
+                <PreviewImage imageUrl={blocks.imageUrl} />
             )}
         </div>
     )

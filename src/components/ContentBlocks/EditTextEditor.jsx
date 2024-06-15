@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { EditorState, convertToRaw } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import { stateFromHTML } from 'draft-js-import-html';
 import TextEditor from './TextEditor';

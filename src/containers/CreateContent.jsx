@@ -10,12 +10,12 @@ import { Link, useParams } from 'react-router-dom';
 import CreateLink from '../components/ContentBlocks/CreateLink';
 import createLinkHTML from '../components/ContentBlocks/createLinkHTML';
 import UploadImage from '../components/ContentBlocks/UploadImage';
-import HorizontalFlow from '../components/ContentBlocks/HorizontalFlow';
 import HorizontalFlowWrapper from '../components/ContentBlocks/HorizontalFlow';
-
+import api from '../api/api';
 
 const CreateContent = () => {
-  const { id } = useParams()
+  const { pageId } = useParams()
+  const id = pageId
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const [convertedContent, setConvertedContent] = useState('');
   const [selected, setSelcted] = useState('Text')
@@ -29,6 +29,7 @@ const CreateContent = () => {
     ['', '', ''],
     ['', '', ''],
   ]);
+  const [image, setImage] = useState(null);
   useEffect(() => {
     localStorage.setItem('position', position);
   }, [position])
@@ -83,13 +84,7 @@ const CreateContent = () => {
     const token = localStorage.getItem('token');
     console.log("Content Block to be saved:", contentblock);
     try {
-      const endPoint =
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:5000/api/"
-          : "https://energie-guide-web-app.vercel.app/api";
-
-
-      const response = await axios.post(`${endPoint}pages/${id}/blocks`, contentblock, {
+      const response = await api.post(`/pages/${id}/blocks`, contentblock, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -106,6 +101,30 @@ const CreateContent = () => {
     }
   }, [selected, convertedContent, tableData, formLink, rfInstance, position, id])
 
+  const handleUpload = async () => {
+    if (!image) return;
+    let contentblock = {}
+    contentblock = {
+      type: 'image',
+      content: "Image upload",
+      position: position,
+      page_id: id,
+      image: image
+    };
+    try {
+      const uploadResponse = await api.post(`/upload-image`, contentblock, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      const uploadedImageUrl = uploadResponse.data.imageUrl;
+      console.log('Image uploaded successfully:', uploadedImageUrl);
+
+    } catch (error) {
+      console.error('Error caught during upload:', error);
+    }
+  };
 
 
   useEffect(() => {
@@ -162,7 +181,7 @@ const CreateContent = () => {
               onEditorStateChange={setEditorState}
               convertedContent={convertedContent}
             /> : ""}
-            {selected == "Image" ? <UploadImage /> : ""}
+            {selected == "Image" ? <UploadImage image={image} setImage={setImage} handleUpload={handleUpload} /> : ""}
             {selected == "Table" ? <TableEditor
               tableData={tableData}
               setTableData={setTableData}

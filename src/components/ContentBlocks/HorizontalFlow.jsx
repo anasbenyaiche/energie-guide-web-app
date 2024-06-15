@@ -37,6 +37,18 @@ const HorizontalFlow = ({ setRfInstance }) => {
     setNodeColor({ color: color.hex })
     setTextInputValue(color.hex)
   }
+  const handleColorClick = () => {
+    setOpenColor(!openColor)
+    if (openTextColor) {
+      setOpenTextColor(false)
+    }
+  }
+  const handleTextColor = () => {
+    setOpenTextColor(!openTextColor)
+    if (openColor) {
+      setOpenColor(false)
+    }
+  }
   const handleNodeChange = useCallback((id, newLabel) => {
     setNodes((nds) =>
       nds.map((node) =>
@@ -80,18 +92,6 @@ const HorizontalFlow = ({ setRfInstance }) => {
     setEdges((eds) => eds.concat(newEdge));
   }, [nodes, setNodes, setEdges, state.name, nodeBg.backg, nodeColor.color]);
 
-  const onRestore = useCallback(() => {
-    const restoreFlow = async () => {
-      const flow = JSON.parse(localStorage.getItem(flowKey));
-      if (flow) {
-        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-        setNodes(flow.nodes || []);
-        setEdges(flow.edges || []);
-        setViewport({ x, y, zoom });
-      }
-    };
-    restoreFlow();
-  }, [setNodes, setViewport]);
   const deleteNodeById = useCallback((id) => {
     setNodes(nds => nds.filter(node => node.id !== id));
   }, [setNodes]);
@@ -100,18 +100,19 @@ const HorizontalFlow = ({ setRfInstance }) => {
       <div >
         <div className='flex items-baseline  justify-start gap-4'>
           <div class="relative z-0">
+            <label className='text-[#00a2d6] text-sm' htmlFor="">Add Text</label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               placeholder=" "
               onChange={(e) => {
                 setState((prev) => ({ ...prev, name: e.target.value }));
               }} />
-            <label htmlFor="floating_standard" className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-[#00a2d6] peer-focus:dark:text-[#00a2d6] peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Add Text</label>
           </div>
           <div class="relative z-0">
+            <label className='text-[#00a2d6] text-sm' htmlFor=""> Add Background </label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               value={colorInputValue}
               readOnly
-              onClick={() => setOpenColor(!openColor)} />
+              onClick={handleColorClick} />
             {openColor && (
               <div className='relative'>
                 <SketchPicker
@@ -123,10 +124,11 @@ const HorizontalFlow = ({ setRfInstance }) => {
             )}
           </div>
           <div class="relative z-0">
+            <label className='text-[#00a2d6] text-sm' htmlFor="">Add Color</label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               value={TextInputValue}
               readOnly
-              onClick={() => setOpenTextColor(!openTextColor)} />
+              onClick={handleTextColor} />
             {openTextColor && (
               <div className='relative'>
                 <SketchPicker

@@ -1,9 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { Handle, Position } from 'reactflow';
 import { PiDotsThreeOutlineVerticalFill } from "react-icons/pi";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const handleStyle = { left: 10 };
 
 function TextUpdaterNode({ id, data, isConnectable }) {
     const handleChange = useCallback((evt) => {
@@ -14,7 +13,7 @@ function TextUpdaterNode({ id, data, isConnectable }) {
 
     const handleStyleChange = useCallback((evt) => {
         if (data.onStyleChange) {
-            data.onStyleChange(id, { backgroundColor: evt.target.value });
+            data.onStyleChange(id, { backgroundColor: evt.target.value, borderColor: evt.target.value });
         }
     }, [id, data]);
     const handleDelete = useCallback(() => {

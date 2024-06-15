@@ -15,7 +15,7 @@ const PreviewFlow = ({ content }) => {
     }, [content]);
 
     return (
-        <div style={{ width: '100%', height: '100vh' }}>
+        <div className='previewflow ' style={{ width: '100%', height: '70vh' }}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -23,6 +23,9 @@ const PreviewFlow = ({ content }) => {
                 snapToGrid={false}
                 fitView
                 proOptions={proOptions}
+                nodesDraggable={false}
+                preventScrolling={false}
+                panOnDrag={false}
             >
                 {/* <DownloadButton /> */}
             </ReactFlow>
