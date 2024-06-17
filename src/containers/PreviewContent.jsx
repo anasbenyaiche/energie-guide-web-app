@@ -25,12 +25,18 @@ import { BsDiagram3 } from "react-icons/bs";
 import HorizontalFlowWrapper from "../components/ContentBlocks/HorizontalFlow";
 import api from "../api/api";
 import EditUploadImage from "../components/ContentBlocks/EditUploadImage";
+import useSaveBlock from "../hooks/useSaveBlock";
+import useDeleteBlock from "../hooks/useDeleteBlock";
+import useDisplayBlock from "../hooks/useDisplayBlock";
 
 
 const PreviewContent = () => {
     const { pageId } = useParams();
     const id = pageId
     const [content, setContent] = useState([]);
+    const { saveBlock, error: saveError } = useSaveBlock();
+    const { deleteBlock, error: deleteError } = useDeleteBlock()
+    const { displaycontent, error: displayError } = useDisplayBlock()
     const token = localStorage.getItem("token");
     const [selectedBlock, setSelectedBlock] = useState(null);
     const [openModal, setopenModal] = useState(false);
@@ -58,6 +64,14 @@ const PreviewContent = () => {
         title: "",
     });
 
+    const [formPicture, setFormPicture] = useState({
+        title: ""
+    })
+
+    const handleImageChange = (e) => {
+        const { name, value } = e.target;
+        setFormPicture({ ...formPicture, [name]: value });
+    }
 
     const handleLinkChange = (e) => {
         const { name, value } = e.target;
@@ -153,7 +167,7 @@ const PreviewContent = () => {
         let contentblock = {}
         contentblock = {
             type: 'image',
-            content: "Image upload",
+            content: formPicture.title,
             position: position,
             page_id: id,
             image: image
@@ -166,6 +180,7 @@ const PreviewContent = () => {
             });
 
             const uploadedImageUrl = uploadResponse.data.imageUrl;
+            setOpenBlock(false);
             console.log('Image uploaded successfully:', uploadedImageUrl);
 
         } catch (error) {
@@ -174,13 +189,7 @@ const PreviewContent = () => {
     };
 
     const handelDelete = async (id) => {
-        try {
-
-            await api.delete(`/blocks/${id}`);
-            setContent(content.filter((block) => block._id !== id));
-        } catch (error) {
-            console.log("Error catched Block:", error);
-        }
+        deleteBlock(id, setContent, content)
     };
     const handleEdit = (block) => {
         setSelectedBlock(block);
@@ -188,17 +197,8 @@ const PreviewContent = () => {
     };
 
     const handleSave = async (updatedBlock) => {
-        try {
-            await api.put(`/blocks/${updatedBlock._id}`, updatedBlock, {});
-            setContent(
-                content.map((block) =>
-                    block._id === updatedBlock._id ? updatedBlock : block
-                )
-            );
-            setopenModal(false);
-        } catch (error) {
-            console.error("Error updating content:", error);
-        }
+        saveBlock(updatedBlock, setContent, content);
+        setopenModal(false)
     };
 
     const dragBlock = useRef(0);
@@ -225,17 +225,7 @@ const PreviewContent = () => {
 
 
     useEffect(() => {
-        const displaycontent = async () => {
-            try {
-                const response = await api.get(`/pages/${id}`);
-                const sortedContent = response.data.contentBlocks.sort((a, b) => a.position - b.position);
-                setContent(sortedContent);
-                recalculatePositions(response.data.contentBlocks);
-            } catch (error) {
-                console.log("Error catched Block:", error);
-            }
-        };
-        displaycontent();
+        displaycontent(id, setContent, recalculatePositions)
     }, [id]);
     console.log("content", content);
 
@@ -318,7 +308,9 @@ const PreviewContent = () => {
                         convertedContent={convertedContent}
                     />
                 )}
-                {openMenu && openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload} />}
+                {openMenu && openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
+                    handleChangePicture={handleImageChange} formPicture={formPicture}
+                />}
                 {openMenu && openBlock === "table" && (
                     <TableEditor tableData={tableData} setTableData={setTableData} />
                 )}
@@ -352,21 +344,18 @@ const PreviewContent = () => {
                 {selectedBlock?.type === "text" && (
                     <EditTextEditor
                         block={selectedBlock}
-                        onClose={() => setopenModal(false)}
                         onSave={handleSave}
                     />
                 )}
                 {selectedBlock?.type === "table" && (
                     <EditTable
                         block={selectedBlock}
-                        onClose={() => setopenModal(false)}
                         onSave={handleSave}
                     />
                 )}
                 {selectedBlock?.type === "link" && (
                     <EditLink
                         block={selectedBlock}
-                        onClose={() => setopenModal(false)}
                         onSave={handleSave}
                     />
                 )}

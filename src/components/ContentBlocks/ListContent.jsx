@@ -41,7 +41,7 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 <PreviewFlow content={blocks.content} />
             )}
             {blocks.type === 'image' && (
-                <PreviewImage imageUrl={blocks.imageUrl} />
+                <PreviewImage imageUrl={blocks.imageUrl} title={blocks.content} />
             )}
         </div>
     )
