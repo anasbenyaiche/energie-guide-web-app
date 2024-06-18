@@ -4,7 +4,7 @@ import api from "../api/api";
  * Fetch all menus.
  * @returns {Promise<Array>} - List of menus.
  */
-export const fetchMenus = async () => {
+export const getMenus = async () => {
   const response = await api.get("/menus");
   return response.data;
 };
@@ -22,4 +22,26 @@ export const getQueryMenu = async (query) => {
     console.error("Failed to fetch sidebar menu data:", error);
     throw error;
   }
+};
+
+/**
+ * Update a menu.
+ * @param {string} menuId - The ID of the menu to which will be updated.
+ * @param {Object} menuData - The data for the  menu .
+ * @returns {Promise<Object>} - The created menu item.
+ */
+export const updateMenu = async (menuItemId, menuData) => {
+  const response = await api.put(`/menus/${menuItemId}`, menuData);
+  return response.data;
+};
+
+/**
+ * Update a menu.
+ * @param {string} menuId - The ID of the menu to which will be updated.
+ * @param {Object} menuData - The data for the  menu .
+ * @returns {Promise<Object>} - The created menu item.
+ */
+export const createMenu = async (menuData) => {
+  const response = await api.post(`/menus`, menuData);
+  return response.data;
 };
