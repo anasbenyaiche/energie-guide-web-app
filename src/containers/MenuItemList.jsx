@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { FaPlus } from "react-icons/fa";
 import {
-  fetchMenus,
+  getMenus,
   fetchMenuItems,
   deleteMenuItem,
 } from "../services/menuItemService";
 
-const MenuItemsList = () => {
+const EditMenuForm = () => {
   const [menus, setMenus] = useState([]);
   const [selectedMenuId, setSelectedMenuId] = useState("");
   const [menuItems, setMenuItems] = useState([]);
@@ -17,7 +17,7 @@ const MenuItemsList = () => {
   useEffect(() => {
     const loadMenus = async () => {
       try {
-        const menusData = await fetchMenus();
+        const menusData = await getMenus();
         setMenus(menusData);
       } catch (err) {
         console.error("Failed to fetch menus", err);
@@ -127,4 +127,4 @@ const MenuItemsList = () => {
   );
 };
 
-export default MenuItemsList;
+export default EditMenuForm;

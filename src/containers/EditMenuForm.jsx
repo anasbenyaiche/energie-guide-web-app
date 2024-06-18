@@ -1,14 +1,16 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Select from "react-select";
 import { getMenus } from "../services/menuService";
-import { createMenuItem } from "../services/menuItemService";
+import { getMenuItembyId } from "../services/menuItemService";
 import { fetchRelatedPages } from "../services/pageService";
 
-const MenuItemForm = () => {
+const EditMenuItemForm = () => {
+  const { id } = useParams();
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [menuItem, setMenuItem] = useState(null);
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
   const [order, setOrder] = useState(0);
@@ -44,9 +46,28 @@ const MenuItemForm = () => {
       }
     };
 
-    loadMenus();
-    loadPages();
-  }, []);
+    const loadMenuItem = async () => {
+      try {
+        await loadMenus(); // Ensure menus are loaded first
+        await loadPages(); // Ensure pages are loaded first
+
+        const menuItemData = await getMenuItembyId(id);
+        const page = pages.find(({ _id }) => menuItemData.page_id === _id);
+        const menu = menus.find(({ value }) => menuItemData.menu_id === value);
+
+        setMenuItem(menuItemData);
+        setTitle(menuItemData.title);
+        setLink(menuItemData.link);
+        setOrder(menuItemData.order);
+        setPageId(page ? { value: page._id, label: page.title } : null);
+        setMenuId(menu ? { value: menu.value, label: menu.label } : null);
+      } catch (err) {
+        console.error("Failed to fetch menu item", err);
+      }
+    };
+
+    loadMenuItem();
+  }, [id, menus, pages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +78,7 @@ const MenuItemForm = () => {
 
     const menuItemData = {
       page_id: pageId ? pageId.value : null,
+      menuId: menuId ? menuId.value : null,
       order,
       title,
       link,
@@ -64,32 +86,24 @@ const MenuItemForm = () => {
     };
 
     try {
-      await createMenuItem(menuId.value, menuItemData);
-      setSuccess("Menu item created successfully");
+      await udpateMenuItem(id, menuItemData);
+      setSuccess("Menu item updated successfully");
       setError(null);
-      setTitle("");
-      setLink("");
-      setOrder(0);
-      setMenuId(null);
-      setPageId(null);
     } catch (err) {
       setSuccess(null);
-      if (err.response && err.response.data) {
-        setError(err.response.data.message);
-      } else {
-        setError("Failed to create menu item");
-      }
+      setError(err.response?.data?.message || "Failed to update menu item");
       console.error(err);
     }
   };
+
   const handleChangePage = (value) => {
     setPageId(value);
-    setLink(pages?.find(({ _id }) => value.value === _id)?.slug);
+    setLink(pages.find(({ _id }) => value.value === _id)?.slug || "");
   };
 
   return (
     <div className="max-w-md mx-auto bg-white p-8 mt-10 rounded shadow-md mb-4">
-      <h2 className="text-2xl font-bold mb-6">Create a New Menu Item</h2>
+      <h2 className="text-2xl font-bold mb-6">Edit a Menu Item</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">
@@ -111,26 +125,27 @@ const MenuItemForm = () => {
           </label>
           <Select
             id="menuId"
-            value={menuId}
+            value={menuId || null}
             onChange={setMenuId}
             options={menus}
             className="mt-1"
             required
           />
         </div>
+
         <div className="mb-4">
           <label htmlFor="pageId" className="block text-gray-700">
             Page
           </label>
           <Select
             id="pageId"
-            name=""
-            value={pageId}
+            value={pageId || null}
             onChange={handleChangePage}
             options={pageOptions}
             className="mt-1"
           />
         </div>
+
         <div className="mb-4">
           <label htmlFor="link" className="block text-gray-700">
             Link
@@ -144,27 +159,28 @@ const MenuItemForm = () => {
             required
           />
         </div>
-        {pageId && (
-          <div className="mb-4">
-            <label htmlFor="order" className="block text-gray-700">
-              Order
-            </label>
-            <input
-              type="number"
-              id="order"
-              className="mt-1 block w-full p-2 border border-gray-300 rounded"
-              value={order}
-              onChange={(e) => setOrder(parseInt(e.target.value, 10))}
-              required
-            />
-          </div>
-        )}
+
+        <div className="mb-4">
+          <label htmlFor="order" className="block text-gray-700">
+            Order
+          </label>
+          <input
+            type="number"
+            id="order"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            value={order}
+            onChange={(e) => setOrder(parseInt(e.target.value, 10))}
+            required
+          />
+        </div>
+
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
         >
-          Create Menu Item
+          Update Menu Item
         </button>
+
         {error && <p className="text-red-500 mt-4">{error}</p>}
         {success && <p className="text-green-500 mt-4">{success}</p>}
       </form>
@@ -178,4 +194,4 @@ const MenuItemForm = () => {
   );
 };
 
-export default MenuItemForm;
+export default EditMenuItemForm;
