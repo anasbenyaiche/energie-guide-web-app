@@ -6,7 +6,7 @@ import AdminSidebar from "./AdminSidebar/AdminSidebar";
 
 const Layout = ({ children }) => {
   return (
-    <div className="body-container ">
+    <div className="body-container">
       <Breadcrumb />
       <div className="container  ">
         {/* <AdminSidebar /> */}
