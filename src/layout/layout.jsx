@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
     <div className="body-container ">
       <Breadcrumb />
       <div className="container  ">
-        {/* <AdminSidebar /> */}
+        <AdminSidebar />
         <div className="grid grid-cols-4 ">
           <div className="col-span-1 side-block">
             <SideBarMenu />
