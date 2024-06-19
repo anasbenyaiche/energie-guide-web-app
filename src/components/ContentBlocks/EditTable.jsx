@@ -14,6 +14,29 @@ const EditTable = ({ block, onClose, onSave }) => {
             return block.content;
         }
     });
+    const addColumn = () => {
+        setTableData(prevData => {
+            return prevData.map(row => [...row, '']);
+        });
+    };
+
+    const removeColumn = () => {
+        setTableData(prevData => {
+            return prevData.map(row => row.slice(0, -1));
+        });
+    };
+    const addRow = () => {
+        setTableData(prevData => {
+            const newRow = Array(prevData[0].length).fill('');
+            return [...prevData, newRow];
+        });
+    };
+
+    const removeRow = () => {
+        setTableData(prevData => {
+            return prevData.slice(0, -1);
+        });
+    }
 
     useEffect(() => {
         if (typeof block.content === 'string') {
@@ -29,6 +52,12 @@ const EditTable = ({ block, onClose, onSave }) => {
     return (
         <div>
             <h1>Edit Table</h1>
+            <div className="flex justify-start mb-6">
+                <button onClick={addColumn} className="bg-blue-500 text-white px-2 py-1 rounded">Add Column</button>
+                <button onClick={removeColumn} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Remove Column</button>
+                <button onClick={addRow} className="bg-green-500 text-white px-2 py-1 rounded ml-2">Add Row</button>
+                <button onClick={removeRow} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2">Remove Row</button>
+            </div>
             <HotTable
                 data={tableData}
                 colHeaders={true}
