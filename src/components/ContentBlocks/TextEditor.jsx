@@ -15,7 +15,7 @@ const TextEditor = ({ editorState, onEditorStateChange, convertedContent }) => {
 
 
     return (
-        <div className=' mt-10'>
+        <div>
             <Editor
                 editorState={editorState}
                 onEditorStateChange={onEditorStateChange}

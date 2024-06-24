@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import UploadImage from './UploadImage';
 import PropTypes from 'prop-types';
 
-const EditUploadImage = ({ block, setImage, handleUpload }) => {
+const EditUploadImage = ({ block, setImage, handleUpload, handleChangePicture, formPicture }) => {
 
 
     useEffect(() => {
@@ -18,6 +18,8 @@ const EditUploadImage = ({ block, setImage, handleUpload }) => {
                 image={block.content}
                 setImage={setImage}
                 handleUpload={handleUpload}
+                handleChangePicture={handleChangePicture}
+                formPicture={formPicture}
             />
         </div>
     )
@@ -25,7 +27,9 @@ const EditUploadImage = ({ block, setImage, handleUpload }) => {
 EditUploadImage.propTypes = {
     block: PropTypes.object.isRequired,
     setImage: PropTypes.func.isRequired,
-    handleUpload: PropTypes.func.isRequired
+    handleUpload: PropTypes.func.isRequired,
+    handleChangePicture: PropTypes.func.isRequired,
+    formPicture: PropTypes.object.isRequired,
 };
 
 export default EditUploadImage

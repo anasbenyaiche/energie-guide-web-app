@@ -83,3 +83,23 @@ button:focus-visible {
 .previewflow .react-flow__handle.connectionindicator {
   opacity: 0;
 }
+
+.floating-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: 300px;
+  max-height: max-content;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 15px 30px 15px;
+  z-index: 50;
+  transition: transform 0.5s ease-in-out;
+}
+
+.floating-menu.open {
+  display: none;
+}

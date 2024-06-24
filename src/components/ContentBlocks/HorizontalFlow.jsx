@@ -7,10 +7,12 @@ import initialEdges from '../../utils/DiagramFlow/initialEdges';
 import initialNodes from '../../utils/DiagramFlow/initialNodes';
 import TextUpdaterNode from './TextUpdaterNode';
 import { SketchPicker } from 'react-color';
-
+import TextEditor from './TextEditor';
+import { EditorState } from 'draft-js';
+import { convertToHTML } from 'draft-convert';
 const flowKey = 'Digramme-Guide';
 
-const getNodeId = () => `randomnode_${+new Date()}`;
+const getNodeId = () => `node_${+new Date()}`;
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
 const proOptions = { hideAttribution: true };
@@ -25,10 +27,16 @@ const HorizontalFlow = ({ setRfInstance }) => {
   const [colorInputValue, setColorInputValue] = useState(nodeBg.backg);
   const [TextInputValue, setTextInputValue] = useState(nodeColor.color);
   const [openToggleId, setOpenToggleId] = useState(null);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [convertedContent, setConvertedContent] = useState('');
   const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [setEdges]);
   const { setViewport } = useReactFlow();
   const { id } = useParams()
 
+  const onEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    setConvertedContent(convertToHTML(newEditorState.getCurrentContent()));
+  };
   const handleColorChange = (color) => {
     setNodeBg({ backg: color.hex });
     setColorInputValue(color.hex);
@@ -49,10 +57,10 @@ const HorizontalFlow = ({ setRfInstance }) => {
       setOpenColor(false)
     }
   }
-  const handleNodeChange = useCallback((id, newLabel) => {
+  const handleNodeChange = useCallback((id, data) => {
     setNodes((nds) =>
       nds.map((node) =>
-        node.id === id ? { ...node, data: { ...node.data, label: newLabel } } : node
+        node.id === id ? { ...node, data: { ...node.data, ...data } } : node
       )
     );
   }, [setNodes]);
@@ -69,7 +77,10 @@ const HorizontalFlow = ({ setRfInstance }) => {
     const newNodeId = getNodeId();
     const newNode = {
       id: newNodeId,
-      data: { label: `${state.name}` },
+      data: {
+        label: `${state.name}`,
+        text: convertedContent,
+      },
       style: {
         backgroundColor: `${nodeBg.backg}`,
         color: `${nodeColor.color}`,
@@ -85,12 +96,8 @@ const HorizontalFlow = ({ setRfInstance }) => {
       },
       width: 150
     };
-    const newEdge = {
-      type: 'step',
-    };
     setNodes((nds) => nds.concat(newNode));
-    setEdges((eds) => eds.concat(newEdge));
-  }, [nodes, setNodes, setEdges, state.name, nodeBg.backg, nodeColor.color]);
+  }, [nodes, setNodes, state.name, nodeBg.backg, nodeColor.color, convertedContent]);
 
   const deleteNodeById = useCallback((id) => {
     setNodes(nds => nds.filter(node => node.id !== id));
@@ -100,7 +107,7 @@ const HorizontalFlow = ({ setRfInstance }) => {
       <div >
         <div className='flex items-baseline  justify-start gap-4'>
           <div class="relative z-0">
-            <label className='text-[#00a2d6] text-sm' htmlFor="">Add Text</label>
+            <label className='text-[#00a2d6] text-sm' htmlFor="">Add Title</label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               placeholder=" "
               onChange={(e) => {
@@ -139,6 +146,16 @@ const HorizontalFlow = ({ setRfInstance }) => {
               </div>
             )}
           </div>
+        </div>
+        <div className='mt-5  w-3/5'>
+          <div className='mb-4'>
+            <label className='text-[#00a2d6] text-sm' htmlFor=""> Add Text </label>
+          </div>
+          <TextEditor
+            editorState={editorState}
+            onEditorStateChange={onEditorStateChange}
+            convertedContent={convertedContent}
+          />
         </div>
         <div className='text-end px-6 '>
           <button className='bg-[#00a2d6] text-end border rounded-md mt-4
