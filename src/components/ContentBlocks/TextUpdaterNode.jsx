@@ -78,10 +78,10 @@ function TextUpdaterNode({ id, data, isConnectable }) {
                                     <div>
                                         <div className=' text-right'>
                                             <button
-                                                className='bg-transparent border-none text-2xl p-0 focus:outline-none'
+                                                className='text-black bg-transparent border-none text-2xl p-0 focus:outline-none'
                                                 onClick={() => setIsEditing(true)}><CiEdit /> </button>
                                         </div>
-                                        <div className='mt-2 text-center' >
+                                        <div className='mt-2 text-center text-black' >
                                             <div dangerouslySetInnerHTML={{ __html: data.text }} />
                                         </div>
                                     </div>

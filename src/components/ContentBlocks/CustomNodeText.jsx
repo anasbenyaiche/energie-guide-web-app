@@ -11,7 +11,7 @@ const CustomNodeText = ({ data }) => {
             <div className={`floating-menu ${isOpen ? 'open' : ''}`}>
                 <div className='cursor-pointer flex justify-end mb-5' onClick={toggleMenu}>
                     <IoMdClose className=' text-black text-2xl' /></div>
-                <div className='text-center break-words text-black' dangerouslySetInnerHTML={{ __html: data?.text || '' }} />
+                <div className='break-words text-black' dangerouslySetInnerHTML={{ __html: data?.text || '' }} />
             </div>
         </>
     )

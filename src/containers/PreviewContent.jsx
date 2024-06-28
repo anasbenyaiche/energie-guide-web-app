@@ -31,6 +31,11 @@ const PreviewContent = () => {
     const id = pageId
     const [content, setContent] = useState([]);
     const [selectedBlock, setSelectedBlock] = useState(null);
+    const [selectedNode, setSelectedNode] = useState({
+        type: 'charts',
+        nodes: [],
+        edges: [],
+    });
     const [openModal, setopenModal] = useState(false);
     const [openMenu, setopenMenu] = useState(false);
     const [editorState, setEditorState] = useState(() =>
@@ -122,6 +127,7 @@ const PreviewContent = () => {
     };
     const handleEdit = (block) => {
         setSelectedBlock(block);
+        setSelectedNode(block)
         setopenModal(true);
     };
 
@@ -242,9 +248,9 @@ const PreviewContent = () => {
                         onSave={handleSave}
                     />
                 )}
-                {selectedBlock?.type === "charts" && (
+                {selectedNode?.type === "charts" && (
                     <EditFlowWrapper
-                        block={selectedBlock}
+                        block={selectedNode}
                         onSave={handleSave}
                     />
                 )}

@@ -103,3 +103,8 @@ button:focus-visible {
 .floating-menu.open {
   display: none;
 }
+
+.backicon {
+  background: rgb(255, 0, 21);
+  background: linear-gradient(90deg, rgba(255, 0, 21, 1) 0%, rgba(255, 120, 90, 1) 100%);
+}

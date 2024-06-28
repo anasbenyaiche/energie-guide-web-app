@@ -12,12 +12,9 @@ const getNodeId = () => `node_${+new Date()}`;
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
 const proOptions = { hideAttribution: true };
-const EditFlow = ({ block }) => {
+const EditFlow = ({ block, onSave }) => {
     const [nodes, setNodes, onNodesChange] = useNodesState(block?.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(block?.edges || []);
-    useEffect(() => {
-        console.log('Nodes:', nodes);
-    }, [nodes]);
     const [state, setState] = useState({ name: "Empty Nodes" });
     const [nodeBg, setNodeBg] = useState({ backg: '#eee' });
     const [nodeColor, setNodeColor] = useState({ color: "#fff" })
@@ -31,11 +28,9 @@ const EditFlow = ({ block }) => {
     const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [setEdges]);
 
     useEffect(() => {
-        if (block) {
-            setNodes(block.nodes || []);
-            setEdges(block.edges || []);
-        }
-    }, [block]);
+        setConvertedContent(convertToHTML(editorState.getCurrentContent()));
+    }, [editorState]);
+
 
     const onEditorStateChange = (newEditorState) => {
         setEditorState(newEditorState);
