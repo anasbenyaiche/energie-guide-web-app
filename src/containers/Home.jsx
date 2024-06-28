@@ -6,10 +6,10 @@ import { MAIN_PAGE_LINKS } from "../constants/MainPageLinks";
 import AdminSidebar from "../layout/AdminSidebar/AdminSidebar";
 import CardList from "../components/MainCard/CardList";
 import HeadSection from "../components/HeadSection/HeadSection";
-import FAQPage from "../components/FAQ.jsx/FAQPage";
 import MainQuestion from "../components/HomeQuestion/MainQuestion";
 import IconCards from "../components/MainCards/IconCards";
 import TitleSection from "../components/TitleSection/TitleSection";
+import FAQPage from "../Pages/FAQPage";
 
 const Home = () => {
   return (

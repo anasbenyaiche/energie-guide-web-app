@@ -1,9 +1,9 @@
 import React from 'react'
-import QuestionBlock from '../QuestionSection/QuestionBlock';
-import { FaIndustry, FaSolarPanel, FaHandshake } from 'react-icons/fa';
-import partner from '../../assets/icon/partner.png'
-import solar from '../../assets/icon/solar.png'
-import autocon from '../../assets/icon/autocon.png'
+import partner from '../assets/icon/partner.png'
+import solar from '../assets/icon/solar.png'
+import autocon from '../assets/icon/autocon.png'
+import QuestionBlock from '../components/QuestionSection/QuestionBlock'
+
 const FAQPage = () => {
 
     const questionBlocks = [
