@@ -10,6 +10,8 @@ import MainQuestion from "../components/HomeQuestion/MainQuestion";
 import IconCards from "../components/MainCards/IconCards";
 import TitleSection from "../components/TitleSection/TitleSection";
 import FAQPage from "../Pages/FAQPage";
+import SubTitleSection from "../components/SubTitleSection/SubTitleSection";
+import Tab from "../components/StepperTab/Tab/Tab";
 
 const Home = () => {
   return (
@@ -26,6 +28,8 @@ const Home = () => {
         <FAQPage />
         <MainQuestion />
         <TitleSection />
+        <SubTitleSection />
+        <Tab />
       </Layout>
       <Footer />
     </div>

@@ -14,7 +14,10 @@ const CardPage = ({ number, title, text, image }) => {
                 <div className='newsCaption-content'>
                     <p className=' text-sm text-white pb-4'>{text}</p>
                 </div>
-                <a href="#" className="explore-link">Explorer plus</a>
+                <div className='inline-flex items-center gap-3'>
+                    <button className='bg-none border-none bg-transparent p-0  text-[#008AEE] focus:outline-none'> Explorer plus </button>
+                    {/* <hr class=" w-14 h-1 bg-[#008AEE]" /> */}
+                </div>
             </div>
         </div>
     );

@@ -40,7 +40,7 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -50,16 +50,16 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
+} */
 
-button:hover {
+/* button:hover {
   border-color: #646cff;
-}
+} */
 
-button:focus,
+/* button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
+} */
 
 .react-flow__node.selectable:focus-visible {
   outline: none !important;
@@ -107,4 +107,29 @@ button:focus-visible {
 .backicon {
   background: rgb(255, 0, 21);
   background: linear-gradient(90deg, rgba(255, 0, 21, 1) 0%, rgba(255, 120, 90, 1) 100%);
+}
+
+.backicon .cardarticle:hover {
+  background: white;
+
+}
+
+.backicon .cardarticle:hover h3 {
+  color: black;
+
+}
+
+.backicon .cardarticle:hover p {
+  color: black;
+
+}
+
+.backicon .cardarticle:hover .icon {
+  display: none;
+
+}
+
+.backicon .cardarticle:hover .iconbl {
+  display: block;
+
 }
