@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import propTypes from 'prop-types'
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { IoMdMove } from "react-icons/io";
 import PreviewFlow from './PreviewFlow';
 import PreviewImage from './PreviewImage';
+import PreviewCollapsible from './PreviewCollapsible';
 
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
+    const [openQuestion, setOpenQuestion] = useState(null);
+    let content;
+
+    if (blocks.type === 'qasection') {
+        try {
+            content = JSON.parse(blocks.content);
+        } catch (error) {
+            console.error("Error parsing content:", error);
+        }
+    }
     return (
         <div className='mb-3 p-3 border rounded text-black' {...props} >
             <div className='gap-4 flex items-center justify-between mb-2'>
@@ -29,13 +40,20 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 </div>
 
             </div>
-            {blocks.type !== 'charts' && blocks.type !== 'image' && (
+            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && (
                 <div
                     dangerouslySetInnerHTML={{
                         __html: blocks.content,
                     }}
                 />
             )}
+
+            {blocks.type === 'qasection' && content && content.map((qa, index) => (
+                <PreviewCollapsible key={index} index={index} question={qa.question} response={qa.response}
+                    openQuestion={openQuestion}
+                    setOpenQuestion={setOpenQuestion}
+                />
+            ))}
 
             {blocks.type === 'charts' && (
                 <PreviewFlow content={blocks.content} />

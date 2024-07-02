@@ -10,6 +10,7 @@ const useCreateBlock = ({
     convertedContent,
     tableData,
     formLink,
+    questions,
     rfInstance,
     position,
     id,
@@ -17,6 +18,7 @@ const useCreateBlock = ({
     setConvertedContent,
     setEditorState,
     setFormLink,
+    setQuestions,
     setOpenBlock,
 }) => {
     useEffect(() => {
@@ -43,7 +45,15 @@ const useCreateBlock = ({
                 content: createLinkHTML(formLink.link, formLink.title),
                 position: position,
             };
-        } else if (selected === "charts" && rfInstance) {
+        }
+        else if (selected === "qasection") {
+            contentblock = {
+                type: selected.toLowerCase(),
+                content: JSON.stringify(questions),
+                position: position,
+            };
+        }
+        else if (selected === "charts" && rfInstance) {
             const flow = rfInstance.toObject();
             contentblock = {
                 type: selected.toLowerCase(),
@@ -58,6 +68,7 @@ const useCreateBlock = ({
             setConvertedContent("");
             setEditorState(EditorState.createEmpty());
             setFormLink({ link: "", title: "" });
+            setQuestions([{ question: "", response: "" }]);
             setOpenBlock(false);
             console.log("Content Block Created:", response.data);
         } catch (error) {
@@ -67,6 +78,7 @@ const useCreateBlock = ({
         selected,
         convertedContent,
         tableData,
+        questions,
         formLink,
         rfInstance,
         position,

@@ -24,6 +24,7 @@ import useUpdateBlock from "../hooks/useUpdateBlock";
 import useUploadPicture from "../hooks/useUploadPicture";
 import MenuContent from "../components/ContentBlocks/MenuContent";
 import EditFlowWrapper from "../components/ContentBlocks/EditFLow";
+import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion";
 
 
 const PreviewContent = () => {
@@ -61,6 +62,11 @@ const PreviewContent = () => {
         title: "",
     });
 
+    const [questions, setQuestions] = useState([
+        { question: "", response: "", }
+    ]);
+
+
     const [formPicture, setFormPicture] = useState({
         title: ""
     })
@@ -77,6 +83,7 @@ const PreviewContent = () => {
         convertedContent,
         tableData,
         formLink,
+        questions,
         rfInstance,
         position,
         id: pageId,
@@ -84,6 +91,7 @@ const PreviewContent = () => {
         setConvertedContent,
         setEditorState,
         setFormLink,
+        setQuestions,
         setOpenBlock,
     })
 
@@ -95,6 +103,15 @@ const PreviewContent = () => {
     const handleLinkChange = (e) => {
         const { name, value } = e.target;
         setFormLink({ ...formLink, [name]: value });
+    };
+    const handleQuestionChange = (e, index) => {
+        const { name, value } = e.target;
+        const newQuestions = [...questions];
+        newQuestions[index] = { ...newQuestions[index], [name]: value };
+        setQuestions(newQuestions);
+    };
+    const addQuestion = () => {
+        setQuestions([...questions, { question: "", response: "", }]);
     };
     const handelBlockClick = (block) => {
         if (openBlock === block) {
@@ -178,7 +195,8 @@ const PreviewContent = () => {
                     (openMenu && openBlock === "table") ||
                     (openMenu && openBlock === "link") ||
                     (openMenu && openBlock !== "image") ||
-                    (openMenu && openBlock === "charts")) && (
+                    (openMenu && openBlock === "charts") ||
+                    (openMenu && openBlock === "qasection")) && (
                         <div className=" mb-5 flex justify-end gap-4">
                             <button
                                 className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
@@ -208,6 +226,14 @@ const PreviewContent = () => {
                 )}
                 {openMenu && openBlock === "charts" && (
                     <HorizontalFlowWrapper setRfInstance={setRfInstance} />
+                )}
+                {openMenu && openBlock === "qasection" && (
+                    <div>
+                        {questions.map((qa, index) => (
+                            <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)} />
+                        ))}
+                        <button onClick={addQuestion} className="mt-4 p-2 bg-blue-500 text-white rounded">Ajouter une Question</button>
+                    </div>
                 )}
             </div>
             <div className=" bg-white shadow-md p-4 mt-5 rounded-md">

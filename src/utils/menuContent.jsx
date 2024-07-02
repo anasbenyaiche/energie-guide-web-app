@@ -3,6 +3,7 @@ import { CiImageOn } from "react-icons/ci";
 import { BsTable } from "react-icons/bs";
 import { FaLink } from "react-icons/fa6";
 import { BsDiagram3 } from "react-icons/bs";
+import { VscCollapseAll } from "react-icons/vsc";
 
 const menu = [
     {
@@ -24,6 +25,10 @@ const menu = [
     {
         title: 'Charts',
         icone: <BsDiagram3 className=" text-3xl mb-2 text-center" />
+    },
+    {
+        title: 'QAsection',
+        icone: <VscCollapseAll className=" text-3xl mb-2 text-center" />
     }
 ]
 
