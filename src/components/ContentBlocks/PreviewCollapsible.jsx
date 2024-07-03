@@ -5,7 +5,8 @@ const PreviewCollapsible = ({ index, question, response, openQuestion, setOpenQu
     return (
         <div>
             <QuestionBlock index={index} question={question} response={response} openQuestion={openQuestion}
-                setOpenQuestion={setOpenQuestion} />
+                setOpenQuestion={setOpenQuestion}
+            />
         </div>
     )
 }

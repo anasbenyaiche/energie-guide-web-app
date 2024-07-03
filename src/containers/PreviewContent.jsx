@@ -25,7 +25,9 @@ import useUploadPicture from "../hooks/useUploadPicture";
 import MenuContent from "../components/ContentBlocks/MenuContent";
 import EditFlowWrapper from "../components/ContentBlocks/EditFLow";
 import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion";
-
+import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
+import { IoAddOutline } from "react-icons/io5";
+import { IoCloseOutline } from "react-icons/io5";
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -113,6 +115,10 @@ const PreviewContent = () => {
     const addQuestion = () => {
         setQuestions([...questions, { question: "", response: "", }]);
     };
+    const removeQuestion = (index) => {
+        const newQuestions = questions.filter((_, i) => i !== index);
+        setQuestions(newQuestions);
+    };
     const handelBlockClick = (block) => {
         if (openBlock === block) {
             setOpenBlock(null);
@@ -180,7 +186,7 @@ const PreviewContent = () => {
                     className=" p-0 text-end focus:outline-none border-none bg-transparent text-[#00a2d6] text-3xl"
                     onClick={() => setopenMenu(!openMenu)}
                 >
-                    {openMenu ? <FaRegWindowClose /> : <FaRegSquarePlus />}
+                    {openMenu ? <IoCloseOutline /> : <IoAddOutline />}
                 </button>
             </div>
 
@@ -230,9 +236,19 @@ const PreviewContent = () => {
                 {openMenu && openBlock === "qasection" && (
                     <div>
                         {questions.map((qa, index) => (
-                            <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)} />
+                            <div>
+                                <button
+                                    className="bg-red-500 p-2 text-white"
+                                    onClick={() => removeQuestion(index)}
+                                >
+                                    Remove
+                                </button>
+                                <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)} />
+                            </div>
                         ))}
-                        <button onClick={addQuestion} className="mt-4 p-2 bg-blue-500 text-white rounded">Ajouter une Question</button>
+                        <div className="flex justify-end">
+                            <button onClick={addQuestion} className="mt-4 p-2 bg-[#00a2d6] text-white">Add Question</button>
+                        </div>
                     </div>
                 )}
             </div>
@@ -288,6 +304,11 @@ const PreviewContent = () => {
                         handleChangePicture={handleImageChange}
                         formPicture={formPicture}
                     />
+                )}
+                {selectedBlock?.type === "qasection" && (
+                    <EditCollapsible
+                        block={selectedBlock}
+                        onSave={handleSave} />
                 )}
             </Modal>
         </div>

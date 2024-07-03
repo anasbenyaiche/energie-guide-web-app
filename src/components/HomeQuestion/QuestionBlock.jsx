@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 const QuestionBlock = ({ index, question, openQuestion, setOpenQuestion, response }) => {
 
 
+
     const toggleQuestion = (index) => {
         if (openQuestion === index) {
-            console.log("index1", index)
-            console.log("open1", openQuestion)
             setOpenQuestion(null);
         } else {
-            console.log("inedx2", index)
-            console.log("open2", openQuestion)
             setOpenQuestion(index);
         }
     };
+
+
+
     return (
         <div>
             <div className="px-4">

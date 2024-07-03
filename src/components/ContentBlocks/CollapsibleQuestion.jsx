@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 const CollapsibleQuestion = ({ question, response, handleQuestion }) => {
     return (
-        <div className=' w-4/5 mx-auto space-y-5 p-5 border rounded '>
+        <div className=' my-4 w-4/5 mx-auto space-y-5 p-5 border rounded '>
             <div>
                 <p className=' mb-2 text-black text-base'> Add Question</p>
                 <div>

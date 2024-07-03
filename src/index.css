@@ -133,3 +133,16 @@ button:focus-visible {
   display: block;
 
 }
+
+.btnquestion:hover hr {
+  width: 35px;
+  background: black;
+}
+
+.btnquestion:hover button {
+  color: black !important;
+}
+
+.btnquestion hr {
+  transition: width 0.4s ease;
+}
