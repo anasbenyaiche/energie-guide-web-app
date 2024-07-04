@@ -35,7 +35,7 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
     }
 
     return (
-        <div className='mb-3 p-3 border rounded text-black' {...props} >
+        <div className='mb-3 p-3 border rounded' {...props} >
             <div className='gap-4 flex items-center justify-between mb-2'>
                 <div className='text-sm text-gray-500'>
                     Block Position: {blocks.position}

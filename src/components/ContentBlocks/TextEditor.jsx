@@ -15,7 +15,7 @@ const TextEditor = ({ editorState, onEditorStateChange, convertedContent }) => {
 
 
     return (
-        <div>
+        <div className=' w-4/5 mx-auto'>
             <Editor
                 editorState={editorState}
                 onEditorStateChange={onEditorStateChange}
@@ -23,10 +23,10 @@ const TextEditor = ({ editorState, onEditorStateChange, convertedContent }) => {
                 editorClassName="bg-gray-200 p-4 border border-gray-300"
                 toolbarClassName="border border-gray-300"
             />
-            <div
+            {/* <div
                 className=" p-4 mt-4 text-black"
                 dangerouslySetInnerHTML={createMarkup(convertedContent)}>
-            </div>
+            </div> */}
         </div>
     );
 }

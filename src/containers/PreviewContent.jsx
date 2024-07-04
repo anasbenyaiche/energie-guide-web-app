@@ -1,12 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ListContent from "../components/ContentBlocks/ListContent";
 import EditTextEditor from "../components/ContentBlocks/EditTextEditor";
 import Modal from "../components/Modal/Modal";
 import EditTable from "../components/ContentBlocks/EditTable";
 import { useParams } from "react-router-dom";
 import EditLink from "../components/ContentBlocks/EditLink";
-import { FaRegWindowClose } from "react-icons/fa";
-import { FaRegSquarePlus } from "react-icons/fa6";
 import TextEditor from "../components/ContentBlocks/TextEditor";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
@@ -28,6 +26,7 @@ import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion
 import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
 import { IoAddOutline } from "react-icons/io5";
 import { IoCloseOutline } from "react-icons/io5";
+import LeftSidebar from "../components/LeftSidebar";
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -52,13 +51,13 @@ const PreviewContent = () => {
         return savedPostion ? parseInt(savedPostion, 10) : 1;
     });
     const [rfInstance, setRfInstance] = useState(null);
-    const [flowData, setFlowData] = useState(null);
     const [openBlock, setOpenBlock] = useState(null);
     const [tableData, setTableData] = useState([
         ["", "", ""],
         ["", "", ""],
         ["", "", ""],
     ]);
+    const [isOpen, setIsopen] = useState(false);
     const [formLink, setFormLink] = useState({
         link: "",
         title: "",
@@ -112,6 +111,7 @@ const PreviewContent = () => {
         newQuestions[index] = { ...newQuestions[index], [name]: value };
         setQuestions(newQuestions);
     };
+
     const addQuestion = () => {
         setQuestions([...questions, { question: "", response: "", }]);
     };
@@ -151,12 +151,21 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        setopenModal(true);
+        if (block?.type === 'qasection' || selectedNode.type === 'charts') {
+            setIsopen(true)
+            setopenModal(false)
+        } else {
+            setopenModal(true);
+            setIsopen(false)
+        }
+
+
     };
 
     const handleSave = async (updatedBlock) => {
         saveBlock(updatedBlock, setContent, content);
         setopenModal(false)
+        setIsopen(false)
     };
 
     const dragBlock = useRef(0);
@@ -175,7 +184,6 @@ const PreviewContent = () => {
     useEffect(() => {
         displaycontent(id, setContent, recalculatePositions)
     }, [id]);
-
     console.log(content)
 
     return (
@@ -237,13 +245,9 @@ const PreviewContent = () => {
                     <div>
                         {questions.map((qa, index) => (
                             <div>
-                                <button
-                                    className="bg-red-500 p-2 text-white"
-                                    onClick={() => removeQuestion(index)}
-                                >
-                                    Remove
-                                </button>
-                                <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)} />
+                                <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)}
+                                    remove={() => removeQuestion(index)}
+                                />
                             </div>
                         ))}
                         <div className="flex justify-end">
@@ -276,24 +280,21 @@ const PreviewContent = () => {
                     <EditTextEditor
                         block={selectedBlock}
                         onSave={handleSave}
+                        onClose={() => setopenModal(false)}
                     />
                 )}
                 {selectedBlock?.type === "table" && (
                     <EditTable
                         block={selectedBlock}
                         onSave={handleSave}
+                        onClose={() => setopenModal(false)}
                     />
                 )}
                 {selectedBlock?.type === "link" && (
                     <EditLink
                         block={selectedBlock}
                         onSave={handleSave}
-                    />
-                )}
-                {selectedNode?.type === "charts" && (
-                    <EditFlowWrapper
-                        block={selectedNode}
-                        onSave={handleSave}
+                        onClose={() => setopenModal(false)}
                     />
                 )}
                 {selectedBlock?.type === "image" && (
@@ -305,12 +306,24 @@ const PreviewContent = () => {
                         formPicture={formPicture}
                     />
                 )}
+            </Modal>
+            <LeftSidebar isOpen={isOpen} onClose={() => setIsopen(false)}>
                 {selectedBlock?.type === "qasection" && (
                     <EditCollapsible
                         block={selectedBlock}
-                        onSave={handleSave} />
+                        onSave={handleSave}
+                        onClose={() => setIsopen(false)}
+                    />
+
                 )}
-            </Modal>
+                {selectedNode?.type === "charts" && (
+                    <EditFlowWrapper
+                        block={selectedNode}
+                        onSave={handleSave}
+                        onClose={() => setopenModal(false)}
+                    />
+                )}
+            </LeftSidebar>
         </div>
     );
 };

@@ -42,15 +42,8 @@ const EditCollapsible = ({ block, onClose, onSave }) => {
                     <div>
                         {questions.map((qa, index) => (
                             <div>
-                                <div className=' w-4/5 px-5'>
-                                    <button
-                                        className="bg-red-500 p-2 text-white"
-                                        onClick={() => removeQuestion(index)}
-                                    >
-                                        Remove
-                                    </button>
-                                </div>
-                                <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)} />
+                                <CollapsibleQuestion key={index} index={index} question={qa.question} response={qa.response} handleQuestion={(e) => handleQuestionChange(e, index)}
+                                    remove={() => removeQuestion(index)} />
                             </div>
 
                         ))}

@@ -17,19 +17,23 @@
 
 .footer .col {
     flex: 1;
-    margin: -15px;
     margin-left: 75px;
     min-width: 200px;
-    height: 100%; /* Set the height to 100% */
+    height: 100%;
+    /* Set the height to 100% */
 }
 
 .footer_widget {
     margin-bottom: 20px;
-    height: 100%; /* Make sure all footer widgets take full height */
-    padding: 10px; /* Adjust padding */
+    height: 100%;
+    /* Make sure all footer widgets take full height */
+    padding: 10px;
+    /* Adjust padding */
 }
 
-.footer h3, .footer h4, .footer h2 {
+.footer h3,
+.footer h4,
+.footer h2 {
     color: white;
 }
 
@@ -59,6 +63,7 @@
 .footer ul li a {
     color: #5d728b;
 }
+
 .footer ul li a:hover {
     text-decoration: underline;
 }
@@ -75,7 +80,8 @@
     margin-top: 20px;
     padding-top: 10px;
     border-top: 1px solid #333;
-    height: 100%; /* Set the height to 100% to fill the available space */
+    height: 100%;
+    /* Set the height to 100% to fill the available space */
 }
 
 .footer-bottom .cnt {
@@ -84,8 +90,8 @@
 }
 
 .footer .menu-top {
-       display:inline-flex;
-    
+    display: inline-flex;
+
     gap: 15px;
     font-size: 14px;
 }
@@ -131,7 +137,8 @@
     }
 
     .footer .menu-top a {
-        flex: 1 1 45%; /* Adjust the percentage based on the number of items per row */
+        flex: 1 1 45%;
+        /* Adjust the percentage based on the number of items per row */
         margin: 5px 0;
     }
 }
@@ -212,7 +219,7 @@
     height: 35px;
     border: 2px solid #5d728b;
     border-radius: 50%;
-    text-align:end;
+    text-align: end;
     line-height: 35px;
     display: block;
 }
@@ -249,7 +256,7 @@
     margin-right: 8px;
 }
 
-.csc-firstHeader{
-    font-weight:bolder;
-    font-size:21px;
+.csc-firstHeader {
+    font-weight: bolder;
+    font-size: 21px;
 }

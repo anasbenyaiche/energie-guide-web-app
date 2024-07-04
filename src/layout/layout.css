@@ -3,9 +3,11 @@
   width: 100%;
   background-color: #00a2d6;
 }
+
 .body-container {
   width: 84vw;
 }
+
 .nav-home-container {
   background: #ffffff;
 }
@@ -13,6 +15,7 @@
 .side-block {
   background: #04162e;
 }
+
 .nav-home-image {
   height: 250px;
   overflow: hidden;
@@ -36,6 +39,7 @@
     padding-left: 20px;
     padding-top: 20px;
     width: 100%;
+    color: white;
   }
 
   .nav-home-image {
@@ -48,7 +52,8 @@
   }
 
   .title {
-    display: none; /* Hide the title on smaller screens */
+    display: none;
+    /* Hide the title on smaller screens */
   }
 
   .Path {
