@@ -26,7 +26,6 @@ const Home = () => {
         <IconCards />
         <HeadSection />
         <FAQPage />
-        <MainQuestion />
         <TitleSection />
         <SubTitleSection />
         <Tab />

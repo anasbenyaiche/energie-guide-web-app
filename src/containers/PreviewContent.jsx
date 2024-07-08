@@ -8,6 +8,7 @@ import EditLink from "../components/ContentBlocks/EditLink";
 import TextEditor from "../components/ContentBlocks/TextEditor";
 import { EditorState } from "draft-js";
 import { convertToHTML } from "draft-convert";
+import { stateToHTML } from 'draft-js-export-html';
 import TableEditor from "../components/ContentBlocks/TableEditor";
 import CreateLink from "../components/ContentBlocks/CreateLink";
 import UploadImage from "../components/ContentBlocks/UploadImage";
@@ -27,6 +28,8 @@ import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
 import { IoAddOutline } from "react-icons/io5";
 import { IoCloseOutline } from "react-icons/io5";
 import LeftSidebar from "../components/LeftSidebar";
+import DraftEditor from "../components/ContentBlocks/DraftEditor";
+import blockStyleFn from "../utils/blockStyleFn";
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -82,6 +85,7 @@ const PreviewContent = () => {
     const { submitContentBlock } = useCreateBlock({
         selected,
         convertedContent,
+        editorState,
         tableData,
         formLink,
         questions,
@@ -137,13 +141,12 @@ const PreviewContent = () => {
     };
     useEffect(() => {
         const contentState = editorState.getCurrentContent();
-        const html = convertToHTML(contentState);
+        const html = stateToHTML(contentState, {
+            blockStyleFn: blockStyleFn,
+        });
         const sanitizedHtml = DOMPurify.sanitize(html);
         setConvertedContent(sanitizedHtml);
     }, [editorState]);
-
-
-
 
     const handelDelete = async (id) => {
         deleteBlock(id, setContent, content)
@@ -151,7 +154,7 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        if (block?.type === 'qasection' || selectedNode.type === 'charts') {
+        if (block?.type === 'qasection') {
             setIsopen(true)
             setopenModal(false)
         } else {
@@ -227,8 +230,11 @@ const PreviewContent = () => {
                         editorState={editorState}
                         onEditorStateChange={setEditorState}
                         convertedContent={convertedContent}
+
                     />
+
                 )}
+
                 {openMenu && openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
                     handleChangePicture={handleImageChange} formPicture={formPicture}
                 />}

@@ -3,11 +3,15 @@ import { EditorState } from "draft-js";
 import api from "../api/api"
 import convertTable from "../utils/convertTable";
 import createLinkHTML from "../components/ContentBlocks/createLinkHTML";
-
+import { stateToHTML } from 'draft-js-export-html';
+import DOMPurify from "dompurify";
+import blockStyleFn from "../utils/blockStyleFn";
+import styleToHTML from "../utils/styleToHTML";
 
 const useCreateBlock = ({
     selected,
     convertedContent,
+    editorState,
     tableData,
     formLink,
     questions,
@@ -28,9 +32,16 @@ const useCreateBlock = ({
         let contentblock = {};
 
         if (selected === "text") {
+            const contentState = editorState.getCurrentContent();
+            const html = stateToHTML(contentState, {
+                blockStyleFn,
+                styleToHTML
+            });
+            const sanitizedHtml = DOMPurify.sanitize(html);
+            setConvertedContent(sanitizedHtml);
             contentblock = {
                 type: selected.toLowerCase(),
-                content: convertedContent,
+                content: sanitizedHtml,
                 position: position,
             };
         } else if (selected === "table") {
@@ -78,6 +89,7 @@ const useCreateBlock = ({
         selected,
         convertedContent,
         tableData,
+        editorState,
         questions,
         formLink,
         rfInstance,
