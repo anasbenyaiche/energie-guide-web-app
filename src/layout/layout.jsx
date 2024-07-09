@@ -4,19 +4,18 @@ import Breadcrumb from "./Breadcrumb/Breadcrumb";
 import PropTypes from "prop-types";
 import AdminSidebar from "./AdminSidebar/AdminSidebar";
 
-const Layout = ({ children }) => {
+const Layout = ({ children, showSidebar }) => {
   return (
-    <div className="body-container">
-      <Breadcrumb />
-      <div>
-        {/* <AdminSidebar /> */}
-        <div className="grid grid-cols-4 ">
+    <div className={` ${showSidebar ? 'body-container' : 'w-full'} `}>
+      {showSidebar && <Breadcrumb />}
+      <div className={`grid ${showSidebar ? 'grid-cols-4' : 'grid-cols-1'}`}>
+        {showSidebar && (
           <div className="col-span-1 side-block">
             <SideBarMenu />
           </div>
-          <div className="col-span-3 bg-light  h-full bg-white ">
-            {children}
-          </div>
+        )}
+        <div className={`${showSidebar ? 'col-span-3' : 'col-span-1'} bg-light h-full bg-white`}>
+          {children}
         </div>
       </div>
     </div>

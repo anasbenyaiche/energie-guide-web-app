@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 const BlockSection = ({ title, article, category, picture, description }) => {
 
     return (
-        <div className='p-4'>
+        <div className=' container mx-auto px-8'>
             <img src={picture} alt="" />
             <div className=' mt-10 flex items-center justify-between'>
                 <div className='flex-1'>

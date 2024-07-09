@@ -30,22 +30,24 @@ const Cards = [
 const IconCards = () => {
     return (
         <div className='backicon w-full p-10'>
-            <div class="grid grid-cols-3 gap-4">
-                {Cards.map((card, index) => (
-                    <div key={index} className=' border-2 border-white py-8 px-4 cardarticle'>
-                        <div className=' flex items-center gap-3'>
-                            <img className='icon' src={card.icon} alt={card.title} />
-                            <img className='iconbl hidden' src={card.iconbl} alt={card.title} />
-                            <div>
-                                <h3 className=' text-xl text-white font-bold'>  {card.title}</h3>
-                                <p className='text-white text-sm'>
-                                    {card.text}
-                                </p>
+            <div className=' container px-2 mx-auto'>
+                <div class="grid grid-cols-3 gap-4">
+                    {Cards.map((card, index) => (
+                        <div key={index} className=' border-2 border-white py-8 px-4 cardarticle'>
+                            <div className=' flex items-center gap-3'>
+                                <img className='icon' src={card.icon} alt={card.title} />
+                                <img className='iconbl hidden' src={card.iconbl} alt={card.title} />
+                                <div>
+                                    <h3 className=' text-xl text-white font-bold'>  {card.title}</h3>
+                                    <p className='text-white text-sm'>
+                                        {card.text}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                    </div>
-                ))}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     )

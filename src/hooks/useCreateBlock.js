@@ -35,7 +35,7 @@ const useCreateBlock = ({
             const contentState = editorState.getCurrentContent();
             const html = stateToHTML(contentState, {
                 blockStyleFn,
-                styleToHTML
+                styleToHTML,
             });
             const sanitizedHtml = DOMPurify.sanitize(html);
             setConvertedContent(sanitizedHtml);

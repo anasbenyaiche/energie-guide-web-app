@@ -40,7 +40,7 @@ const FAQPage = () => {
 
     return (
         <div>
-            <div className="faq-page container mx-auto p-10">
+            <div className="faq-page container mx-auto p-8">
                 <div className='flex items-center justify-between p-4 mb-10'>
                     <div>
                         <h2 class="text-black text-4xl font-bold">Questions & Réponses</h2>

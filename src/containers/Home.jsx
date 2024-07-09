@@ -16,20 +16,18 @@ import Tab from "../components/StepperTab/Tab/Tab";
 const Home = () => {
   return (
     <div>
-      <Layout>
-        <div className="nav-home-container">
-          <div className="nav-home-image">
-            <img src="src\assets\energie.png" alt="" />
-          </div>
+      <div className="nav-home-container">
+        <div className="nav-home-image">
+          <img src="src\assets\energie.png" alt="" />
         </div>
-        <CardList title='Processus de développement des projets d’énergies renouvelables' />
-        <IconCards />
-        <HeadSection />
-        <FAQPage />
-        <TitleSection />
-        <SubTitleSection />
-        <Tab />
-      </Layout>
+      </div>
+      <CardList title='Processus de développement des projets d’énergies renouvelables' />
+      <IconCards />
+      <HeadSection />
+      <FAQPage />
+      <TitleSection />
+      <SubTitleSection />
+      <Tab />
       <Footer />
     </div>
   );

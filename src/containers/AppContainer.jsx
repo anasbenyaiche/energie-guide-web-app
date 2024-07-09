@@ -27,18 +27,16 @@ const AppContainer = () => {
 
   return (
     <>
-      <Layout>
-        {pageData ? (
-          <>
-            {pageData.contentBlocks.map((item) => (
-              <PreviewPages key={item._id} blocks={item} />
-            ))}
-          </>
-        ) : (
-          <p>Loading page content...</p>
-        )}
-      </Layout>
-      <Footer />
+      {pageData ? (
+        <>
+          {pageData.contentBlocks.map((item) => (
+            <PreviewPages key={item._id} blocks={item} />
+          ))}
+        </>
+      ) : (
+        <p>Loading page content...</p>
+      )}
+
     </>
   );
 };

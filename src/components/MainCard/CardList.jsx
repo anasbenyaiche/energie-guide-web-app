@@ -24,7 +24,7 @@ const CardList = ({ title }) => {
     ];
 
     return (
-        <div>
+        <div className=' container mx-auto px-8'>
             <div className=' p-4 flex items-center justify-between gap-10'>
                 <h2 className=' flex-1 text-black text-3xl font-bold'>
                     {title}

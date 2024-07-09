@@ -15,37 +15,33 @@ import { PagesProvider } from "./context/PageContext";
 import Home from "./containers/Home";
 import EditMenuItemForm from "./containers/EditMenuForm";
 import Menus from "./Pages/Menus";
+import ProtectedLayout from "./routes/ProtectedLayout";
+import Layout from "./layout/layout";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
 
   return (
     <PagesProvider>
-      <AuthContextProvider
-        value={{ isAuthenticated: isInitiallyAuthenticated }}
-      >
+      <AuthContextProvider value={{ isAuthenticated: isInitiallyAuthenticated }}>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/:link" element={<AppContainer />} />
-          <Route path="/admin" element={<Login />} />
-          <Route exact path="/" element={<ProtectedRoute />}>
+          {/* Routes without sidebar */}
+          <Route path="/" element={<Layout showSidebar={false}><Home /></Layout>} />
+          <Route path="/admin" element={<Layout showSidebar={false}><Login /></Layout>} />
+
+          {/* Protected routes with sidebar */}
+          <Route element={<ProtectedLayout showSidebar={true} />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
+            <Route path="/:link" element={<AppContainer />} />
             <Route path="/admin/pages" element={<Pages />} />
             <Route path="/admin/pages/create" element={<PageForm />} />
             <Route path="/admin/menus" element={<Menus />} />
             <Route path="/admin/edit-page/:id" element={<EditPage />} />
-            <Route
-              path="/admin/:pageId/block/create"
-              element={<CreateBlock />}
-            />
+            <Route path="/admin/:pageId/block/create" element={<CreateBlock />} />
             <Route path="/admin/:pageId/blocks" element={<BlocksPage />} />
             <Route path="/admin/menu-item" element={<MenuItems />} />
             <Route path="/admin/menu-item/create" element={<MenuItemForm />} />
-            {/* TODO : still working on */}
-            <Route
-              path="/admin/edit-menu-item/:id"
-              element={<EditMenuItemForm />}
-            />
+            <Route path="/admin/edit-menu-item/:id" element={<EditMenuItemForm />} />
           </Route>
         </Routes>
       </AuthContextProvider>
