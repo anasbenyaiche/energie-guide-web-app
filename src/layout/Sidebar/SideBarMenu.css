@@ -25,6 +25,11 @@
   color: #00a2d6;
   padding: 5px;
 }
+
+.side-bar-menu-item-list a:hover {
+  color: #535bf2;
+}
+
 .side-bar-menu .side-bar-menu-list {
   list-style-type: "► ";
   font-family: "Roboto Condensed", sans-serif;
@@ -38,6 +43,7 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
 .side-bar-menu-item-list {
   font-family: "Roboto Condensed", sans-serif;
   font-size: 14px;

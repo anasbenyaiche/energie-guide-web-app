@@ -19,7 +19,7 @@ const CreateLink = ({ formLink, handelChange }) => {
                     value={formLink.title} onChange={handelChange}
                     className='peer h-full w-full border-b border-blue-gray-200 text-black bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50' />
             </div>
-            <div className=' mt-4'> <Link to={formLink.link}>{formLink.title}</Link> </div>
+            {/* <div className=' mt-4'> <Link to={formLink.link}>{formLink.title}</Link> </div> */}
         </div>
     )
 }

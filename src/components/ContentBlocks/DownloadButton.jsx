@@ -5,7 +5,7 @@ import { toPng } from 'html-to-image';
 function downloadImage(dataUrl) {
     const a = document.createElement('a');
 
-    a.setAttribute('download', 'reactflow.png');
+    a.setAttribute('download', 'diagramme.png');
     a.setAttribute('href', dataUrl);
     a.click();
 }
@@ -20,7 +20,7 @@ function DownloadButton() {
         const transform = getTransformForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2);
 
         toPng(document.querySelector('.react-flow__viewport'), {
-            backgroundColor: '#1a365d',
+            backgroundColor: '#ffffff',
             width: imageWidth,
             height: imageHeight,
             style: {
@@ -33,9 +33,13 @@ function DownloadButton() {
 
     return (
         <Panel position="top-right">
-            <button className="download-btn" onClick={onClick}>
-                Download Image
-            </button>
+            <div className='mb-10'>
+                <button className='bg-[#00a2d6] text-end border rounded-md mt-4 mb-10
+           border-[#00a2d6] focus:outline-none
+            text-white px-5 py-2 hover:border-[#00a2d6]' onClick={onClick}>
+                    Download Diagramme
+                </button>
+            </div>
         </Panel>
     );
 }
