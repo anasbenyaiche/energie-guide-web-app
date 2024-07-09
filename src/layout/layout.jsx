@@ -8,8 +8,8 @@ const Layout = ({ children }) => {
   return (
     <div className="body-container">
       <Breadcrumb />
-      <div>
-        {/* <AdminSidebar /> */}
+      <div className="container  ">
+        <AdminSidebar />
         <div className="grid grid-cols-4 ">
           <div className="col-span-1 side-block">
             <SideBarMenu />
