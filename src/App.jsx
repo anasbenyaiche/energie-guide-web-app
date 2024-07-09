@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./containers/Login";
-import Dashboard from "./containers/Dashboard";
 import { AuthContextProvider } from "./context/AuthContext";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import PageForm from "./containers/PageForm";
