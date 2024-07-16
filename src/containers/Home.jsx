@@ -22,7 +22,7 @@ const Home = () => {
             <img src="src\assets\energie.png" alt="" />
           </div>
         </div>
-        <CardList title='Processus de développement des projets d’énergies renouvelables' />
+        <CardList title="Processus de développement des projets d’énergies renouvelables" />
         <IconCards />
         <HeadSection />
         <FAQPage />

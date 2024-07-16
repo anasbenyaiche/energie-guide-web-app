@@ -1,0 +1,29 @@
+.nav-logo-container {
+  height: 95px;
+  width: 300px;
+}
+
+.nav-logo-title {
+  font-family: "Roboto Condensed";
+  font-weight: medium;
+  font-size: 14px;
+}
+.nav-logo-minister {
+  font-family: "Roboto Condensed";
+  font-size: medium;
+  font-size: 18px;
+  line-height: 23px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-menu-container {
+  height: 100%;
+  line-height: 3;
+}

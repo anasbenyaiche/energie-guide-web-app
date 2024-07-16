@@ -16,6 +16,8 @@ import EditMenuItemForm from "./containers/EditMenuForm";
 import Menus from "./Pages/Menus";
 import { AdminProivder } from "./context/AdminContext";
 import Dashboard from "./Pages/Dashboard";
+import Navbar from "./containers/Navbar/Navbar";
+import Searchbar from "./containers/Searchbar/Searchbar";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -26,6 +28,8 @@ const App = () => {
         value={{ isAuthenticated: isInitiallyAuthenticated }}
       >
         <AdminProivder>
+          <Navbar />
+          <Searchbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/:link" element={<AppContainer />} />

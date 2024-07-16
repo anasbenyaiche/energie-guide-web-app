@@ -1,0 +1,17 @@
+.searchbar-container {
+  background-color: #0d335f;
+  height: 35vh;
+}
+.searchbar-field {
+  padding-left: 40px;
+}
+
+.searchbar-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
