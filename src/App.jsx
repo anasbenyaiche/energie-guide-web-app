@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./containers/Login";
 import { AuthContextProvider } from "./context/AuthContext";
-import ProtectedRoute from "./routes/ProtectedRoutes";
 import PageForm from "./containers/PageForm";
 import EditPage from "./containers/EditPage";
 import Pages from "./Pages/Pages";
@@ -16,6 +15,13 @@ import EditMenuItemForm from "./containers/EditMenuForm";
 import Menus from "./Pages/Menus";
 import ProtectedLayout from "./routes/ProtectedLayout";
 import Layout from "./layout/layout";
+import Dashboard from './Pages/Dashboard';
+import FAQPage from "./Pages/FAQPage";
+import BaseConPage from "./Pages/BaseConPage";
+import ProcePage from "./Pages/ProcePage";
+import AutocPage from "./Pages/AutocPage";
+import NotFound from "./Pages/NotFound";
+import SansTranPage from "./Pages/Autoconsommation/SansTranPage";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -26,7 +32,12 @@ const App = () => {
         <Routes>
           {/* Routes without sidebar */}
           <Route path="/" element={<Layout showSidebar={false}><Home /></Layout>} />
-          <Route path="/admin" element={<Layout showSidebar={false}><Login /></Layout>} />
+          <Route path="/faq" element={<Layout showSidebar={false}><FAQPage /></Layout>} />
+          <Route path="/base_de_connaissance" element={<Layout showSidebar={false}><BaseConPage /></Layout>} />
+          <Route path="/procedure" element={<Layout showSidebar={false}><ProcePage /></Layout>} />
+          <Route path="/autoconsommation" element={<Layout showSidebar={false}><AutocPage /></Layout>} />
+          <Route path="/autoconsommation/sans_transport" element={<Layout showSidebar={false}><SansTranPage /></Layout>} />
+          <Route path="/admin" element={<Login />} />
 
           {/* Protected routes with sidebar */}
           <Route element={<ProtectedLayout showSidebar={true} />}>
@@ -42,6 +53,7 @@ const App = () => {
             <Route path="/admin/menu-item/create" element={<MenuItemForm />} />
             <Route path="/admin/edit-menu-item/:id" element={<EditMenuItemForm />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthContextProvider>
     </PagesProvider>

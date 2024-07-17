@@ -1,14 +1,18 @@
 import React from 'react'
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import './CardStyle.css';
-const CardPage = ({ number, title, text, image }) => {
+import { Link } from 'react-router-dom';
+const CardPage = ({ number, title, text, image, url, hovredimg }) => {
     return (
         <div className="newsCard card relative news-Slide-up">
-            <img src={image} alt={title} />
+            <img className='first_pic' src={image} alt={title} />
+            <img className=' second_pic' src={hovredimg} alt={title} />
             <div className="card-number">{number}</div>
             <div className='newsCaption'>
                 <div className='flex justify-between items-center'>
-                    <h2 class=' text-2xl font-medium pb-5 pt-1'>{title}</h2>
+                    <Link to={url} >
+                        <h2 class=' text-2xl font-medium pb-5 pt-1'>{title}</h2>
+                    </Link>
                     <MdOutlineArrowForwardIos className='explore-icon ' />
                 </div>
                 <div className='newsCaption-content'>

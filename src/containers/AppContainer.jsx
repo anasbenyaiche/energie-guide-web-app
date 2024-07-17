@@ -5,6 +5,7 @@ import { useMatch } from "react-router-dom";
 import PagesContext from "../context/PageContext";
 import PreviewPages from "../components/PreviewBlock/PreviewPages";
 import useFetchPageData from "../hooks/useFetchPageData";
+import NotFound from "../Pages/NotFound";
 
 const AppContainer = () => {
   const { pages } = useContext(PagesContext);
@@ -17,6 +18,9 @@ const AppContainer = () => {
   console.log(pageId)
 
   const { pageData, loading, error } = useFetchPageData(pageId)
+
+
+
   if (loading) {
     return <p className="text-black">Loading page content...</p>;
   }

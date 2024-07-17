@@ -2,10 +2,11 @@
   background-image: url("../assets/backgroundfinal.jpg");
   width: 100%;
   background-color: #00a2d6;
+  background-size: contain;
 }
 
 .body-container {
-  width: 84vw;
+  width: 87vw;
 }
 
 .nav-home-container {

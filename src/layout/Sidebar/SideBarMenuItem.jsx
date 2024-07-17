@@ -1,10 +1,12 @@
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const SideBarMenuItem = ({ item }) => {
+  const location = useLocation();
+  const isActive = location.pathname === item.link;
   return (
-    <li className="side-bar-menu-item-list">
-      <Link className="text-white" to={item.link}>
+    <li className="text-sm font-medium mb-3">
+      <Link className={`arrow-text flex items-center  w-full p-2  ${isActive ? "text-[#FF0015] bg-[#FF0015] bg-opacity-15" : 'text-white'}`} to={item.link}>
         {item.title}
       </Link>
     </li>

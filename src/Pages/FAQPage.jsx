@@ -3,7 +3,7 @@ import partner from '../assets/icon/partner.png'
 import solar from '../assets/icon/solar.png'
 import autocon from '../assets/icon/autocon.png'
 import QuestionBlock from '../components/QuestionSection/QuestionBlock'
-
+import MenuPage from '../components/MenuPages/MenuPage'
 const FAQPage = () => {
 
     const questionBlocks = [
@@ -40,6 +40,7 @@ const FAQPage = () => {
 
     return (
         <div>
+            <MenuPage />
             <div className="faq-page container mx-auto p-8">
                 <div className='flex items-center justify-between p-4 mb-10'>
                     <div>

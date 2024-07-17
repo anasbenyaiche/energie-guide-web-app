@@ -42,7 +42,7 @@ const InfoSection = () => {
 
             <div className="flex items-center gap-2 mb-4">
                 <div className=' w-1/4 inline-block'>
-                    <button className=" w-full  bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-between">
+                    <button className=" w-full  bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-center">
                         <span>Technologies</span>
                     </button>
                 </div>
@@ -53,7 +53,7 @@ const InfoSection = () => {
             </div>
             <div className="flex items-center gap-2 mb-4">
                 <div className=' w-1/4 inline-block'>
-                    <button className="w-full bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-between">
+                    <button className="w-full bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-center">
                         <span>Type de projets</span>
                     </button>
                 </div>
@@ -64,7 +64,7 @@ const InfoSection = () => {
             </div>
             <div className="flex items-center gap-2 mb-4">
                 <div className=' w-1/4 inline-block'>
-                    <button className="w-full bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-between">
+                    <button className="w-full bg-blue-500 text-white py-2 px-4 rounded-md flex items-center justify-center">
                         <span>Technologies</span>
                     </button>
                 </div>

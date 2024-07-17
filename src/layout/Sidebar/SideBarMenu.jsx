@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import api from "../../api/api";
 import "./SideBarMenu.css";
 import SideBarMenuItem from "./SideBarMenuItem";
 import SideBarMenuTitle from "./SideBarMenuTitle";
@@ -22,12 +21,12 @@ const SideBarMenu = () => {
   }, []);
 
   return (
-    <div className="side-bar-menu">
+    <div className="">
       <SideBarMenuTitle
         title={sideBarMenu?.menu?.title}
         subtitle={sideBarMenu?.menu?.subtitle}
       />
-      <ul className="side-bar-menu-list">
+      <ul className="">
         {sideBarMenu?.menuItems?.map((menuItem) => (
           <SideBarMenuItem key={menuItem._id} item={menuItem} />
         ))}
