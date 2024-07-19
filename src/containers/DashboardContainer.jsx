@@ -10,19 +10,19 @@ const DashboardContainer = () => {
         <nav className="flex flex-col p-4 space-y-2">
           <NavLink
             to="/admin/pages"
-            className="flex items-center p-2 rounded hover:bg-gray-700"
+            className="flex items-center p-2 rounded hover:bg-gray-700 hover:text-white"
           >
             <FaFileAlt className="mr-3" /> Pages
           </NavLink>
           <NavLink
             to="/admin/menus"
-            className="flex items-center p-2 rounded hover:bg-gray-700"
+            className="flex items-center p-2 rounded hover:bg-gray-700 hover:text-white"
           >
             <FaBars className="mr-3" /> Menus
           </NavLink>
           <NavLink
             to="/admin/menu-item"
-            className="flex items-center p-2 rounded hover:bg-gray-700"
+            className="flex items-center p-2 rounded hover:bg-gray-700 hover:text-white"
           >
             <FaListUl className="mr-3" /> Menu Items
           </NavLink>

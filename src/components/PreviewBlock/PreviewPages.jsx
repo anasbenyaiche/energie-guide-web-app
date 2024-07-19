@@ -3,6 +3,7 @@ import propTypes from 'prop-types'
 import PreviewFlow from '../ContentBlocks/PreviewFlow'
 import PreviewImage from '../ContentBlocks/PreviewImage'
 import PreviewCollapsible from '../ContentBlocks/PreviewCollapsible'
+import PreviewStepSectionEditor from '../ContentBlocks/PreviewStep/PreviewStepSectionEditor'
 
 const PreviewPages = ({ blocks }) => {
     const [openQuestion, setOpenQuestion] = useState(null);
@@ -30,7 +31,7 @@ const PreviewPages = ({ blocks }) => {
     }
     return (
         <div className='mb-3 p-3  text-black'>
-            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && (
+            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && blocks.type !== 'stepsection' && (
                 <div
                     dangerouslySetInnerHTML={{
                         __html: blocks.content,
@@ -43,6 +44,9 @@ const PreviewPages = ({ blocks }) => {
             )}
             {blocks.type === 'image' && (
                 <PreviewImage imageUrl={blocks.imageUrl} title={blocks.content} />
+            )}
+            {blocks.type === 'stepsection' && (
+                <PreviewStepSectionEditor content={blocks.content} />
             )}
             {blocks.type === 'qasection' && content && (
                 <>

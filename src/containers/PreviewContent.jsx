@@ -30,6 +30,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import LeftSidebar from "../components/LeftSidebar";
 import DraftEditor from "../components/ContentBlocks/DraftEditor";
 import blockStyleFn from "../utils/blockStyleFn";
+import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
+import EditStep from "../components/ContentBlocks/PreviewStep/EditStep";
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -47,6 +49,13 @@ const PreviewContent = () => {
         EditorState.createEmpty()
     );
     const [image, setImage] = useState(null);
+    const [steps, setSteps] = useState([
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' }
+    ]);
     const [convertedContent, setConvertedContent] = useState("");
     const [selected, setSelcted] = useState("text");
     const [position, setPosition] = useState(() => {
@@ -74,6 +83,9 @@ const PreviewContent = () => {
     const [formPicture, setFormPicture] = useState({
         title: ""
     })
+    const [contentBlocks, setContentBlocks] = useState([]);
+
+
     const { saveBlock, error: saveError } = useSaveBlock();
     const { deleteBlock, error: deleteError } = useDeleteBlock()
     const { displaycontent, error: displayError } = useDisplayBlock()
@@ -90,6 +102,7 @@ const PreviewContent = () => {
         formLink,
         questions,
         rfInstance,
+        steps,
         position,
         id: pageId,
         setPosition,
@@ -154,7 +167,7 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        if (block?.type === 'qasection') {
+        if (block?.type === 'qasection' || block?.type === 'stepsection') {
             setIsopen(true)
             setopenModal(false)
         } else {
@@ -182,7 +195,6 @@ const PreviewContent = () => {
         recalculatePositions(blockClone);
         await updateBlockPositions(pageId, blockClone);
     };
-
 
     useEffect(() => {
         displaycontent(id, setContent, recalculatePositions)
@@ -213,7 +225,8 @@ const PreviewContent = () => {
                     (openMenu && openBlock === "link") ||
                     (openMenu && openBlock !== "image") ||
                     (openMenu && openBlock === "charts") ||
-                    (openMenu && openBlock === "qasection")) && (
+                    (openMenu && openBlock === "qasection") ||
+                    (openMenu && openBlock === "stepsection")) && (
                         <div className=" mb-5 flex justify-end gap-4">
                             <button
                                 className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
@@ -260,6 +273,16 @@ const PreviewContent = () => {
                             <button onClick={addQuestion} className="mt-4 p-2 bg-[#00a2d6] text-white">Add Question</button>
                         </div>
                     </div>
+                )}
+
+                {openMenu && openBlock === "stepsection" && (
+                    <StepsSectionEditor
+                        steps={steps}
+                        setSteps={setSteps}
+                        editorState={editorState}
+                        onEditorStateChange={setEditorState}
+
+                    />
                 )}
             </div>
             <div className=" bg-white shadow-md p-4 mt-5 rounded-md">
@@ -327,6 +350,13 @@ const PreviewContent = () => {
                         block={selectedNode}
                         onSave={handleSave}
                         onClose={() => setopenModal(false)}
+                    />
+                )}
+                {selectedBlock?.type === "stepsection" && (
+                    <EditStep
+                        block={selectedBlock}
+                        onSave={handleSave}
+                        onClose={() => setIsopen(false)}
                     />
                 )}
             </LeftSidebar>

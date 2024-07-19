@@ -216,9 +216,27 @@ button:focus-visible {
 
 .arrow-text::before {
   content: '\25B6';
-  /* Unicode for right-pointing triangle (you can rotate it to point left) */
   transform: rotate(360deg);
-  /* Rotates the triangle to point left */
   margin-right: 10px;
   font-size: 16px;
+}
+
+.rounded-custom {
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+.arrow-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.stepsection .arrow {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 20% 50%, 0% 0%);
+  border-radius: 10px;
 }

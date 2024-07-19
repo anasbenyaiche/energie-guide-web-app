@@ -6,6 +6,7 @@ import { IoMdMove } from "react-icons/io";
 import PreviewFlow from './PreviewFlow';
 import PreviewImage from './PreviewImage';
 import PreviewCollapsible from './PreviewCollapsible';
+import PreviewStepSectionEditor from './PreviewStep/PreviewStepSectionEditor';
 
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
@@ -55,7 +56,7 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 </div>
 
             </div>
-            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && (
+            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && blocks.type !== 'stepsection' && (
                 <div
                     dangerouslySetInnerHTML={{
                         __html: blocks.content,
@@ -91,6 +92,9 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
             )}
             {blocks.type === 'image' && (
                 <PreviewImage imageUrl={blocks.imageUrl} title={blocks.content} />
+            )}
+            {blocks.type === 'stepsection' && (
+                <PreviewStepSectionEditor content={blocks.content} />
             )}
         </div>
     )

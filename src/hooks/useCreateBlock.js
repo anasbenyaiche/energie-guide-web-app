@@ -17,6 +17,7 @@ const useCreateBlock = ({
     questions,
     rfInstance,
     position,
+    steps,
     id,
     setPosition,
     setConvertedContent,
@@ -72,6 +73,27 @@ const useCreateBlock = ({
                 position: position,
             };
         }
+
+        else if (selected === "stepsection") {
+            const contentState = editorState.getCurrentContent();
+            const html = stateToHTML(contentState, {
+                blockStyleFn,
+                styleToHTML,
+            });
+            const dataStep = {
+                text: html,
+                steps: steps
+            };
+            console.log("dezz", dataStep)
+            contentblock = {
+                type: selected.toLowerCase(),
+                content: JSON.stringify(dataStep),
+                position: position,
+            };
+            console.log(dataStep)
+        }
+
+
         try {
 
             const response = await api.post(`/pages/${id}/blocks`, contentblock,);
@@ -92,6 +114,7 @@ const useCreateBlock = ({
         editorState,
         questions,
         formLink,
+        steps,
         rfInstance,
         position,
         id,

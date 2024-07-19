@@ -4,6 +4,7 @@ import { BsTable } from "react-icons/bs";
 import { FaLink } from "react-icons/fa6";
 import { BsDiagram3 } from "react-icons/bs";
 import { VscCollapseAll } from "react-icons/vsc";
+import { FaDiagramPredecessor } from "react-icons/fa6";
 
 const menu = [
     {
@@ -29,6 +30,10 @@ const menu = [
     {
         title: 'QAsection',
         icone: <VscCollapseAll className=" text-3xl mb-2 text-center" />
+    },
+    {
+        title: 'Stepsection',
+        icone: <FaDiagramPredecessor className=" text-3xl mb-2 text-center" />
     }
 ]
 
