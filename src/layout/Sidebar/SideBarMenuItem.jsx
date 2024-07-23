@@ -6,7 +6,7 @@ const SideBarMenuItem = ({ item }) => {
   const isActive = location.pathname === item.link;
   return (
     <li className="text-sm font-medium mb-3">
-      <Link className={`arrow-text flex items-center  w-full p-2  ${isActive ? "text-[#FF0015] bg-[#FF0015] bg-opacity-15" : 'text-white'}`} to={item.link}>
+      <Link className={`arrow-text flex items-center  w-full p-2 hover:bg-[#918c8c] rounded-sm  ${isActive ? "text-[#FF0015] hover:bg-[#FF0015] hover:bg-opacity-15 bg-[#FF0015] bg-opacity-15" : 'text-white'}`} to={item.link}>
         {item.title}
       </Link>
     </li>

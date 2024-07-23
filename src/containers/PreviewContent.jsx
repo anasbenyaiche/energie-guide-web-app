@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import EditLink from "../components/ContentBlocks/EditLink";
 import TextEditor from "../components/ContentBlocks/TextEditor";
 import { EditorState } from "draft-js";
-import { convertToHTML } from "draft-convert";
 import { stateToHTML } from 'draft-js-export-html';
 import TableEditor from "../components/ContentBlocks/TableEditor";
 import CreateLink from "../components/ContentBlocks/CreateLink";
@@ -28,10 +27,11 @@ import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
 import { IoAddOutline } from "react-icons/io5";
 import { IoCloseOutline } from "react-icons/io5";
 import LeftSidebar from "../components/LeftSidebar";
-import DraftEditor from "../components/ContentBlocks/DraftEditor";
 import blockStyleFn from "../utils/blockStyleFn";
 import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
 import EditStep from "../components/ContentBlocks/PreviewStep/EditStep";
+import { sections } from "../utils/sectionsData";
+
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -78,13 +78,10 @@ const PreviewContent = () => {
     const [questions, setQuestions] = useState([
         { question: "", response: "", }
     ]);
-
-
+    const [sectionData, setSectionData] = useState(sections);
     const [formPicture, setFormPicture] = useState({
         title: ""
     })
-    const [contentBlocks, setContentBlocks] = useState([]);
-
 
     const { saveBlock, error: saveError } = useSaveBlock();
     const { deleteBlock, error: deleteError } = useDeleteBlock()
@@ -101,6 +98,7 @@ const PreviewContent = () => {
         tableData,
         formLink,
         questions,
+        sectionData,
         rfInstance,
         steps,
         position,
@@ -108,6 +106,7 @@ const PreviewContent = () => {
         setPosition,
         setConvertedContent,
         setEditorState,
+        setSectionData,
         setFormLink,
         setQuestions,
         setOpenBlock,
@@ -127,6 +126,24 @@ const PreviewContent = () => {
         const newQuestions = [...questions];
         newQuestions[index] = { ...newQuestions[index], [name]: value };
         setQuestions(newQuestions);
+    };
+    const handleQuestionChangeFAQ = (e, sectionIndex, questionIndex) => {
+        const { name, value } = e.target;
+        const newSectionData = [...sectionData];
+        const field = name.split('-')[0];
+        newSectionData[sectionIndex].questions[questionIndex][field] = value;
+        setSectionData(newSectionData);
+    };
+    const addQuestionFAQ = (sectionIndex) => {
+        const newSectionData = [...sectionData];
+        newSectionData[sectionIndex].questions.push({ question: '', response: '' });
+        setSectionData(newSectionData);
+    };
+
+    const removeQuestionFAQ = (sectionIndex, questionIndex) => {
+        const newSectionData = [...sectionData];
+        newSectionData[sectionIndex].questions.splice(questionIndex, 1);
+        setSectionData(newSectionData);
     };
 
     const addQuestion = () => {
@@ -226,6 +243,7 @@ const PreviewContent = () => {
                     (openMenu && openBlock !== "image") ||
                     (openMenu && openBlock === "charts") ||
                     (openMenu && openBlock === "qasection") ||
+                    (openMenu && openBlock === "faqsection") ||
                     (openMenu && openBlock === "stepsection")) && (
                         <div className=" mb-5 flex justify-end gap-4">
                             <button
@@ -283,6 +301,29 @@ const PreviewContent = () => {
                         onEditorStateChange={setEditorState}
 
                     />
+                )}
+                {openMenu && openBlock === "faqsection" && (
+                    <div className=" w-11/12 mx-auto border rounded-md p-4">
+                        {sectionData.map((section, sectionIndex) => (
+                            <div key={section.name} className=" border-b border-gray-200 py-4">
+                                <h2 className="  text-lg font-semibold">{section.name}</h2>
+                                {section.questions.map((qa, questionIndex) => (
+                                    <div key={questionIndex}>
+                                        <CollapsibleQuestion
+                                            section={section.name}
+                                            question={qa.question}
+                                            response={qa.response}
+                                            handleQuestion={(e) => handleQuestionChangeFAQ(e, sectionIndex, questionIndex)}
+                                            remove={() => removeQuestionFAQ(sectionIndex, questionIndex)}
+                                        />
+                                    </div>
+                                ))}
+                                <div className="flex justify-end">
+                                    <button onClick={() => addQuestionFAQ(sectionIndex)} className="mt-4 p-2 bg-[#00a2d6] text-white">Add Question</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
             <div className=" bg-white shadow-md p-4 mt-5 rounded-md">

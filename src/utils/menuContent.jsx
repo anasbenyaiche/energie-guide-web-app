@@ -3,8 +3,9 @@ import { CiImageOn } from "react-icons/ci";
 import { BsTable } from "react-icons/bs";
 import { FaLink } from "react-icons/fa6";
 import { BsDiagram3 } from "react-icons/bs";
-import { VscCollapseAll } from "react-icons/vsc";
+import { RiQuestionAnswerLine } from "react-icons/ri";
 import { FaDiagramPredecessor } from "react-icons/fa6";
+import { FcFaq } from "react-icons/fc";
 
 const menu = [
     {
@@ -29,11 +30,15 @@ const menu = [
     },
     {
         title: 'QAsection',
-        icone: <VscCollapseAll className=" text-3xl mb-2 text-center" />
+        icone: <RiQuestionAnswerLine className=" text-3xl mb-2 text-center" />
     },
     {
         title: 'Stepsection',
         icone: <FaDiagramPredecessor className=" text-3xl mb-2 text-center" />
+    },
+    {
+        title: 'FAQSection',
+        icone: <FcFaq className=" text-black text-3xl mb-2 text-center" />
     }
 ]
 

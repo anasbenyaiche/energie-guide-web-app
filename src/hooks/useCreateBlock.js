@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import api from "../api/api"
 import convertTable from "../utils/convertTable";
 import createLinkHTML from "../components/ContentBlocks/createLinkHTML";
@@ -7,6 +7,8 @@ import { stateToHTML } from 'draft-js-export-html';
 import DOMPurify from "dompurify";
 import blockStyleFn from "../utils/blockStyleFn";
 import styleToHTML from "../utils/styleToHTML";
+import { sections } from "../utils/sectionsData";
+
 
 const useCreateBlock = ({
     selected,
@@ -17,6 +19,7 @@ const useCreateBlock = ({
     questions,
     rfInstance,
     position,
+    sectionData,
     steps,
     id,
     setPosition,
@@ -24,16 +27,33 @@ const useCreateBlock = ({
     setEditorState,
     setFormLink,
     setQuestions,
+    setSectionData,
     setOpenBlock,
 }) => {
     useEffect(() => {
         localStorage.setItem("position", position);
     }, [position]);
+
+    const logInlineStyles = (contentState) => {
+        const rawContent = convertToRaw(contentState);
+        console.log("Raw Content State:", rawContent);
+
+        rawContent.blocks.forEach(block => {
+            block.inlineStyleRanges.forEach(range => {
+                console.log("Inline Style:", range.style);
+            });
+        });
+    };
+
+
     const submitContentBlock = useCallback(async () => {
         let contentblock = {};
 
         if (selected === "text") {
             const contentState = editorState.getCurrentContent();
+
+            logInlineStyles(contentState);
+
             const html = stateToHTML(contentState, {
                 blockStyleFn,
                 styleToHTML,
@@ -65,6 +85,13 @@ const useCreateBlock = ({
                 position: position,
             };
         }
+        else if (selected === "faqsection") {
+            contentblock = {
+                type: selected.toLowerCase(),
+                content: JSON.stringify(sectionData),
+                position: position,
+            };
+        }
         else if (selected === "charts" && rfInstance) {
             const flow = rfInstance.toObject();
             contentblock = {
@@ -84,7 +111,6 @@ const useCreateBlock = ({
                 text: html,
                 steps: steps
             };
-            console.log("dezz", dataStep)
             contentblock = {
                 type: selected.toLowerCase(),
                 content: JSON.stringify(dataStep),
@@ -102,6 +128,7 @@ const useCreateBlock = ({
             setEditorState(EditorState.createEmpty());
             setFormLink({ link: "", title: "" });
             setQuestions([{ question: "", response: "" }]);
+            setSectionData(sections)
             setOpenBlock(false);
             console.log("Content Block Created:", response.data);
         } catch (error) {
@@ -110,9 +137,11 @@ const useCreateBlock = ({
     }, [
         selected,
         convertedContent,
+        setConvertedContent,
         tableData,
         editorState,
         questions,
+        sectionData,
         formLink,
         steps,
         rfInstance,

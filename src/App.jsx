@@ -32,7 +32,6 @@ const App = () => {
         <Routes>
           {/* Routes without sidebar */}
           <Route path="/" element={<Layout showSidebar={false}><Home /></Layout>} />
-          <Route path="/faq" element={<Layout showSidebar={false}><FAQPage /></Layout>} />
           <Route path="/base_de_connaissance" element={<Layout showSidebar={false}><BaseConPage /></Layout>} />
           <Route path="/procedure" element={<Layout showSidebar={false}><ProcePage /></Layout>} />
           <Route path="/autoconsommation" element={<Layout showSidebar={false}><AutocPage /></Layout>} />
@@ -40,7 +39,7 @@ const App = () => {
           <Route path="/admin" element={<Login />} />
 
           {/* Protected routes with sidebar */}
-          <Route element={<ProtectedLayout showSidebar={true} />}>
+          <Route element={<ProtectedLayout />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/:link" element={<AppContainer />} />
             <Route path="/admin/pages" element={<Pages />} />

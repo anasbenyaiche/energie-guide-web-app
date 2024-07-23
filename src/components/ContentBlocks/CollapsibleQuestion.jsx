@@ -4,7 +4,7 @@ import { CiSquareRemove } from "react-icons/ci";
 
 const CollapsibleQuestion = ({ question, response, handleQuestion, remove }) => {
     return (
-        <div className=' my-4 w-4/5 mx-auto border rounded'>
+        <div className=' my-4  w-5/6 mx-auto border rounded'>
             <div className='flex justify-end'>
                 <button
                     className="text-red-500 p-2 text-3xl"

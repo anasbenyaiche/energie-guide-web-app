@@ -1,11 +1,12 @@
 import React from 'react'
 import ProtectedRoute from './ProtectedRoutes'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import Layout from '../layout/layout'
-import Footer from '../layout/Footer/Footer'
-import FooterE from '../layout/Footer/FooterE'
 
-const ProtectedLayout = ({ showSidebar }) => {
+const ProtectedLayout = () => {
+
+    const location = useLocation();
+    const showSidebar = location.pathname !== '/faq';
     return (
         <ProtectedRoute>
             <Layout showSidebar={showSidebar}>

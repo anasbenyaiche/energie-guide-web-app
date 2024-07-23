@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import propTypes from 'prop-types'
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
@@ -7,6 +7,8 @@ import PreviewFlow from './PreviewFlow';
 import PreviewImage from './PreviewImage';
 import PreviewCollapsible from './PreviewCollapsible';
 import PreviewStepSectionEditor from './PreviewStep/PreviewStepSectionEditor';
+import FaqSectionQuestion from '../FAQSection/FaqSectionQuestion';
+import { sections as initialSections } from '../../utils/sectionsData';
 
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
@@ -14,15 +16,28 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
     const [visibleQuestion, setVisibleQuestion] = useState(10)
     const [showall, setshawall] = useState(false)
     const [openQuestion, setOpenQuestion] = useState(null);
+    const [sectionData, setSectionData] = useState(initialSections);
     let content;
 
-    if (blocks.type === 'qasection') {
+    if (blocks.type === 'qasection' || blocks.type === 'faqsection') {
         try {
             content = JSON.parse(blocks.content);
         } catch (error) {
             console.error("Error parsing content:", error);
         }
     }
+    useEffect(() => {
+        if (blocks.type === 'faqsection' && content) {
+            const updatedSections = initialSections.map((section) => {
+                const matchingSection = content.find((sec) => sec.name === section.name);
+                return matchingSection ? { ...section, questions: matchingSection.questions } : section;
+            });
+            if (JSON.stringify(sectionData) !== JSON.stringify(updatedSections)) {
+                setSectionData(updatedSections);
+            }
+        }
+    }, [blocks.type, content]);
+
     const handleallQuestion = () => {
         if (showall) {
             setVisibleQuestion(10)
@@ -34,6 +49,13 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
         setshawall(!showall)
 
     }
+    const handleAllMQuestion = (sectionName) => {
+        setVisibleQuestion((prevVisibleQuestion) => ({
+            ...prevVisibleQuestion,
+            [sectionName]: !showall ? sectionData.find(section => section.name === sectionName).questions.length : 10
+        }));
+        setshawall(!showall);
+    };
 
     return (
         <div className='mb-3 p-3 border rounded' {...props} >
@@ -56,13 +78,15 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 </div>
 
             </div>
-            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && blocks.type !== 'stepsection' && (
-                <div
-                    dangerouslySetInnerHTML={{
-                        __html: blocks.content,
-                    }}
-                />
-            )}
+            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && blocks.type !== 'stepsection' &&
+                blocks.type !== 'faqsection' &&
+                (
+                    <div
+                        dangerouslySetInnerHTML={{
+                            __html: blocks.content,
+                        }}
+                    />
+                )}
 
             {blocks.type === 'qasection' && content && (
                 <>
@@ -83,6 +107,38 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                         </div>
                     )}
 
+                </>
+            )}
+            {blocks.type === 'faqsection' && content && (
+                <>
+                    {sectionData.map((section) => (
+                        <div key={section.name} className="p-4 flex items-start gap-8">
+                            <div className=' w-1/4 flex flex-col justify-start  items-start'>
+                                <div className='bg-[#f2f2f2] p-[70px]'>
+                                    <div className=''> <img src={section.icon} alt={section.name} /></div>
+                                </div>
+                                <h2 className="text-2xl font-bold  mt-4">{section.name}</h2>
+                            </div>
+                            <div className="flex-1 border-l-2 px-4 border-gray-200 py-4">
+                                {section.questions.slice(0, visibleQuestion[section.name] || 10).map((qa, index) => (
+                                    <FaqSectionQuestion name={section.name} icon={section.icon} key={index} index={index} question={qa.question} response={qa.response}
+                                        openQuestion={openQuestion}
+                                        setOpenQuestion={setOpenQuestion}
+                                    />
+                                ))}
+                                {section.questions.length > 10 && (
+                                    <div className=' flex justify-end'>
+                                        <div className='inline-flex justify-end items-center mt-5 gap-3 text-end px-4 btnquestion'>
+                                            <button className=' text-[#008AEE] hover:text-black' onClick={() => handleAllMQuestion(section.name)}>
+                                                {showall ? 'Voir moin' : 'Voir plus'}
+                                            </button>
+                                            <hr className=" w-16 h-1 bg-[#008AEE]" />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
                 </>
             )}
 
