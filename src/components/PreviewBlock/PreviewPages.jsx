@@ -6,6 +6,7 @@ import PreviewCollapsible from '../ContentBlocks/PreviewCollapsible'
 import PreviewStepSectionEditor from '../ContentBlocks/PreviewStep/PreviewStepSectionEditor'
 import { sections as initialSections } from '../../utils/sectionsData'
 import FaqSectionQuestion from '../FAQSection/FaqSectionQuestion'
+import TextContent from '../ContentBlocks/EditorText/TextContent'
 
 const PreviewPages = ({ blocks }) => {
     const [openQuestion, setOpenQuestion] = useState(null);
@@ -21,6 +22,13 @@ const PreviewPages = ({ blocks }) => {
             console.error("Error parsing content:", error);
         }
     }
+    // useEffect(() => {
+    //     const initialVisibleQuestions = {};
+    //     initialSections.forEach(section => {
+    //         initialVisibleQuestions[section.name] = 10;
+    //     });
+    //     setVisibleQuestion(initialVisibleQuestions);
+    // }, [initialSections]);
     useEffect(() => {
         if (blocks.type === 'faqsection' && content) {
             const updatedSections = initialSections.map((section) => {
@@ -43,22 +51,22 @@ const PreviewPages = ({ blocks }) => {
         setshawall(!showall)
 
     }
+
+
     const handleAllMQuestion = (sectionName) => {
-        setVisibleQuestion((prevVisibleQuestion) => ({
-            ...prevVisibleQuestion,
-            [sectionName]: !showall ? sectionData.find(section => section.name === sectionName).questions.length : 10
+        setVisibleQuestion(prevState => ({
+            ...prevState,
+            [sectionName]: prevState[sectionName] === 10 ? sectionData.find(section => section.name === sectionName).questions.length : 10
         }));
-        setshawall(!showall);
     };
+
+
+
     return (
         <div className='mb-3 p-3  text-black'>
-            {blocks.type !== 'charts' && blocks.type !== 'image' && blocks.type !== 'qasection' && blocks.type !== 'stepsection' &&
-                blocks.type !== 'faqsection' && (
-                    <div
-                        dangerouslySetInnerHTML={{
-                            __html: blocks.content,
-                        }}
-                    />
+            {blocks.type === 'text' &&
+                (
+                    <TextContent blocks={blocks} />
                 )}
 
             {blocks.type === 'charts' && (
@@ -101,18 +109,22 @@ const PreviewPages = ({ blocks }) => {
                                 </div>
                                 <h2 className="text-2xl font-bold  mt-4">{section.name}</h2>
                             </div>
-                            <div className="flex-1 border-l-2 px-4 border-gray-200 py-4">
-                                {section.questions.slice(0, visibleQuestion[section.name] || 10).map((qa, index) => (
-                                    <FaqSectionQuestion name={section.name} icon={section.icon} key={index} index={index} question={qa.question} response={qa.response}
-                                        openQuestion={openQuestion}
-                                        setOpenQuestion={setOpenQuestion}
-                                    />
-                                ))}
+                            <div className="flex-1 border-l-2 px-4 border-gray-200">
+                                {section.questions.slice(0, visibleQuestion[section.name] || 10).map((qa, index) => {
+                                    const uniqueKey = `${section.name}-${index}`;
+                                    return (
+                                        <FaqSectionQuestion name={section.name} icon={section.icon} key={uniqueKey}
+                                            uniqueKey={uniqueKey} question={qa.question} response={qa.response}
+                                            openQuestion={openQuestion}
+                                            setOpenQuestion={setOpenQuestion}
+                                        />
+                                    )
+                                })}
                                 {section.questions.length > 10 && (
                                     <div className=' flex justify-end'>
                                         <div className='inline-flex justify-end items-center mt-5 gap-3 text-end px-4 btnquestion'>
                                             <button className=' text-[#008AEE] hover:text-black' onClick={() => handleAllMQuestion(section.name)}>
-                                                {showall ? 'Voir moin' : 'Voir plus'}
+                                                {visibleQuestion[section.name] === 10 ? 'Voir plus' : 'Voir moins'}
                                             </button>
                                             <hr className=" w-16 h-1 bg-[#008AEE]" />
                                         </div>

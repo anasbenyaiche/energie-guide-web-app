@@ -51,18 +51,20 @@ const useCreateBlock = ({
 
         if (selected === "text") {
             const contentState = editorState.getCurrentContent();
+            const rawContentState = convertToRaw(contentState);
 
-            logInlineStyles(contentState);
+            console.log("sazsazs", rawContentState)
 
-            const html = stateToHTML(contentState, {
-                blockStyleFn,
-                styleToHTML,
-            });
-            const sanitizedHtml = DOMPurify.sanitize(html);
+            // Convert to HTML if necessary
+            const contentHTML = stateToHTML(contentState);
+            const sanitizedHtml = DOMPurify.sanitize(contentHTML);
+
             setConvertedContent(sanitizedHtml);
+            console.log("dazdaz", sanitizedHtml)
+
             contentblock = {
                 type: selected.toLowerCase(),
-                content: sanitizedHtml,
+                content: rawContentState,
                 position: position,
             };
         } else if (selected === "table") {

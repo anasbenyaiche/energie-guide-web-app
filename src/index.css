@@ -240,3 +240,8 @@ button:focus-visible {
   clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 20% 50%, 0% 0%);
   border-radius: 10px;
 }
+
+ol {
+  list-style: decimal;
+  padding: 10px 30px;
+}

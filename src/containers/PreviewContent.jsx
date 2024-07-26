@@ -31,6 +31,7 @@ import blockStyleFn from "../utils/blockStyleFn";
 import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
 import EditStep from "../components/ContentBlocks/PreviewStep/EditStep";
 import { sections } from "../utils/sectionsData";
+import EditCollapsibleFaq from "../components/FAQSection/EditCollapsibleFaq";
 
 
 const PreviewContent = () => {
@@ -184,7 +185,7 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        if (block?.type === 'qasection' || block?.type === 'stepsection') {
+        if (block?.type === 'qasection' || block?.type === 'stepsection' || block?.type === 'faqsection') {
             setIsopen(true)
             setopenModal(false)
         } else {
@@ -395,6 +396,13 @@ const PreviewContent = () => {
                 )}
                 {selectedBlock?.type === "stepsection" && (
                     <EditStep
+                        block={selectedBlock}
+                        onSave={handleSave}
+                        onClose={() => setIsopen(false)}
+                    />
+                )}
+                {selectedBlock?.type === "faqsection" && (
+                    <EditCollapsibleFaq
                         block={selectedBlock}
                         onSave={handleSave}
                         onClose={() => setIsopen(false)}
