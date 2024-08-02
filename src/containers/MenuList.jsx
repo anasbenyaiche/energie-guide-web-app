@@ -4,6 +4,7 @@ import { FaCheck, FaTimes, FaEdit } from "react-icons/fa";
 import { getMenus, updateMenu, createMenu } from "../services/menuService";
 import Select from "react-select";
 import { MENU_OPTIONS } from "../constants/sideMenuPlacement";
+import { MdOutlineEdit } from "react-icons/md";
 
 const MenuList = () => {
   const [menus, setMenus] = useState([]);
@@ -108,68 +109,74 @@ const MenuList = () => {
       }));
     }
   };
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      background: '#e8f0fe',
+      display: 'flex',
+      flexWrap: 'nowrap',
+      width: '100%',
+      padding: '8px',
+    }),
+  };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Menus List</h2>
-      </div>
-
-      <div className="mb-4">
-        <label htmlFor="placement" className="block mb-2 text-sm font-medium">
-          Filter by Placement
+    <div className=" max-w-3xl mx-auto mt-4">
+      <h2 className="text-5xl font-medium text-primary-title">Menus List</h2>
+      <div className="mb-4 mt-4 shadow-md p-4">
+        <label htmlFor="placement" className="block mb-2 text-md  font-medium">
+          Filtrer par emplacement
         </label>
         <Select
           id="placement"
+          styles={customStyles}
           value={placement}
           onChange={handlePlacementChange}
           options={MENU_OPTIONS}
           isClearable
-          placeholder="Select placement..."
-          className="border rounded p-2"
+          placeholder="Sélectionner un emplacement..."
+
         />
       </div>
 
       {isEdit && (
-        <div className="bg-gray-100 p-4 rounded shadow mb-4">
-          <label
-            htmlFor="editMenuTitle"
-            className="block mb-1 text-sm font-medium"
-          >
-            Title
-          </label>
-          <input
-            type="text"
-            id="editMenuTitle"
-            value={isEdit === "new" ? newMenuTitle : editedMenu.title}
-            onChange={(e) => handleInputChange(e, "title")}
-            className="w-full border rounded p-2 mb-2"
-            placeholder="Enter title"
-          />
-          <label
-            htmlFor="editMenuSubtitle"
-            className="block mb-1 text-sm font-medium"
-          >
-            Subtitle
-          </label>
-          <input
-            type="text"
-            id="editMenuSubtitle"
-            value={isEdit === "new" ? newMenuSubtitle : editedMenu.subtitle}
-            onChange={(e) => handleInputChange(e, "subtitle")}
-            className="w-full border rounded p-2 mb-2"
-            placeholder="Enter subtitle"
-          />
+        <div className="mb-4 mt-4 shadow-md p-4">
+          <div className="mb-4">
+            <label htmlFor="title" className="block font-medium text-black">
+              Titre
+            </label>
+            <input
+              type="text"
+              id="editMenuTitle"
+              value={isEdit === "new" ? newMenuTitle : editedMenu.title}
+              onChange={(e) => handleInputChange(e, "title")}
+              className="rounded-md w-full border mt-2 bg-[#e8f0fe] border-gray-300 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
+              placeholder="Enter title"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="title" className="block font-medium text-black">
+              Sous-titre
+            </label>
+            <input
+              type="text"
+              id="editMenuSubtitle"
+              value={isEdit === "new" ? newMenuSubtitle : editedMenu.subtitle}
+              onChange={(e) => handleInputChange(e, "subtitle")}
+              className="rounded-md w-full border mt-2 bg-[#e8f0fe] border-gray-300 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
+              placeholder="Enter subtitle"
+            />
+          </div>
           <div className="flex justify-end space-x-2">
             <button
-              className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700"
+              className="flex items-center gap-2 bg-bg-btn px-5 py-3 text-white"
               onClick={isEdit === "new" ? handleCreateMenu : handleSaveEdit}
             >
               <FaCheck /> Save
             </button>
             {isEdit !== "new" && (
               <button
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
+                className="bg-red-500 flex items-center justify-between gap-2 text-white px-2 py-1"
                 onClick={handleCancelEdit}
               >
                 <FaTimes /> Cancel
@@ -179,25 +186,26 @@ const MenuList = () => {
         </div>
       )}
 
-      <ul className="grid grid-cols-1 gap-4">
+      <ul className="grid grid-cols-1 gap-4 mb-4 mt-4 shadow-md p-4">
         {filteredMenus.map((menu) => (
           <li
             key={menu._id}
-            className="flex items-center justify-between bg-gray-100 p-4 rounded shadow hover:bg-gray-200"
+            className="flex items-center justify-between bg-bg-secondary p-4 rounded shadow"
           >
             {isEdit === menu._id ? null : (
               <>
                 <div className="flex flex-col">
-                  <span className="font-semibold text-lg cursor-pointer text-blue-600 hover:underline">
+                  <span className="text-lg cursor-pointer text-[#0D335F]">
                     {menu.title}
                   </span>
-                  <span className="text-sm text-gray-600">{menu.subtitle}</span>
+                  <span className=" font-normal text-base text-black opacity-30">{menu.subtitle}</span>
                 </div>
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
+                  className=" flex items-center justify-between gap-6 bg-bg-btn px-5 py-3 text-white"
                   onClick={() => handleEditClick(menu._id)}
                 >
-                  <FaEdit /> Edit
+                  <MdOutlineEdit className=" text-2xl" />
+                  <span className=" uppercase"> éditer</span>
                 </button>
               </>
             )}

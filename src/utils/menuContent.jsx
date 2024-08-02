@@ -1,44 +1,51 @@
-import { FaTextHeight } from "react-icons/fa6";
-import { CiImageOn } from "react-icons/ci";
-import { BsTable } from "react-icons/bs";
-import { FaLink } from "react-icons/fa6";
-import { BsDiagram3 } from "react-icons/bs";
-import { RiQuestionAnswerLine } from "react-icons/ri";
-import { FaDiagramPredecessor } from "react-icons/fa6";
-import { FcFaq } from "react-icons/fc";
-
+import text from '../assets/icon/text.svg';
+import picture from '../assets/icon/photo.svg';
+import link from '../assets/icon/link.svg';
+import chart from '../assets/icon/chart.svg';
+import chat from '../assets/icon/chat.svg';
+import list from '../assets/icon/queue-list.svg';
+import question from '../assets/icon/question-mark.svg';
+import table from '../assets/icon/table.svg';
 const menu = [
     {
         title: 'Text',
-        icone: <FaTextHeight className="text-3xl mb-2 text-center" />
+        icone: text,
+        label: 'Text'
     },
     {
         title: "Image",
-        icone: <CiImageOn className=" text-3xl mb-2 text-center" />
+        icone: picture,
+        label: 'Image'
     },
     {
         title: 'Table',
-        icone: <BsTable className=" text-3xl mb-2 text-center" />
+        icone: table,
+        label: 'Tableau'
     },
     {
         title: 'Link',
-        icone: <FaLink className=" text-3xl mb-2 text-center" />
+        icone: link,
+        label: 'Liens'
     },
     {
         title: 'Charts',
-        icone: <BsDiagram3 className=" text-3xl mb-2 text-center" />
+        icone: chart,
+        label: 'Diagrammes'
     },
     {
         title: 'QAsection',
-        icone: <RiQuestionAnswerLine className=" text-3xl mb-2 text-center" />
+        icone: chat,
+        label: 'Section Q&A '
     },
     {
         title: 'Stepsection',
-        icone: <FaDiagramPredecessor className=" text-3xl mb-2 text-center" />
+        icone: list,
+        label: 'Section Étape'
     },
     {
         title: 'FAQSection',
-        icone: <FcFaq className=" text-black text-3xl mb-2 text-center" />
+        icone: question,
+        label: 'Section FAQ'
     }
 ]
 

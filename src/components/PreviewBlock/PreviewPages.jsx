@@ -51,16 +51,12 @@ const PreviewPages = ({ blocks }) => {
         setshawall(!showall)
 
     }
-
-
     const handleAllMQuestion = (sectionName) => {
         setVisibleQuestion(prevState => ({
             ...prevState,
             [sectionName]: prevState[sectionName] === 10 ? sectionData.find(section => section.name === sectionName).questions.length : 10
         }));
     };
-
-
 
     return (
         <div className='mb-3 p-3  text-black'>
@@ -76,7 +72,14 @@ const PreviewPages = ({ blocks }) => {
                 <PreviewImage imageUrl={blocks.imageUrl} title={blocks.content} />
             )}
             {blocks.type === 'stepsection' && (
-                <PreviewStepSectionEditor content={blocks.content} />
+                <PreviewStepSectionEditor blocks={blocks} />
+            )}
+            {blocks.type === 'table' && (
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: blocks.content,
+                    }}
+                />
             )}
             {blocks.type === 'qasection' && content && (
                 <>

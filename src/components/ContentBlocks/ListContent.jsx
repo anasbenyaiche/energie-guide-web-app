@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import propTypes from 'prop-types'
-import { MdOutlineDeleteOutline } from "react-icons/md";
-import { MdEdit } from "react-icons/md";
-import { IoMdMove } from "react-icons/io";
 import PreviewFlow from './PreviewFlow';
 import PreviewImage from './PreviewImage';
 import PreviewCollapsible from './PreviewCollapsible';
@@ -10,6 +7,9 @@ import PreviewStepSectionEditor from './PreviewStep/PreviewStepSectionEditor';
 import FaqSectionQuestion from '../FAQSection/FaqSectionQuestion';
 import { sections as initialSections } from '../../utils/sectionsData';
 import TextContent from './EditorText/TextContent';
+import edit from '../../assets/icon/pencil.svg';
+import trash from '../../assets/icon/trash.svg';
+import drag from '../../assets/icon/drag.svg';
 
 
 const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
@@ -61,22 +61,22 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
 
 
     return (
-        <div className='mb-3 p-3 border rounded' {...props} >
-            <div className='gap-4 flex items-center justify-between mb-2'>
-                <div className='text-sm text-gray-500'>
+        <div className=' mb-5 p-3 border rounded-md shadow-md' {...props} >
+            <div className='gap-4 flex items-center justify-between mb-4 mt-4'>
+                <div className='text-primary-text text-xl'>
                     Block Position: {blocks.position}
                 </div>
                 <div className='flex justify-center items-center gap-3'>
+                    <div className=' cursor-move hover:underline'>
+                        <img src={drag} alt="drag" className=' w-5' />
+                    </div>
                     <div>
                         <button className='bg-transparent  border-none  focus:outline-none '
-                            onClick={() => onEdit(blocks._id)}>  <MdEdit className=' text-blue-600' /> </button>
-                    </div>
-                    <div className=' cursor-move hover:underline'>
-                        <IoMdMove />
+                            onClick={() => onEdit(blocks._id)}>  <img src={edit} alt="edit" className=' w-5' /></button>
                     </div>
                     <div>
                         <button className=' bg-transparent  border-none   focus:outline-none'
-                            onClick={() => onDelete(blocks._id)}> <MdOutlineDeleteOutline className=' text-red-500 text-xl' /> </button>
+                            onClick={() => onDelete(blocks._id)}> <img src={trash} alt="trash" className=' w-5' /> </button>
                     </div>
                 </div>
 
@@ -168,7 +168,7 @@ const ListContent = ({ blocks, onDelete, onEdit, ...props }) => {
                 <PreviewImage imageUrl={blocks.imageUrl} title={blocks.content} />
             )}
             {blocks.type === 'stepsection' && (
-                <PreviewStepSectionEditor content={blocks.content} />
+                <PreviewStepSectionEditor blocks={blocks} />
             )}
         </div>
     )

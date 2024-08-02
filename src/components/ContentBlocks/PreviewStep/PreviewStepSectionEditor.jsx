@@ -1,22 +1,36 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import StepsDisplay from './StepsDisplay'
-import DOMPurify from 'dompurify';
-const PreviewStepSectionEditor = ({ content }) => {
-    let parsedContent = { text: '', steps: [] };
+import rawContentStateToHTML from '../../../utils/rawContentStateToHTML';
 
-    try {
-        parsedContent = JSON.parse(content);
-    } catch (error) {
-        console.error('Error parsing content:', error);
-    }
+const PreviewStepSectionEditor = ({ blocks }) => {
+    const [htmlContent, setHtmlContent] = useState('');
+    const [steps, setSteps] = useState([]);
 
+    useEffect(() => {
+        if (blocks.content) {
+            try {
+                const parsedContent = JSON.parse(blocks.content);
+
+                if (parsedContent.text && parsedContent.text.blocks) {
+                    const html = rawContentStateToHTML(parsedContent.text);
+                    setHtmlContent(html);
+                }
+
+                if (parsedContent.steps) {
+                    setSteps(parsedContent.steps);
+                }
+            } catch (error) {
+                console.error("Error converting content:", error.message);
+            }
+        }
+    }, [blocks.content]);
     return (
         <div>
             <div
                 className="text-content"
-                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(parsedContent.text) }}
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
-            <StepsDisplay steps={parsedContent.steps} />
+            <StepsDisplay steps={steps} />
         </div>
     )
 }

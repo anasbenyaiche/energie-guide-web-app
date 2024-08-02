@@ -54,7 +54,7 @@ const TextEditor = ({ editorState, onEditorStateChange }) => {
                         options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
                     },
                     colorPicker: {
-                        colors: ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF']
+                        colors: ['#213547', '#00a2d6', '#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF']
                     },
                     fontFamily: {
                         options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],

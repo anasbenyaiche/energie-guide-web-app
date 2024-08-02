@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   background-color: #242424;
@@ -102,15 +102,6 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
-  }
-
-  a:hover {
-    color: #747bff;
-  }
-
-  button {
-    background-color: #f9f9f9;
   }
 }
 
@@ -217,8 +208,8 @@ button:focus-visible {
 .arrow-text::before {
   content: '\25B6';
   transform: rotate(360deg);
-  margin-right: 10px;
-  font-size: 16px;
+  margin-right: 8px;
+  font-size: 12px;
 }
 
 .rounded-custom {
@@ -244,4 +235,14 @@ button:focus-visible {
 ol {
   list-style: decimal;
   padding: 10px 30px;
+}
+
+.bg-bgadmin-gradient {
+  background: rgb(0, 4, 40);
+  background: linear-gradient(90deg, rgba(0, 4, 40, 1) 0%, rgba(0, 78, 146, 1) 100%);
+}
+
+.custom-table thead th:nth-child(even),
+.custom-table tbody tr:nth-child(odd) th {
+  background-color: #d7f1e1;
 }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ListContent from "../components/ContentBlocks/ListContent";
 import EditTextEditor from "../components/ContentBlocks/EditTextEditor";
 import Modal from "../components/Modal/Modal";
@@ -24,8 +24,7 @@ import MenuContent from "../components/ContentBlocks/MenuContent";
 import EditFlowWrapper from "../components/ContentBlocks/EditFLow";
 import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion";
 import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
-import { IoAddOutline } from "react-icons/io5";
-import { IoCloseOutline } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import LeftSidebar from "../components/LeftSidebar";
 import blockStyleFn from "../utils/blockStyleFn";
 import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
@@ -45,7 +44,6 @@ const PreviewContent = () => {
         edges: [],
     });
     const [openModal, setopenModal] = useState(false);
-    const [openMenu, setopenMenu] = useState(false);
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
@@ -58,6 +56,7 @@ const PreviewContent = () => {
         { title: '', text: '' }
     ]);
     const [convertedContent, setConvertedContent] = useState("");
+    const [convertstepText, setConvertstepText] = useState("")
     const [selected, setSelcted] = useState("text");
     const [position, setPosition] = useState(() => {
         const savedPostion = localStorage.getItem("position");
@@ -96,6 +95,7 @@ const PreviewContent = () => {
         selected,
         convertedContent,
         editorState,
+        convertstepText,
         tableData,
         formLink,
         questions,
@@ -106,6 +106,7 @@ const PreviewContent = () => {
         id: pageId,
         setPosition,
         setConvertedContent,
+        setConvertstepText,
         setEditorState,
         setSectionData,
         setFormLink,
@@ -220,44 +221,32 @@ const PreviewContent = () => {
     console.log(content)
 
     return (
-        <div className=" max-w-7xl my-8 mx-auto">
-            <div className=" px-4 py-2 text-black flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Preview Content</h1>
+        <div className=" max-w-4xl mx-auto mt-4 px-5">
+            <div className=" px-4 py-2 text-black flex items-center justify-between mb-5">
+                <h2 className="text-5xl font-medium text-primary-title">Aperçu de contenu</h2>
                 <button
-                    className=" p-0 text-end focus:outline-none border-none bg-transparent text-[#00a2d6] text-3xl"
-                    onClick={() => setopenMenu(!openMenu)}
+                    className={`flex items-center ${!openBlock ? "bg-gray-400" : "bg-bg-btn"}   shadow-md text-white px-4 py-2`}
+                    onClick={submitContentBlock} disabled={!openBlock}
                 >
-                    {openMenu ? <IoCloseOutline /> : <IoAddOutline />}
+                    <FaPlus className="mr-2" />  {" "} Enregistrer
                 </button>
             </div>
 
-            {openMenu && (
-                <div className="px-4 py-2 text-black ">
-                    <MenuContent handelBlockClick={handelBlockClick} />
-                </div>
-            )}
+            <div className="px-4 py-2 text-black ">
+                <MenuContent handelBlockClick={handelBlockClick} />
+            </div>
 
             <div className=" p-4">
-                {((openMenu && openBlock === "text") ||
-                    (openMenu && openBlock === "table") ||
-                    (openMenu && openBlock === "link") ||
-                    (openMenu && openBlock !== "image") ||
-                    (openMenu && openBlock === "charts") ||
-                    (openMenu && openBlock === "qasection") ||
-                    (openMenu && openBlock === "faqsection") ||
-                    (openMenu && openBlock === "stepsection")) && (
-                        <div className=" mb-5 flex justify-end gap-4">
-                            <button
-                                className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
-                                onClick={submitContentBlock}
-                            >
-                                {" "}
-                                Save
-                            </button>
-                        </div>
-                    )}
+                {((openBlock === "text") ||
+                    (openBlock === "table") ||
+                    (openBlock === "link") ||
+                    (openBlock !== "image") ||
+                    (openBlock === "charts") ||
+                    (openBlock === "qasection") ||
+                    (openBlock === "faqsection") ||
+                    (openBlock === "stepsection"))}
 
-                {openMenu && openBlock === "text" && (
+                {openBlock === "text" && (
                     <TextEditor
                         editorState={editorState}
                         onEditorStateChange={setEditorState}
@@ -267,19 +256,19 @@ const PreviewContent = () => {
 
                 )}
 
-                {openMenu && openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
+                {openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
                     handleChangePicture={handleImageChange} formPicture={formPicture}
                 />}
-                {openMenu && openBlock === "table" && (
+                {openBlock === "table" && (
                     <TableEditor tableData={tableData} setTableData={setTableData} />
                 )}
-                {openMenu && openBlock === "link" && (
+                {openBlock === "link" && (
                     <CreateLink formLink={formLink} handelChange={handleLinkChange} />
                 )}
-                {openMenu && openBlock === "charts" && (
+                {openBlock === "charts" && (
                     <HorizontalFlowWrapper setRfInstance={setRfInstance} />
                 )}
-                {openMenu && openBlock === "qasection" && (
+                {openBlock === "qasection" && (
                     <div>
                         {questions.map((qa, index) => (
                             <div>
@@ -294,16 +283,15 @@ const PreviewContent = () => {
                     </div>
                 )}
 
-                {openMenu && openBlock === "stepsection" && (
+                {openBlock === "stepsection" && (
                     <StepsSectionEditor
                         steps={steps}
                         setSteps={setSteps}
                         editorState={editorState}
                         onEditorStateChange={setEditorState}
-
                     />
                 )}
-                {openMenu && openBlock === "faqsection" && (
+                {openBlock === "faqsection" && (
                     <div className=" w-11/12 mx-auto border rounded-md p-4">
                         {sectionData.map((section, sectionIndex) => (
                             <div key={section.name} className=" border-b border-gray-200 py-4">
@@ -327,7 +315,7 @@ const PreviewContent = () => {
                     </div>
                 )}
             </div>
-            <div className=" bg-white shadow-md p-4 mt-5 rounded-md">
+            <div className="px-4 py-2">
                 {content ? (
                     content.map((item) => (
                         <ListContent

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { IoMdArrowDropright } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import {
   getMenus,
@@ -69,11 +70,20 @@ const EditMenuForm = () => {
   }));
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
+    <div className=" max-w-3xl mx-auto mt-4">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-5xl font-medium text-primary-title">Menu Items List</h2>
+        <button
+          className=" flex items-center justify-between gap-2 bg-bg-btn px-5 py-3 text-white"
+          onClick={handleAddMenuItem}
+        >
+          <FaPlus className="mr-2" /> Ajouter un élément de menu
+        </button>
+      </div>
       <div className="mb-4">
         <label
           htmlFor="menu-select"
-          className="block text-gray-700 font-bold mb-2"
+          className="block font-medium text-black mb-2"
         >
           Select the Menu
         </label>
@@ -85,44 +95,38 @@ const EditMenuForm = () => {
           className="mb-4"
         />
       </div>
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Menu Items List</h2>
-        <button
-          className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
-          onClick={handleAddMenuItem}
-        >
-          <FaPlus className="mr-2" /> Add Menu Item
-        </button>
-      </div>
-      <ul className="grid grid-cols-1 gap-4">
-        {menuItems.map((menuItem) => (
-          <li
-            key={menuItem._id}
-            className="flex items-center justify-between bg-gray-100 p-2 rounded shadow hover:bg-gray-200"
-          >
-            <span
-              className="cursor-pointer text-blue-600 hover:underline"
-              onClick={() => handleMenuItemClick(menuItem._id)}
+      <div className="mb-6">
+        <ul className="grid grid-cols-1 gap-4">
+          {menuItems.map((menuItem) => (
+            <li
+              key={menuItem._id}
+              className="flex items-center justify-between bg-white p-2 rounded shadow-lg"
             >
-              {menuItem.title}
-            </span>
-            <div className="flex space-x-2">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
+              <span
+                className="cursor-pointer flex items-center text-secondary-title font-medium text-lg"
                 onClick={() => handleMenuItemClick(menuItem._id)}
               >
-                Update
-              </button>
-              <button
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
-                onClick={() => handleDeleteMenuItem(menuItem._id)}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+                <IoMdArrowDropright />
+                {menuItem.title}
+              </span>
+              <div className="flex space-x-2">
+                <button
+                  className=" bg-bg-btn text-white text-sm p-2 rounded"
+                  onClick={() => handleMenuItemClick(menuItem._id)}
+                >
+                  Mettre à jour
+                </button>
+                <button
+                  className="bg-red-500 text-white p-2 text-sm  rounded"
+                  onClick={() => handleDeleteMenuItem(menuItem._id)}
+                >
+                  Supprimer
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

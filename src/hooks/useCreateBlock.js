@@ -13,6 +13,7 @@ import { sections } from "../utils/sectionsData";
 const useCreateBlock = ({
     selected,
     convertedContent,
+    convertstepText,
     editorState,
     tableData,
     formLink,
@@ -24,6 +25,7 @@ const useCreateBlock = ({
     id,
     setPosition,
     setConvertedContent,
+    setConvertstepText,
     setEditorState,
     setFormLink,
     setQuestions,
@@ -52,16 +54,9 @@ const useCreateBlock = ({
         if (selected === "text") {
             const contentState = editorState.getCurrentContent();
             const rawContentState = convertToRaw(contentState);
-
-            console.log("sazsazs", rawContentState)
-
-            // Convert to HTML if necessary
             const contentHTML = stateToHTML(contentState);
             const sanitizedHtml = DOMPurify.sanitize(contentHTML);
-
             setConvertedContent(sanitizedHtml);
-            console.log("dazdaz", sanitizedHtml)
-
             contentblock = {
                 type: selected.toLowerCase(),
                 content: rawContentState,
@@ -104,13 +99,19 @@ const useCreateBlock = ({
         }
 
         else if (selected === "stepsection") {
+
+            // const contentState = editorState.getCurrentContent();
+            // const html = stateToHTML(contentState, {
+            //     blockStyleFn,
+            //     styleToHTML,
+            // });
             const contentState = editorState.getCurrentContent();
-            const html = stateToHTML(contentState, {
-                blockStyleFn,
-                styleToHTML,
-            });
+            const rawContentState = convertToRaw(contentState);
+            const contentHTML = stateToHTML(contentState);
+            const sanitizedHtml = DOMPurify.sanitize(contentHTML);
+            setConvertstepText(sanitizedHtml);
             const dataStep = {
-                text: html,
+                text: rawContentState,
                 steps: steps
             };
             contentblock = {
@@ -127,6 +128,7 @@ const useCreateBlock = ({
             const response = await api.post(`/pages/${id}/blocks`, contentblock,);
             setPosition((prevpostion) => prevpostion + 1);
             setConvertedContent("");
+            setConvertstepText("")
             setEditorState(EditorState.createEmpty());
             setFormLink({ link: "", title: "" });
             setQuestions([{ question: "", response: "" }]);
@@ -139,7 +141,9 @@ const useCreateBlock = ({
     }, [
         selected,
         convertedContent,
+        convertstepText,
         setConvertedContent,
+        setConvertstepText,
         tableData,
         editorState,
         questions,

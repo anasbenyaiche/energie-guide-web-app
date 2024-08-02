@@ -100,19 +100,29 @@ const EditMenuItemForm = () => {
     setPageId(value);
     setLink(pages.find(({ _id }) => value.value === _id)?.slug || "");
   };
-
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      background: '#e8f0fe',
+      display: 'flex',
+      flexWrap: 'nowrap',
+      width: '100%',
+      padding: '8px',
+      borderRaduis: '6px'
+    }),
+  };
   return (
-    <div className="max-w-md mx-auto bg-white p-8 mt-10 rounded shadow-md mb-4">
-      <h2 className="text-2xl font-bold mb-6">Edit a Menu Item</h2>
+    <div className=" max-w-3xl mx-auto mt-4 mb-4">
+      <h2 className="text-5xl font-medium text-primary-title mb-8">Mettre à jour le Menu</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-gray-700">
+          <label htmlFor="title" className="block font-medium text-black">
             Title
           </label>
           <input
             type="text"
             id="title"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            className="rounded-md w-full border mt-2 bg-[#e8f0fe] border-gray-300 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -120,11 +130,13 @@ const EditMenuItemForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="menuId" className="block text-gray-700">
+          <label htmlFor="menuId" className="block font-medium text-black">
             Menu
           </label>
           <Select
             id="menuId"
+            elect
+            styles={customStyles}
             value={menuId || null}
             onChange={setMenuId}
             options={menus}
@@ -134,11 +146,12 @@ const EditMenuItemForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="pageId" className="block text-gray-700">
+          <label htmlFor="pageId" className="block font-medium text-black">
             Page
           </label>
           <Select
             id="pageId"
+            styles={customStyles}
             value={pageId || null}
             onChange={handleChangePage}
             options={pageOptions}
@@ -147,49 +160,50 @@ const EditMenuItemForm = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="link" className="block text-gray-700">
+          <label htmlFor="link" className="block font-medium text-black">
             Link
           </label>
           <input
             type="text"
             id="link"
             readOnly
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            className="rounded-md w-full border mt-2 bg-[#e8f0fe] border-gray-300 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
             value={link}
             required
           />
         </div>
 
         <div className="mb-4">
-          <label htmlFor="order" className="block text-gray-700">
+          <label htmlFor="order" className="block font-medium text-black">
             Order
           </label>
           <input
             type="number"
             id="order"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded"
+            className="rounded-md w-full border mt-2 bg-[#e8f0fe] border-gray-300 px-3 py-3 focus:outline-none focus:ring-1 focus:ring-gray-200"
             value={order}
             onChange={(e) => setOrder(parseInt(e.target.value, 10))}
             required
           />
         </div>
-
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Update Menu Item
-        </button>
-
-        {error && <p className="text-red-500 mt-4">{error}</p>}
-        {success && <p className="text-green-500 mt-4">{success}</p>}
+        <div className=" flex justify-end gap-4">
+          <button
+            type="submit"
+            className=" bg-bg-btn px-7 py-3 text-white"
+          >
+            Mettre à jour le Menu
+          </button>
+          <button
+            className="bg-gray-500 px-7 py-3 text-white"
+            onClick={() => navigate(-1)}
+          >
+            Retour
+          </button>
+          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {success && <p className="text-green-500 mt-4">{success}</p>}
+        </div >
       </form>
-      <button
-        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700 mt-4"
-        onClick={() => navigate(-1)}
-      >
-        Back
-      </button>
+
     </div>
   );
 };

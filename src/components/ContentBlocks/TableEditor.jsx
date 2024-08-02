@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Handsontable from 'handsontable';
+import { FaPlus, FaMinus } from "react-icons/fa";
 import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.min.css';
 import PropTypes from 'prop-types';
@@ -33,18 +34,30 @@ const TableEditor = ({ tableData, setTableData }) => {
     return (
         <div>
             <div>
-                <h1>Create Table</h1>
-                <div className="flex justify-start mb-6">
-                    <button onClick={addColumn} className="bg-blue-500 text-white px-2 py-1 rounded">Add Column</button>
-                    <button onClick={removeColumn} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Remove Column</button>
-                    <button onClick={addRow} className="bg-green-500 text-white px-2 py-1 rounded ml-2">Add Row</button>
-                    <button onClick={removeRow} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2">Remove Row</button>
+                <div className="flex justify-center mb-6 gap-2">
+                    <button onClick={addColumn} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                        <FaPlus className="mr-2" />Ajouter une colonne</button>
+                    <button onClick={removeColumn} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                        <FaMinus />Remove Column</button>
+                    <button onClick={addRow} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                        <FaPlus className="mr-2" />Ajouter une ligne</button>
+                    <button onClick={removeRow} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                        <FaMinus />Remove Row</button>
                 </div>
                 <HotTable
                     data={tableData}
                     colHeaders={true}
                     rowHeaders={true}
                     height="auto"
+                    stretchH="all"
+                    cell={[
+                        {
+                            row: 0,
+                            col: 0,
+                            className: 'custom-cell',
+                        },
+                    ]}
+                    className="custom-table"
                     autoWrapRow={true}
                     autoWrapCol={true}
                     licenseKey="non-commercial-and-evaluation"

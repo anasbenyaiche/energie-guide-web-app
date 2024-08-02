@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { EditorState } from 'draft-js';
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
-import { stateFromHTML } from 'draft-js-import-html';
 import TextEditor from './TextEditor';
+import { FaPlus } from 'react-icons/fa';
+import { HiMiniXMark } from "react-icons/hi2";
 
 const EditTextEditor = ({ block, onClose, onSave }) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -11,10 +12,19 @@ const EditTextEditor = ({ block, onClose, onSave }) => {
 
     useEffect(() => {
         if (block && block.content) {
-            const contentState = stateFromHTML(block.content);
-            setEditorState(EditorState.createWithContent(contentState));
+            try {
+                const rawContent = block.content;
+                if (!rawContent.entityMap) {
+                    rawContent.entityMap = {};
+                }
+                const contentState = convertFromRaw(rawContent);
+                setEditorState(EditorState.createWithContent(contentState));
+            } catch (error) {
+                console.error("Error loading content:", error.message);
+            }
         }
-    }, [block]);
+    }, [block.content]);
+
 
     const handleEditorStateChange = (state) => {
         setEditorState(state);
@@ -23,8 +33,9 @@ const EditTextEditor = ({ block, onClose, onSave }) => {
     };
 
     const handleSave = () => {
-        const html = convertToHTML(editorState.getCurrentContent());
-        const updatedBlock = { ...block, content: html };
+        const contentState = editorState.getCurrentContent();
+        const rawContent = convertToRaw(contentState);
+        const updatedBlock = { ...block, content: rawContent };
         onSave(updatedBlock);
     };
 
@@ -37,9 +48,11 @@ const EditTextEditor = ({ block, onClose, onSave }) => {
                     onEditorStateChange={handleEditorStateChange}
                     convertedContent={convertedContent}
                 />
-                <div className="flex justify-end mt-6">
-                    <button className="bg-red-500 text-white px-4 py-2 mr-2" onClick={onClose}>Cancel</button>
-                    <button className="bg-blue-500 text-white px-4 py-2" onClick={handleSave}>Save</button>
+                <div className="flex justify-end mt-6 gap-5">
+                    <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                        <HiMiniXMark className='text-2xl' /> Annuler</button>
+                    <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                        <FaPlus className="mr-2" />Enregistrer</button>
                 </div>
             </div>
         </div>

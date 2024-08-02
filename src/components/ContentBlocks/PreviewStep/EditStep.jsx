@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import TextEditor from '../TextEditor'
-import { EditorState } from 'draft-js';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
-import { stateFromHTML } from 'draft-js-import-html';
 import PropTypes from 'prop-types';
-
+import { FaPlus } from 'react-icons/fa';
+import { HiMiniXMark } from "react-icons/hi2";
 const EditStep = ({ block, onClose, onSave }) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
+    const [convertedContent, setConvertedContent] = useState('');
     const [steps, setSteps] = useState([{ title: '', text: '' }]);
 
     useEffect(() => {
         if (block && block.content) {
-            const content = JSON.parse(block.content);
-            const contentState = stateFromHTML(content.text);
-            setEditorState(EditorState.createWithContent(contentState));
-            setSteps(content.steps || []);
+            try {
+                const parsedContent = JSON.parse(block.content);
+
+                if (parsedContent.text) {
+                    const contentState = convertFromRaw(parsedContent.text);
+                    setEditorState(EditorState.createWithContent(contentState));
+                }
+
+                if (parsedContent.steps) {
+                    setSteps(parsedContent.steps);
+                }
+            } catch (error) {
+                console.error("Error loading content:", error.message);
+            }
         }
-    }, [block]);
+    }, [block.content]);
 
     const handleEditorStateChange = (state) => {
         setEditorState(state);
+        const html = convertToHTML(state.getCurrentContent());
+        setConvertedContent(html);
     };
 
     const handleChangeStep = (index, field, value) => {
@@ -30,8 +43,9 @@ const EditStep = ({ block, onClose, onSave }) => {
     };
 
     const handleSave = () => {
-        const html = convertToHTML(editorState.getCurrentContent());
-        const updatedBlock = { ...block, content: JSON.stringify({ text: html, steps }) };
+        const contentState = editorState.getCurrentContent();
+        const rawContent = convertToRaw(contentState);
+        const updatedBlock = { ...block, content: JSON.stringify({ text: rawContent, steps }) };
         onSave(updatedBlock);
     };
 
@@ -40,7 +54,7 @@ const EditStep = ({ block, onClose, onSave }) => {
             <TextEditor
                 editorState={editorState}
                 onEditorStateChange={handleEditorStateChange}
-                convertedContent={convertToHTML(editorState.getCurrentContent())}
+                convertedContent={convertedContent}
             />
             <div className="mt-4 grid grid-cols-2">
                 {steps.map((step, index) => (
@@ -65,9 +79,11 @@ const EditStep = ({ block, onClose, onSave }) => {
                     </div>
                 ))}
             </div>
-            <div className="flex justify-end mt-6">
-                <button className="bg-red-500 text-white px-4 py-2 mr-2" onClick={onClose}>Cancel</button>
-                <button className="bg-blue-500 text-white px-4 py-2" onClick={handleSave}>Save</button>
+            <div className="flex justify-end mt-6 gap-5">
+                <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <HiMiniXMark className='text-2xl' /> Annuler</button>
+                <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Enregistrer</button>
             </div>
         </div>
     )

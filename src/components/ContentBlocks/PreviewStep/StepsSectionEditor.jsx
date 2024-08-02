@@ -1,6 +1,5 @@
 import React from 'react';
 import TextEditor from '../TextEditor';
-import { convertToRaw } from 'draft-js';
 const StepSectionEditor = ({ steps, setSteps, editorState, onEditorStateChange }) => {
     const handleChangeStep = (index, field, value) => {
         const updatedSteps = steps.map((step, i) =>
@@ -9,11 +8,9 @@ const StepSectionEditor = ({ steps, setSteps, editorState, onEditorStateChange }
         setSteps(updatedSteps);
     };
 
-
-
     return (
         <div className=' w-full'>
-            <TextEditor editorState={editorState} onEditorStateChange={onEditorStateChange} convertedContent={convertToRaw(editorState.getCurrentContent())} />
+            <TextEditor editorState={editorState} onEditorStateChange={onEditorStateChange} />
             <div className="grid grid-cols-5 gap-4 mt-4 space-x-4">
                 {steps.slice(0, 5).map((step, index) => (
                     <div key={index} className="flex items-center relative stepsection">

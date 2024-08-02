@@ -5,7 +5,8 @@ import { HotTable } from '@handsontable/react';
 import 'handsontable/dist/handsontable.full.min.css';
 import parseHTMLTable from '../../utils/parseHTMLTable';
 import convertTable from '../../utils/convertTable';
-
+import { HiMiniXMark } from "react-icons/hi2";
+import { FaPlus, FaMinus } from "react-icons/fa";
 const EditTable = ({ block, onClose, onSave }) => {
     const [tableData, setTableData] = useState(() => {
         if (typeof block.content === 'string') {
@@ -51,19 +52,30 @@ const EditTable = ({ block, onClose, onSave }) => {
     };
     return (
         <div>
-            <h1>Edit Table</h1>
-            <div className="flex justify-start mb-6">
-                <button onClick={addColumn} className="bg-blue-500 text-white px-2 py-1 rounded">Add Column</button>
-                <button onClick={removeColumn} className="bg-red-500 text-white px-2 py-1 rounded ml-2">Remove Column</button>
-                <button onClick={addRow} className="bg-green-500 text-white px-2 py-1 rounded ml-2">Add Row</button>
-                <button onClick={removeRow} className="bg-yellow-500 text-white px-2 py-1 rounded ml-2">Remove Row</button>
+            <div className="flex justify-center mb-6 gap-2">
+                <button onClick={addColumn} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Ajouter une colonne</button>
+                <button onClick={removeColumn} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <FaMinus />Remove Column</button>
+                <button onClick={addRow} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Ajouter une ligne</button>
+                <button onClick={removeRow} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <FaMinus />Remove Row</button>
             </div>
             <HotTable
                 data={tableData}
                 colHeaders={true}
                 rowHeaders={true}
-                width="600"
-                height="300"
+                height="auto"
+                stretchH="all"
+                cell={[
+                    {
+                        row: 0,
+                        col: 0,
+                        className: 'custom-cell',
+                    },
+                ]}
+                className="custom-table"
                 licenseKey="non-commercial-and-evaluation"
                 afterChange={(changes, source) => {
                     if (source !== 'loadData' && changes) {
@@ -77,9 +89,11 @@ const EditTable = ({ block, onClose, onSave }) => {
                     }
                 }}
             />
-            <div className="flex justify-end mt-4">
-                <button className="bg-red-500 text-white px-4 py-2 mr-2" onClick={onClose}>Cancel</button>
-                <button className="bg-blue-500 text-white px-4 py-2" onClick={handleSave}>Save</button>
+            <div className="flex justify-end mt-6 gap-5">
+                <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <HiMiniXMark className='text-2xl' /> Annuler</button>
+                <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Enregistrer</button>
             </div>
         </div>
     )
