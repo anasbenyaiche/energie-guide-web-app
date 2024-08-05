@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ListContent from "../components/ContentBlocks/ListContent";
 import EditTextEditor from "../components/ContentBlocks/EditTextEditor";
 import Modal from "../components/Modal/Modal";
@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import EditLink from "../components/ContentBlocks/EditLink";
 import TextEditor from "../components/ContentBlocks/TextEditor";
 import { EditorState } from "draft-js";
-import { convertToHTML } from "draft-convert";
 import { stateToHTML } from 'draft-js-export-html';
 import TableEditor from "../components/ContentBlocks/TableEditor";
 import CreateLink from "../components/ContentBlocks/CreateLink";
@@ -25,11 +24,14 @@ import MenuContent from "../components/ContentBlocks/MenuContent";
 import EditFlowWrapper from "../components/ContentBlocks/EditFLow";
 import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion";
 import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
-import { IoAddOutline } from "react-icons/io5";
-import { IoCloseOutline } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import LeftSidebar from "../components/LeftSidebar";
-import DraftEditor from "../components/ContentBlocks/DraftEditor";
 import blockStyleFn from "../utils/blockStyleFn";
+import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
+import EditStep from "../components/ContentBlocks/PreviewStep/EditStep";
+import { sections } from "../utils/sectionsData";
+import EditCollapsibleFaq from "../components/FAQSection/EditCollapsibleFaq";
+
 
 const PreviewContent = () => {
     const { pageId } = useParams();
@@ -42,12 +44,19 @@ const PreviewContent = () => {
         edges: [],
     });
     const [openModal, setopenModal] = useState(false);
-    const [openMenu, setopenMenu] = useState(false);
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
     const [image, setImage] = useState(null);
+    const [steps, setSteps] = useState([
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' },
+        { title: '', text: '' }
+    ]);
     const [convertedContent, setConvertedContent] = useState("");
+    const [convertstepText, setConvertstepText] = useState("")
     const [selected, setSelcted] = useState("text");
     const [position, setPosition] = useState(() => {
         const savedPostion = localStorage.getItem("position");
@@ -69,11 +78,11 @@ const PreviewContent = () => {
     const [questions, setQuestions] = useState([
         { question: "", response: "", }
     ]);
-
-
+    const [sectionData, setSectionData] = useState(sections);
     const [formPicture, setFormPicture] = useState({
         title: ""
     })
+
     const { saveBlock, error: saveError } = useSaveBlock();
     const { deleteBlock, error: deleteError } = useDeleteBlock()
     const { displaycontent, error: displayError } = useDisplayBlock()
@@ -86,15 +95,20 @@ const PreviewContent = () => {
         selected,
         convertedContent,
         editorState,
+        convertstepText,
         tableData,
         formLink,
         questions,
+        sectionData,
         rfInstance,
+        steps,
         position,
         id: pageId,
         setPosition,
         setConvertedContent,
+        setConvertstepText,
         setEditorState,
+        setSectionData,
         setFormLink,
         setQuestions,
         setOpenBlock,
@@ -114,6 +128,24 @@ const PreviewContent = () => {
         const newQuestions = [...questions];
         newQuestions[index] = { ...newQuestions[index], [name]: value };
         setQuestions(newQuestions);
+    };
+    const handleQuestionChangeFAQ = (e, sectionIndex, questionIndex) => {
+        const { name, value } = e.target;
+        const newSectionData = [...sectionData];
+        const field = name.split('-')[0];
+        newSectionData[sectionIndex].questions[questionIndex][field] = value;
+        setSectionData(newSectionData);
+    };
+    const addQuestionFAQ = (sectionIndex) => {
+        const newSectionData = [...sectionData];
+        newSectionData[sectionIndex].questions.push({ question: '', response: '' });
+        setSectionData(newSectionData);
+    };
+
+    const removeQuestionFAQ = (sectionIndex, questionIndex) => {
+        const newSectionData = [...sectionData];
+        newSectionData[sectionIndex].questions.splice(questionIndex, 1);
+        setSectionData(newSectionData);
     };
 
     const addQuestion = () => {
@@ -154,7 +186,7 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        if (block?.type === 'qasection') {
+        if (block?.type === 'qasection' || block?.type === 'stepsection' || block?.type === 'faqsection') {
             setIsopen(true)
             setopenModal(false)
         } else {
@@ -183,49 +215,38 @@ const PreviewContent = () => {
         await updateBlockPositions(pageId, blockClone);
     };
 
-
     useEffect(() => {
         displaycontent(id, setContent, recalculatePositions)
     }, [id]);
     console.log(content)
 
     return (
-        <div className=" max-w-7xl my-8 mx-auto">
-            <div className=" px-4 py-2 text-black flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Preview Content</h1>
+        <div className=" max-w-4xl mx-auto mt-4 px-5">
+            <div className=" px-4 py-2 text-black flex items-center justify-between mb-5">
+                <h2 className="text-5xl font-medium text-primary-title">Aperçu de contenu</h2>
                 <button
-                    className=" p-0 text-end focus:outline-none border-none bg-transparent text-[#00a2d6] text-3xl"
-                    onClick={() => setopenMenu(!openMenu)}
+                    className={`flex items-center ${!openBlock ? "bg-gray-400" : "bg-bg-btn"}   shadow-md text-white px-4 py-2`}
+                    onClick={submitContentBlock} disabled={!openBlock}
                 >
-                    {openMenu ? <IoCloseOutline /> : <IoAddOutline />}
+                    <FaPlus className="mr-2" />  {" "} Enregistrer
                 </button>
             </div>
 
-            {openMenu && (
-                <div className="px-4 py-2 text-black ">
-                    <MenuContent handelBlockClick={handelBlockClick} />
-                </div>
-            )}
+            <div className="px-4 py-2 text-black ">
+                <MenuContent handelBlockClick={handelBlockClick} />
+            </div>
 
             <div className=" p-4">
-                {((openMenu && openBlock === "text") ||
-                    (openMenu && openBlock === "table") ||
-                    (openMenu && openBlock === "link") ||
-                    (openMenu && openBlock !== "image") ||
-                    (openMenu && openBlock === "charts") ||
-                    (openMenu && openBlock === "qasection")) && (
-                        <div className=" mb-5 flex justify-end gap-4">
-                            <button
-                                className={`bg-[#00a2d6] border border-[#00a2d6] focus:outline-none text-white px-5 py-2 hover:border-[#00a2d6]`}
-                                onClick={submitContentBlock}
-                            >
-                                {" "}
-                                Save
-                            </button>
-                        </div>
-                    )}
+                {((openBlock === "text") ||
+                    (openBlock === "table") ||
+                    (openBlock === "link") ||
+                    (openBlock !== "image") ||
+                    (openBlock === "charts") ||
+                    (openBlock === "qasection") ||
+                    (openBlock === "faqsection") ||
+                    (openBlock === "stepsection"))}
 
-                {openMenu && openBlock === "text" && (
+                {openBlock === "text" && (
                     <TextEditor
                         editorState={editorState}
                         onEditorStateChange={setEditorState}
@@ -235,19 +256,19 @@ const PreviewContent = () => {
 
                 )}
 
-                {openMenu && openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
+                {openBlock === "image" && <UploadImage image={image} setImage={setImage} handleUpload={handleUpload}
                     handleChangePicture={handleImageChange} formPicture={formPicture}
                 />}
-                {openMenu && openBlock === "table" && (
+                {openBlock === "table" && (
                     <TableEditor tableData={tableData} setTableData={setTableData} />
                 )}
-                {openMenu && openBlock === "link" && (
+                {openBlock === "link" && (
                     <CreateLink formLink={formLink} handelChange={handleLinkChange} />
                 )}
-                {openMenu && openBlock === "charts" && (
+                {openBlock === "charts" && (
                     <HorizontalFlowWrapper setRfInstance={setRfInstance} />
                 )}
-                {openMenu && openBlock === "qasection" && (
+                {openBlock === "qasection" && (
                     <div>
                         {questions.map((qa, index) => (
                             <div>
@@ -261,8 +282,40 @@ const PreviewContent = () => {
                         </div>
                     </div>
                 )}
+
+                {openBlock === "stepsection" && (
+                    <StepsSectionEditor
+                        steps={steps}
+                        setSteps={setSteps}
+                        editorState={editorState}
+                        onEditorStateChange={setEditorState}
+                    />
+                )}
+                {openBlock === "faqsection" && (
+                    <div className=" w-11/12 mx-auto border rounded-md p-4">
+                        {sectionData.map((section, sectionIndex) => (
+                            <div key={section.name} className=" border-b border-gray-200 py-4">
+                                <h2 className="  text-lg font-semibold">{section.name}</h2>
+                                {section.questions.map((qa, questionIndex) => (
+                                    <div key={questionIndex}>
+                                        <CollapsibleQuestion
+                                            section={section.name}
+                                            question={qa.question}
+                                            response={qa.response}
+                                            handleQuestion={(e) => handleQuestionChangeFAQ(e, sectionIndex, questionIndex)}
+                                            remove={() => removeQuestionFAQ(sectionIndex, questionIndex)}
+                                        />
+                                    </div>
+                                ))}
+                                <div className="flex justify-end">
+                                    <button onClick={() => addQuestionFAQ(sectionIndex)} className="mt-4 p-2 bg-[#00a2d6] text-white">Add Question</button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
-            <div className=" bg-white shadow-md p-4 mt-5 rounded-md">
+            <div className="px-4 py-2">
                 {content ? (
                     content.map((item) => (
                         <ListContent
@@ -327,6 +380,20 @@ const PreviewContent = () => {
                         block={selectedNode}
                         onSave={handleSave}
                         onClose={() => setopenModal(false)}
+                    />
+                )}
+                {selectedBlock?.type === "stepsection" && (
+                    <EditStep
+                        block={selectedBlock}
+                        onSave={handleSave}
+                        onClose={() => setIsopen(false)}
+                    />
+                )}
+                {selectedBlock?.type === "faqsection" && (
+                    <EditCollapsibleFaq
+                        block={selectedBlock}
+                        onSave={handleSave}
+                        onClose={() => setIsopen(false)}
                     />
                 )}
             </LeftSidebar>

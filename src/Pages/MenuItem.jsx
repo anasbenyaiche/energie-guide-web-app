@@ -5,10 +5,7 @@ import MenuItemsList from "../containers/MenuItemList";
 const MenuItems = () => {
   return (
     <div>
-      <Layout>
-        <MenuItemsList />
-      </Layout>
-      <Footer />
+      <MenuItemsList />
     </div>
   );
 };

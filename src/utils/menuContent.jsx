@@ -1,34 +1,51 @@
-import { FaTextHeight } from "react-icons/fa6";
-import { CiImageOn } from "react-icons/ci";
-import { BsTable } from "react-icons/bs";
-import { FaLink } from "react-icons/fa6";
-import { BsDiagram3 } from "react-icons/bs";
-import { VscCollapseAll } from "react-icons/vsc";
-
+import text from '../assets/icon/text.svg';
+import picture from '../assets/icon/photo.svg';
+import link from '../assets/icon/link.svg';
+import chart from '../assets/icon/chart.svg';
+import chat from '../assets/icon/chat.svg';
+import list from '../assets/icon/queue-list.svg';
+import question from '../assets/icon/question-mark.svg';
+import table from '../assets/icon/table.svg';
 const menu = [
     {
         title: 'Text',
-        icone: <FaTextHeight className="text-3xl mb-2 text-center" />
+        icone: text,
+        label: 'Text'
     },
     {
         title: "Image",
-        icone: <CiImageOn className=" text-3xl mb-2 text-center" />
+        icone: picture,
+        label: 'Image'
     },
     {
         title: 'Table',
-        icone: <BsTable className=" text-3xl mb-2 text-center" />
+        icone: table,
+        label: 'Tableau'
     },
     {
         title: 'Link',
-        icone: <FaLink className=" text-3xl mb-2 text-center" />
+        icone: link,
+        label: 'Liens'
     },
     {
         title: 'Charts',
-        icone: <BsDiagram3 className=" text-3xl mb-2 text-center" />
+        icone: chart,
+        label: 'Diagrammes'
     },
     {
         title: 'QAsection',
-        icone: <VscCollapseAll className=" text-3xl mb-2 text-center" />
+        icone: chat,
+        label: 'Section Q&A '
+    },
+    {
+        title: 'Stepsection',
+        icone: list,
+        label: 'Section Étape'
+    },
+    {
+        title: 'FAQSection',
+        icone: question,
+        label: 'Section FAQ'
     }
 ]
 

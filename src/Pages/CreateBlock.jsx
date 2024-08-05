@@ -5,10 +5,9 @@ import CreateContent from '../containers/CreateContent'
 
 const CreateBlock = () => {
     return (
-        <Layout>
-            <CreateContent />
-            <Footer />
-        </Layout>
+
+        <CreateContent />
+
     )
 }
 

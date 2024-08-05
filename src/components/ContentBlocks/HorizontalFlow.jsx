@@ -106,7 +106,7 @@ const HorizontalFlow = ({ setRfInstance }) => {
     <div className='w-full'>
       <div >
         <div className='flex items-baseline  justify-start gap-4'>
-          <div class="relative z-0">
+          <div className="relative z-0">
             <label className='text-[#00a2d6] text-sm' htmlFor="">Add Title</label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               placeholder=" "
@@ -114,7 +114,7 @@ const HorizontalFlow = ({ setRfInstance }) => {
                 setState((prev) => ({ ...prev, name: e.target.value }));
               }} />
           </div>
-          <div class="relative z-0">
+          <div className="relative z-0">
             <label className='text-[#00a2d6] text-sm' htmlFor=""> Add Background </label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               value={colorInputValue}
@@ -130,7 +130,7 @@ const HorizontalFlow = ({ setRfInstance }) => {
               </div>
             )}
           </div>
-          <div class="relative z-0">
+          <div className="relative z-0">
             <label className='text-[#00a2d6] text-sm' htmlFor="">Add Color</label>
             <input type="text" id="floating_standard" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-black dark:border-gray-600 dark:focus:border-[#00a2d6] focus:outline-none focus:ring-0 focus:border-[#00a2d6] peer"
               value={TextInputValue}

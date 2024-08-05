@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/api";
+import { IoMdArrowDropright } from "react-icons/io";
 import { FaPlus } from "react-icons/fa";
 import { deletePage, getPages } from "../services/pageService";
 
@@ -44,45 +44,48 @@ const PagesList = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto mt-10">
+    <div className=" max-w-3xl mx-auto mt-4">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Pages List</h2>
+        <h2 className="text-5xl font-medium text-primary-title">Liste des pages</h2>
         <button
-          className="flex items-center bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
+          className="flex items-center bg-bg-btn shadow-md text-white px-4 py-2"
           onClick={handleAddPage}
         >
           <FaPlus className="mr-2" /> Add Page
         </button>
       </div>
-      <ul className="grid grid-cols-1 gap-4">
-        {pages.map((page) => (
-          <li
-            key={page._id}
-            className="flex items-center justify-between bg-gray-100 p-2 rounded shadow hover:bg-gray-200"
-          >
-            <span
-              className="cursor-pointer text-blue-600 hover:underline "
-              onClick={() => handlePageContent(page._id)}
+      <div className=" bg-white shadow-lg  mt-3 mb-5 py-4 px-6">
+        <ul className="grid grid-cols-1 gap-4">
+          {pages.map((page) => (
+            <li
+              key={page._id}
+              className="flex items-center justify-between bg-white p-2 rounded shadow-lg"
             >
-              {page.title}
-            </span>
-            <div className="flex space-x-2">
-              <button
-                className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-700"
-                onClick={() => handlePageClick(page._id)}
+              <div
+                className="cursor-pointer flex items-center text-secondary-title font-medium text-lg"
+                onClick={() => handlePageContent(page._id)}
               >
-                Update
-              </button>
-              <button
-                className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700"
-                onClick={() => handleDeletePage(page._id)}
-              >
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+                <IoMdArrowDropright />
+                {page.title}
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  className=" bg-bg-btn text-white text-sm p-2 rounded"
+                  onClick={() => handlePageClick(page._id)}
+                >
+                  Mettre à jour
+                </button>
+                <button
+                  className="bg-red-500 text-white p-2 text-sm  rounded"
+                  onClick={() => handleDeletePage(page._id)}
+                >
+                  Supprimer
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,15 @@
+.footer-4 .fa {
+    color: grey;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.footer-4 ul li a {
+    width: 35px;
+    height: 35px;
+    border: 2px solid #5d728b;
+    border-radius: 50%;
+    text-align: end;
+    line-height: 35px;
+    display: block;
+}

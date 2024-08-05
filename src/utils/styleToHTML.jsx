@@ -10,4 +10,4 @@ const styleToHTML = (style) => {
     return null;
 };
 
-export default styleToHTML
+export default styleToHTML;

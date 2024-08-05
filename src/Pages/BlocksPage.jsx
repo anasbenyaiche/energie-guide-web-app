@@ -5,10 +5,9 @@ import PreviewContent from '../containers/PreviewContent'
 
 const BlocksPage = () => {
     return (
-        <Layout>
-            <PreviewContent />
-            <Footer />
-        </Layout>
+
+        <PreviewContent />
+
     )
 }
 

@@ -5,10 +5,7 @@ import MenuList from "../containers/MenuList";
 const Menus = () => {
   return (
     <div>
-      <Layout>
-        <MenuList />
-      </Layout>
-      <Footer />
+      <MenuList />
     </div>
   );
 };

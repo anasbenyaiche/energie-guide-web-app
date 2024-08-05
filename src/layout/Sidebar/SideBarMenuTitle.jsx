@@ -2,10 +2,10 @@ import PropTypes from "prop-types";
 
 const SideBarMenuTitle = ({ title, subtitle }) => {
   return (
-    <div className="side-bar-menu-title-container">
-      <h2 className="side-bar-menu-title ">{title}</h2>
+    <div className=" mb-5">
+      <h2 className=" text-white uppercase  font-medium  text-xl">{title}</h2>
 
-      <span className="side-bar-menu-title-subtitle">{subtitle}</span>
+      <span className="text-[#00a2d6]  ">{subtitle}</span>
     </div>
   );
 };
