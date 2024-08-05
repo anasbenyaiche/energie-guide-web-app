@@ -45,7 +45,7 @@ const Footer = () => {
                   <ul className="csc-menu csc-menu-1">
                     <li>
                       <a
-                        href="fr/ministere/mot-de-bienvenue/"
+                        href="https://www.energiemines.gov.tn/fr/ministere/mot-de-bienvenue/"
                         title="Mot de Bienvenue"
                       >
                         Mot de Bienvenue
@@ -53,19 +53,25 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="fr/ministere/visions-missions/"
+                        href="https://www.energiemines.gov.tn/fr/ministere/visions-missions/"
                         title="Visions &amp; Missions"
                       >
                         Visions &amp; Missions
                       </a>
                     </li>
                     <li>
-                      <a href="fr/ministere/attributions/" title="Attributions">
+                      <a
+                        href="https://www.energiemines.gov.tn/fr/ministere/attributions/"
+                        title="Attributions"
+                      >
                         Attributions
                       </a>
                     </li>
                     <li>
-                      <a href="fr/ministere/organigramme/" title="Organigramme">
+                      <a
+                        href="https://www.energiemines.gov.tn/fr/ministere/organigramme/"
+                        title="Organigramme"
+                      >
                         Organigramme
                       </a>
                     </li>
@@ -75,7 +81,7 @@ const Footer = () => {
                   <ul className="csc-menu csc-menu-1">
                     <li>
                       <a
-                        href="fr/ministere/entreprises-et-etablissements-sous-tutelle/"
+                        href="https://www.energiemines.gov.tn/fr/ministere/entreprises-et-etablissements-sous-tutelle/"
                         title="Entreprises et Etablissements sous tutelle"
                       >
                         Entreprises et Etablissements sous tutelle
@@ -83,7 +89,7 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="fr/ministere/budget-du-ministere/"
+                        href="https://www.energiemines.gov.tn/fr/ministere/budget-du-ministere/"
                         title="Budget du Ministère"
                       >
                         Budget du Ministère
@@ -91,17 +97,19 @@ const Footer = () => {
                     </li>
                     <li>
                       <a
-                        href="fr/ministere/cooperation-internationale/"
+                        href="https://www.energiemines.gov.tn/fr/ministere/cooperation-internationale/"
                         title="Coopération internationale"
                       >
                         Coopération internationale
                       </a>
                     </li>
                     <h1 className="csc-firstHeader">
-                      <a href="fr/cadre-reglementaire/">Cadre réglementaire</a>
+                      <a href="https://www.energiemines.gov.tn/fr/cadre-reglementaire/">
+                        Cadre réglementaire
+                      </a>
                     </h1>
                     <h1 className="csc-firstHeader">
-                      <a href="http://data.industrie.gov.tn" target="_blank">
+                      <a href="http://data.industrie.gov.tn/" target="_blank">
                         Open Data
                       </a>
                     </h1>
@@ -127,11 +135,7 @@ const Footer = () => {
                   </h2>
                   <ul>
                     <li>
-                      <a
-                        href="https://www.facebook.com/MinistereIEM/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
+                      <a href="#" target="_blank" rel="noopener noreferrer">
                         <i className="fa fa-facebook" aria-hidden="true"></i>
                       </a>
                     </li>
