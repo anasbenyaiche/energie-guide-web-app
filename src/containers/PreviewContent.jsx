@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ListContent from "../components/ContentBlocks/ListContent";
-import EditTextEditor from "../components/ContentBlocks/EditTextEditor";
-import Modal from "../components/Modal/Modal";
-import EditTable from "../components/ContentBlocks/EditTable";
 import { useParams } from "react-router-dom";
-import EditLink from "../components/ContentBlocks/EditLink";
 import TextEditor from "../components/ContentBlocks/TextEditor";
 import { EditorState } from "draft-js";
 import { stateToHTML } from 'draft-js-export-html';
@@ -13,7 +9,6 @@ import CreateLink from "../components/ContentBlocks/CreateLink";
 import UploadImage from "../components/ContentBlocks/UploadImage";
 import DOMPurify from "dompurify";
 import HorizontalFlowWrapper from "../components/ContentBlocks/HorizontalFlow";
-import EditUploadImage from "../components/ContentBlocks/EditUploadImage";
 import useSaveBlock from "../hooks/useSaveBlock";
 import useDeleteBlock from "../hooks/useDeleteBlock";
 import useDisplayBlock from "../hooks/useDisplayBlock";
@@ -21,16 +16,11 @@ import useCreateBlock from "../hooks/useCreateBlock";
 import useUpdateBlock from "../hooks/useUpdateBlock";
 import useUploadPicture from "../hooks/useUploadPicture";
 import MenuContent from "../components/ContentBlocks/MenuContent";
-import EditFlowWrapper from "../components/ContentBlocks/EditFLow";
 import CollapsibleQuestion from "../components/ContentBlocks/CollapsibleQuestion";
-import EditCollapsible from "../components/ContentBlocks/EditCollapsible";
 import { FaPlus } from "react-icons/fa";
-import LeftSidebar from "../components/LeftSidebar";
 import blockStyleFn from "../utils/blockStyleFn";
 import StepsSectionEditor from "../components/ContentBlocks/PreviewStep/StepsSectionEditor";
-import EditStep from "../components/ContentBlocks/PreviewStep/EditStep";
 import { sections } from "../utils/sectionsData";
-import EditCollapsibleFaq from "../components/FAQSection/EditCollapsibleFaq";
 
 
 const PreviewContent = () => {
@@ -43,7 +33,6 @@ const PreviewContent = () => {
         nodes: [],
         edges: [],
     });
-    const [openModal, setopenModal] = useState(false);
     const [editorState, setEditorState] = useState(() =>
         EditorState.createEmpty()
     );
@@ -69,7 +58,6 @@ const PreviewContent = () => {
         ["", "", ""],
         ["", "", ""],
     ]);
-    const [isOpen, setIsopen] = useState(false);
     const [formLink, setFormLink] = useState({
         link: "",
         title: "",
@@ -186,21 +174,10 @@ const PreviewContent = () => {
     const handleEdit = (block) => {
         setSelectedBlock(block);
         setSelectedNode(block)
-        if (block?.type === 'qasection' || block?.type === 'stepsection' || block?.type === 'faqsection') {
-            setIsopen(true)
-            setopenModal(false)
-        } else {
-            setopenModal(true);
-            setIsopen(false)
-        }
-
-
     };
 
     const handleSave = async (updatedBlock) => {
         saveBlock(updatedBlock, setContent, content);
-        setopenModal(false)
-        setIsopen(false)
     };
 
     const dragBlock = useRef(0);
@@ -218,8 +195,6 @@ const PreviewContent = () => {
     useEffect(() => {
         displaycontent(id, setContent, recalculatePositions)
     }, [id]);
-    console.log(content)
-
     return (
         <div className=" max-w-4xl mx-auto mt-4 px-5">
             <div className=" px-4 py-2 text-black flex items-center justify-between mb-5">
@@ -328,75 +303,13 @@ const PreviewContent = () => {
                             onDragEnter={() => (dragOverBlock.current = item.position)}
                             onDragEnd={handelSort}
                             onDragOver={(e) => e.preventDefault()}
+                            handleSaveEdit={handleSave}
                         />
                     ))
                 ) : (
                     <h2>No content fo the moment</h2>
                 )}
             </div>
-            <Modal open={openModal} onClose={() => setopenModal(false)}>
-                {selectedBlock?.type === "text" && (
-                    <EditTextEditor
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setopenModal(false)}
-                    />
-                )}
-                {selectedBlock?.type === "table" && (
-                    <EditTable
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setopenModal(false)}
-                    />
-                )}
-                {selectedBlock?.type === "link" && (
-                    <EditLink
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setopenModal(false)}
-                    />
-                )}
-                {selectedBlock?.type === "image" && (
-                    <EditUploadImage
-                        block={selectedBlock}
-                        setImage={setImage}
-                        handleUpload={handleUpload}
-                        handleChangePicture={handleImageChange}
-                        formPicture={formPicture}
-                    />
-                )}
-            </Modal>
-            <LeftSidebar isOpen={isOpen} onClose={() => setIsopen(false)}>
-                {selectedBlock?.type === "qasection" && (
-                    <EditCollapsible
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setIsopen(false)}
-                    />
-
-                )}
-                {selectedNode?.type === "charts" && (
-                    <EditFlowWrapper
-                        block={selectedNode}
-                        onSave={handleSave}
-                        onClose={() => setopenModal(false)}
-                    />
-                )}
-                {selectedBlock?.type === "stepsection" && (
-                    <EditStep
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setIsopen(false)}
-                    />
-                )}
-                {selectedBlock?.type === "faqsection" && (
-                    <EditCollapsibleFaq
-                        block={selectedBlock}
-                        onSave={handleSave}
-                        onClose={() => setIsopen(false)}
-                    />
-                )}
-            </LeftSidebar>
         </div>
     );
 };

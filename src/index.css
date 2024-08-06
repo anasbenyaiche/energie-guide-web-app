@@ -246,3 +246,7 @@ ol {
 .custom-table tbody tr:nth-child(odd) th {
   background-color: #d7f1e1;
 }
+
+.custom-table tr:first-child {
+  background-color: #adebff;
+}

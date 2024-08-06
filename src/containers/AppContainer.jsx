@@ -1,11 +1,9 @@
 import React, { useContext, useMemo } from "react";
-import Layout from "../layout/layout";
-import Footer from "../layout/Footer/Footer";
 import { useMatch } from "react-router-dom";
 import PagesContext from "../context/PageContext";
 import PreviewPages from "../components/PreviewBlock/PreviewPages";
 import useFetchPageData from "../hooks/useFetchPageData";
-import NotFound from "../Pages/NotFound";
+import MenuPage from "../components/MenuPages/MenuPage";
 
 const AppContainer = () => {
   const { pages } = useContext(PagesContext);
@@ -14,8 +12,6 @@ const AppContainer = () => {
   const pageId = useMemo(() => {
     return pages?.find(({ slug }) => slug === pathname)?._id;
   }, [pages, pathname]);
-
-  console.log(pageId)
 
   const { pageData, loading, error } = useFetchPageData(pageId)
 
@@ -31,12 +27,14 @@ const AppContainer = () => {
 
   return (
     <>
+      <MenuPage />
       {pageData ? (
-        <>
+        <div className="row">
+
           {pageData.contentBlocks.map((item) => (
             <PreviewPages key={item._id} blocks={item} />
           ))}
-        </>
+        </div>
       ) : (
         <p>Loading page content...</p>
       )}

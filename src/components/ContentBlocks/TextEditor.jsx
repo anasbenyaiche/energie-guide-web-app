@@ -9,7 +9,7 @@ const fontFamilyStyleMap = {
     'FONTFAMILY_Impact': { fontFamily: 'Impact' },
     'FONTFAMILY_Tahoma': { fontFamily: 'Tahoma' },
     'FONTFAMILY_Times New Roman': { fontFamily: 'Times New Roman' },
-    'FONTFAMILY_Verdana': { fontFamily: 'Verdana' },
+    'FONTFAMILY_Roboto': { fontFamily: 'Roboto Condensed' },
 };
 
 const fontSizeStyleMap = {
@@ -57,7 +57,7 @@ const TextEditor = ({ editorState, onEditorStateChange }) => {
                         colors: ['#213547', '#00a2d6', '#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF']
                     },
                     fontFamily: {
-                        options: ['Arial', 'Georgia', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
+                        options: ['Roboto Condensed'],
                     },
                     fontSize: {
                         options: [8, 9, 10, 11, 12, 14, 16, 18, 24, 30, 36, 48, 60, 72, 96],

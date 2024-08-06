@@ -37,11 +37,10 @@ const App = () => {
           <Route path="/autoconsommation" element={<Layout showSidebar={false}><AutocPage /></Layout>} />
           <Route path="/autoconsommation/sans_transport" element={<Layout showSidebar={false}><SansTranPage /></Layout>} />
           <Route path="/admin" element={<Login />} />
-
+          <Route path="/:link" element={<Layout showSidebar={false}><AppContainer /></Layout>} />
           {/* Protected routes with sidebar */}
           <Route element={<ProtectedLayout />}>
             <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/:link" element={<AppContainer />} />
             <Route path="/admin/pages" element={<Pages />} />
             <Route path="/admin/pages/create" element={<PageForm />} />
             <Route path="/admin/menus" element={<Menus />} />
