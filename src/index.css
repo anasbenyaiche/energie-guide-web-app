@@ -13,7 +13,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base row style */
 .row {
   width: 1170px;
   max-width: 100%;
@@ -202,7 +201,12 @@ button:focus-visible {
 }
 
 .dash-content {
-  background: linear-gradient(90deg, #04162E 50%, transparent 50%);
+  background: linear-gradient(90deg, #0D335F 50%, white 50%);
+}
+
+.bar-content {
+  background: linear-gradient(90deg, #0D335F 50%, #0D335F 50%);
+  ;
 }
 
 .arrow-text::before {
@@ -237,6 +241,11 @@ ol {
   padding: 10px 30px;
 }
 
+ul {
+  list-style: disc;
+  padding: 10px 20px;
+}
+
 .bg-bgadmin-gradient {
   background: rgb(0, 4, 40);
   background: linear-gradient(90deg, rgba(0, 4, 40, 1) 0%, rgba(0, 78, 146, 1) 100%);
@@ -249,4 +258,104 @@ ol {
 
 .custom-table tr:first-child {
   background-color: #adebff;
+}
+
+/* logerSteps */
+
+.process-steps {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.step {
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid #999999;
+  color: #999999;
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 1em;
+  position: relative;
+  z-index: 20;
+}
+
+.step.active .step-number {
+  background-color: #FFA500;
+  color: white;
+  border: 1px solid #FFA500;
+}
+
+.step.active .step-header::after {
+  background-color: #FFA500;
+}
+
+.step-header::after {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  left: 25px;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background-color: #999999;
+  z-index: 1;
+}
+
+.step-header:nth-child(4)::after {
+  height: 0%;
+}
+
+.step:last-child .step-header::after {
+  display: none;
+}
+
+.step-title {
+  font-size: 1.2em;
+  color: #999999;
+}
+
+.step-content {
+  padding: 10px 20px;
+  border-left: 3px solid #00A2D6;
+  margin-left: 70px;
+  margin-top: 10px;
+}
+
+.step.active .step-title {
+  color: #111111;
+  font-weight: bold;
+}
+
+.text-vertical {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  color: black;
+  margin-bottom: 8px;
+}
+
+.line_rapidlink {
+  width: 1px;
+  height: 90px;
+  background-color: black;
+  margin-bottom: 16px;
 }

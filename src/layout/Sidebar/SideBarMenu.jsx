@@ -59,7 +59,7 @@ const SideBarMenu = () => {
           </button>
         </div>
         <div className="line"></div>
-        <ul className=" mt-2">
+        <ul className=" mt-2 p-0">
           {sideBarMenu?.menuItems?.map((menuItem) => (
             <div key={menuItem._id}>
               <SideBarMenuItem item={menuItem} editPage={() => handlePageContent(menuItem.page_id)} />

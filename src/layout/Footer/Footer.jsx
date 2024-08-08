@@ -42,7 +42,7 @@ const Footer = () => {
               <div className="row">
                 <div className="col">
                   <h4 className="csc-firstHeader">Ministère</h4>
-                  <ul className="csc-menu csc-menu-1">
+                  <ul className="csc-menu csc-menu-1 list-none">
                     <li>
                       <a
                         href="https://www.energiemines.gov.tn/fr/ministere/mot-de-bienvenue/"

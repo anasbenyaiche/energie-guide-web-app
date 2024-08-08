@@ -4,13 +4,16 @@ import Breadcrumb from "./Breadcrumb/Breadcrumb";
 import PropTypes from "prop-types";
 import Header from "./Header/Header";
 import FooterE from "./Footer/FooterE";
+import FixedIcons from "../components/FixedIcons/FixedIcons";
 
 const Layout = ({ children, showSidebar }) => {
 
   return (
     <>
       <Header />
+      {!showSidebar && <FixedIcons />}
       <div className="w-full dash-content">
+        {showSidebar && <Breadcrumb />}
         <div className={` ${showSidebar ? 'row' : 'w-full'}`}>
           <div className={`grid ${showSidebar ? 'grid-cols-4' : 'grid-cols-1'}`}>
             {showSidebar && (
@@ -18,7 +21,7 @@ const Layout = ({ children, showSidebar }) => {
                 <SideBarMenu />
               </div>)}
             <div className={`${showSidebar ? 'col-span-3' : 'col-span-1'} bg-light h-full bg-white`}>
-              {showSidebar && <Breadcrumb />}
+
               {children}
             </div>
           </div>

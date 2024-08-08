@@ -22,6 +22,8 @@ import ProcePage from "./Pages/ProcePage";
 import AutocPage from "./Pages/AutocPage";
 import NotFound from "./Pages/NotFound";
 import SansTranPage from "./Pages/Autoconsommation/SansTranPage";
+import AutorPage from "./Pages/AutorPage";
+import ConcPage from "./Pages/ConcPage";
 
 const App = () => {
   const isInitiallyAuthenticated = localStorage.getItem("token") !== null; // Example check
@@ -35,6 +37,8 @@ const App = () => {
           <Route path="/base_de_connaissance" element={<Layout showSidebar={false}><BaseConPage /></Layout>} />
           <Route path="/procedure" element={<Layout showSidebar={false}><ProcePage /></Layout>} />
           <Route path="/autoconsommation" element={<Layout showSidebar={false}><AutocPage /></Layout>} />
+          <Route path="/autorisation" element={<Layout showSidebar={false}><AutorPage /></Layout>} />
+          <Route path="/concession" element={<Layout showSidebar={false}><ConcPage /></Layout>} />
           <Route path="/autoconsommation/sans_transport" element={<Layout showSidebar={false}><SansTranPage /></Layout>} />
           <Route path="/admin" element={<Login />} />
           <Route path="/:link" element={<Layout showSidebar={false}><AppContainer /></Layout>} />

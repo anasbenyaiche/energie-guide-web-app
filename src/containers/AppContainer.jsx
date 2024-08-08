@@ -4,6 +4,7 @@ import PagesContext from "../context/PageContext";
 import PreviewPages from "../components/PreviewBlock/PreviewPages";
 import useFetchPageData from "../hooks/useFetchPageData";
 import MenuPage from "../components/MenuPages/MenuPage";
+import Loader from "../utils/Loader/Loader";
 
 const AppContainer = () => {
   const { pages } = useContext(PagesContext);
@@ -18,7 +19,7 @@ const AppContainer = () => {
 
 
   if (loading) {
-    return <p className="text-black">Loading page content...</p>;
+    return <Loader />
   }
 
   if (error) {
@@ -36,7 +37,7 @@ const AppContainer = () => {
           ))}
         </div>
       ) : (
-        <p>Loading page content...</p>
+        <Loader />
       )}
 
     </>
