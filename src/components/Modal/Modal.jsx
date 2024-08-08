@@ -4,8 +4,6 @@ import { AiOutlineClose } from "react-icons/ai";
 
 const Modal = ({ open, onClose, children }) => {
 
-
-
     return (
         <div
             onClick={onClose}

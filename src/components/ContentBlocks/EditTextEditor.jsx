@@ -40,20 +40,17 @@ const EditTextEditor = ({ block, onClose, onSave }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
-                <h2 className=' text-black'>Edit Content Block</h2>
-                <TextEditor
-                    editorState={editorState}
-                    onEditorStateChange={handleEditorStateChange}
-                    convertedContent={convertedContent}
-                />
-                <div className="flex justify-end mt-6 gap-5">
-                    <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
-                        <HiMiniXMark className='text-2xl' /> Annuler</button>
-                    <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
-                        <FaPlus className="mr-2" />Enregistrer</button>
-                </div>
+        <div>
+            <TextEditor
+                editorState={editorState}
+                onEditorStateChange={handleEditorStateChange}
+                convertedContent={convertedContent}
+            />
+            <div className="flex justify-end mt-6 gap-5">
+                <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <HiMiniXMark className='text-2xl' /> Annuler</button>
+                <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Enregistrer</button>
             </div>
         </div>
     );

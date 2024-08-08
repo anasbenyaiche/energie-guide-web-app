@@ -43,7 +43,7 @@ const PageForm = () => {
 
   return (
     <div className=" max-w-3xl mx-auto mt-4">
-      <h2 className="text-5xl font-medium text-primary-title">Create a New Page</h2>
+      <h2 className="text-5xl font-medium text-primary-title">Créer une nouvelle page</h2>
       <div className="bg-white shadow-lg  mt-3 mb-5 py-4 px-6">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

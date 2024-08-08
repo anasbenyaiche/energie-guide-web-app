@@ -6,13 +6,14 @@ import { SketchPicker } from 'react-color';
 import TextEditor from './TextEditor';
 import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
-
+import { FaPlus } from 'react-icons/fa';
+import { HiMiniXMark } from "react-icons/hi2";
 
 const getNodeId = () => `node_${+new Date()}`;
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
 const proOptions = { hideAttribution: true };
-const EditFlow = ({ block, onSave }) => {
+const EditFlow = ({ block, onClose, onSave }) => {
     const [nodes, setNodes, onNodesChange] = useNodesState(block?.nodes || []);
     const [edges, setEdges, onEdgesChange] = useEdgesState(block?.edges || []);
     const [state, setState] = useState({ name: "Empty Nodes" });
@@ -191,6 +192,12 @@ const EditFlow = ({ block, onSave }) => {
                         <Controls className="react-flow_controls" showInteractive={false} />
                     </ReactFlow>
                 </div>
+            </div>
+            <div className="flex justify-end mt-6 gap-5">
+                <button onClick={onClose} className="bg-red-500 flex gap-2 justify-between items-center text-white px-3 py-3 ml-2">
+                    <HiMiniXMark className='text-2xl' /> Annuler</button>
+                <button onClick={handleSave} className=" flex items-center justify-between gap-2 bg-bg-btn px-3 py-3 text-white">
+                    <FaPlus className="mr-2" />Enregistrer</button>
             </div>
         </div>
     );

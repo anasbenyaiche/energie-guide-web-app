@@ -206,7 +206,7 @@
 }
 
 .footer-4 ul {
-    display: flex;
+    list-style: none;
 }
 
 .footer-4 ul li {

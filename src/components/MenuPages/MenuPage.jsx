@@ -11,11 +11,11 @@ const menu = [
     },
     {
         title: 'autorisations',
-        url: 'Autorisations'
+        url: 'autorisation'
     },
     {
         title: 'concessions',
-        url: 'Concessions'
+        url: 'concession'
     },
 ]
 

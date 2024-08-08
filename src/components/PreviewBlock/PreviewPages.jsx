@@ -144,7 +144,7 @@ const PreviewPages = ({ blocks }) => {
 
 PreviewPages.propTypes = {
     blocks: propTypes.shape({
-        content: propTypes.string.isRequired,
+        content: propTypes.oneOfType([propTypes.string, propTypes.object]).isRequired,
     }).isRequired,
 }
 

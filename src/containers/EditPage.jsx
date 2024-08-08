@@ -39,8 +39,13 @@ const EditPage = () => {
 
   return (
     <div className=" max-w-3xl mx-auto mt-4">
-      <h2 className="text-5xl font-medium text-primary-title mb-5">Edit Page</h2>
-      <form onSubmit={handleUpdate} className="bg-white shadow-lg  mt-3 mb-5 py-4 px-6">
+      <h2 className="text-5xl font-medium text-primary-title mb-5">
+        Edit Page
+      </h2>
+      <form
+        onSubmit={handleUpdate}
+        className="bg-white shadow-lg  mt-3 mb-5 py-4 px-6"
+      >
         <div className="mb-4">
           <label htmlFor="title" className="block text-gray-700">
             Title
@@ -74,17 +79,13 @@ const EditPage = () => {
           >
             Retour
           </button>
-          <button
-            type="submit"
-            className=" bg-bg-btn px-7 py-3 text-white"
-          >
+          <button type="submit" className=" bg-bg-btn px-7 py-3 text-white">
             Mettre à jour
           </button>
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
         </div>
       </form>
-
     </div>
   );
 };

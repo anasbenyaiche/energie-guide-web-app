@@ -14,7 +14,7 @@ const Header = () => {
                 <img className="" src={logo} alt="energie guide" />
               </Link>
             </div>
-            <div className=" w-2/3">
+            <div className=" w-3/5">
               <div className="text-xs text-[#333333] font-medium">
                 République Tunisienne
               </div>

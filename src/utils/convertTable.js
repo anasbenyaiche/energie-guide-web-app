@@ -2,12 +2,12 @@ const convertTable = (tableData) => {
   const numberOfColumns = tableData[0] ? tableData[0].length : 0;
   let html = `
     <table class="min-w-full divide-y divide-gray-200">
-      <thead class="bg-yellow-400">
+      <thead>
         <tr>
-          <th colspan=${numberOfColumns} class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Site</th>
+          <th colspan=${numberOfColumns}></th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody class="bg-white divide-y divide-gray-200 custom-table">
   `;
   const columns = tableData[0] || [];
 

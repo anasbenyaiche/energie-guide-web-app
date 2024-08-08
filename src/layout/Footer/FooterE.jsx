@@ -23,7 +23,7 @@ const FooterE = () => {
 
                     <div className="col-span-1 text-[#5d728b]">
                         <h4 className="font-bold  text-xl">Ministère</h4>
-                        <ul className="mt-2 space-y-1 text-sm">
+                        <ul className="mt-2 space-y-1 text-sm p-0 list-none">
                             <li>Mot de Bienvenue</li>
                             <li>Visions & Missions</li>
                             <li>Attributions</li>
@@ -31,7 +31,7 @@ const FooterE = () => {
                         </ul>
                     </div>
                     <div className="col-span-1 text-[#5d728b]">
-                        <ul className="mt-2 space-y-1 text-sm">
+                        <ul className="mt-2 space-y-1 text-sm list-none p-0">
                             <li>Entreprises et Établissements sous tutelle</li>
                             <li>Budget du Ministère</li>
                             <li>Coopération internationale</li>
@@ -67,7 +67,7 @@ const FooterE = () => {
                     </div>
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-4 gap-8 mx-auto -mt-2'>
-                    <div className='grid grid-cols-1 text-[13px] font-semibold'>
+                    <div className='grid grid-cols-1 text-[13px] font-semibold pt-5'>
                         <p className="bodytext">
                             Immeuble Panorama, 40 avenue du Japon, Montplaisir, Tunis 1002 -
                             Tunisie.

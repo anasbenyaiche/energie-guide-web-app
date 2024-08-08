@@ -11,21 +11,24 @@ const CardList = ({ title }) => {
             title: "Autoconsommation",
             text: "Deux configurations existent : sur site, où la production et la consommation sont locales, et déportées, nécessitant un transport sur le réseau.",
             image: autoc,
-            hovredimg: autoc
+            hovredimg: autoc,
+            url: "/autoconsommation"
         },
         {
             number: "02",
             title: "Autorisations",
             text: "Deux configurations existent : sur site, où la production et la consommation sont locales, et déportées, nécessitant un transport sur le réseau",
             image: autor,
-            hovredimg: autor
+            hovredimg: autor,
+            url: "/autorisation"
         },
         {
             number: "03",
             title: "Concessions",
             text: "Deux configurations existent : sur site, où la production et la consommation sont locales, et déportées, nécessitant un transport sur le réseau",
             image: cons,
-            hovredimg: cons
+            hovredimg: cons,
+            url: "/concession"
         }
     ];
 
@@ -49,6 +52,7 @@ const CardList = ({ title }) => {
                         text={card.text}
                         image={card.image}
                         hovredimg={card.hovredimg}
+                        url={card.url}
                     />
                 ))}
             </div>

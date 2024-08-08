@@ -5,7 +5,7 @@ const TabButtons = ({ tabData, setActivetab, activeTab }) => {
     return (
         <div className=' bg-[#DDDDDD] flex text-center justify-center items-center gap-16 pt-6'>
             {tabData.map((item, index) => (
-                <div>
+                <div key={index}>
                     <button className={`bg-none bg-transparent text-[#111111] focus:outline-none
             inline-block p-2  rounded-t-lg pb-3 hover:border-lighter
             ${index === activeTab ? 'text-[#FF0015] font-semibold border-b-2 border-[#FF0015]' : ''}`}
